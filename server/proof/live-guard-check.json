@@ -1,0 +1,70 @@
+{
+  "observedAt": "2026-11-09T22:13:33.034Z",
+  "endpoint": "wss://nitronode-sandbox.yellow.org/v1/ws",
+  "actualTokenAllocations": [],
+  "purpose": "Live missing-signature and signed-payload tampering rejection, not a financial transaction",
+  "checks": [
+    {
+      "name": "missing-second-participant",
+      "rejected": true,
+      "errorMessage": "rpc returned error: quorum not met: achieved 1, required 2",
+      "stateUnchanged": true,
+      "versionAfter": "1",
+      "observedAt": "2026-11-09T22:13:33.715Z"
+    },
+    {
+      "name": "metadata-altered-after-signing",
+      "rejected": true,
+      "errorMessage": "rpc returned error: signature from non-participant: 0xefd8d34a8bebd83f40001b8603cf4e5a39857d97",
+      "stateUnchanged": true,
+      "versionAfter": "1",
+      "observedAt": "2026-11-09T22:13:33.829Z"
+    }
+  ],
+  "appSessionId": "0x6863eaa33bb0d61836428ceeb29f0a9a57c7b68e3d23404073f5b1021b6544bb",
+  "original": {
+    "appSessionId": "0x6863eaa33bb0d61836428ceeb29f0a9a57c7b68e3d23404073f5b1021b6544bb",
+    "appDefinition": {
+      "applicationId": "yellow-court-demo-v1",
+      "participants": [
+        {
+          "walletAddress": "0x28ef54778aa7042efad60a7c90331f897266b4e8",
+          "signatureWeight": 1
+        },
+        {
+          "walletAddress": "0x85fe4d6848d257c0e5507ba6da3a97c11e82a7d0",
+          "signatureWeight": 1
+        }
+      ],
+      "quorum": 2,
+      "nonce": "1794262413468000000"
+    },
+    "isClosed": false,
+    "sessionData": "{\"phase\":\"AGREED\",\"purpose\":\"synthetic zero-value protocol guard check\"}",
+    "version": "1",
+    "allocations": []
+  },
+  "closed": {
+    "appSessionId": "0x6863eaa33bb0d61836428ceeb29f0a9a57c7b68e3d23404073f5b1021b6544bb",
+    "appDefinition": {
+      "applicationId": "yellow-court-demo-v1",
+      "participants": [
+        {
+          "walletAddress": "0x28ef54778aa7042efad60a7c90331f897266b4e8",
+          "signatureWeight": 1
+        },
+        {
+          "walletAddress": "0x85fe4d6848d257c0e5507ba6da3a97c11e82a7d0",
+          "signatureWeight": 1
+        }
+      ],
+      "quorum": 2,
+      "nonce": "1794262413468000000"
+    },
+    "isClosed": true,
+    "sessionData": "{\"phase\":\"AGREED\",\"purpose\":\"synthetic zero-value protocol guard check\"}",
+    "version": "2",
+    "allocations": []
+  },
+  "success": true
+}

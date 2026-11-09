@@ -1,0 +1,100 @@
+{
+  "created_date": "2026-11-09",
+  "creator": "Original procedural composition for Counterclaim",
+  "third_party_samples": false,
+  "sample_clock": "48000 Hz stereo PCM; exact 42 seconds",
+  "seed": 101261109,
+  "music_grid": "150 BPM eighth-note grid / 75 BPM half-time pulse",
+  "cues": [
+    {
+      "frame": 22,
+      "event": "opening paper settles",
+      "kind": "original paper texture"
+    },
+    {
+      "frame": 120,
+      "event": "agreement reveal",
+      "kind": "original tactile impact"
+    },
+    {
+      "frame": 306,
+      "event": "evidence cut",
+      "kind": "original tactile impact"
+    },
+    {
+      "frame": 366,
+      "event": "actual TODO artifact opens",
+      "kind": "original tactile impact"
+    },
+    {
+      "frame": 486,
+      "event": "verdict entrance",
+      "kind": "original tactile impact"
+    },
+    {
+      "frame": 666,
+      "duration_frames": 60,
+      "event": "verdict digest carried into Yellow",
+      "kind": "original filtered paper/rail sweep"
+    },
+    {
+      "frame": 726,
+      "event": "Yellow arrival",
+      "kind": "original tactile impact"
+    },
+    {
+      "frame": 936,
+      "event": "proof record",
+      "kind": "original tactile impact"
+    },
+    {
+      "frame": 1098,
+      "event": "brand close",
+      "kind": "original tactile impact"
+    }
+  ],
+  "files": [
+    {
+      "file": "public/audio/score.wav",
+      "sha256": "85d21edab1f5b4fae8b0b9b7aabb6e5b879966af7284036772cfdcf6d92739bf",
+      "seconds": 42,
+      "sample_rate": 48000,
+      "sample_peak_dbfs": -4.512363558308483,
+      "integrated_lufs": -18.99999999999999
+    },
+    {
+      "file": "public/audio/sfx.wav",
+      "sha256": "9eb3e6134bad49cca617c3b34ab4dd6846feca3ee4968fbe1b8ba5da01561599",
+      "seconds": 42,
+      "sample_rate": 48000,
+      "sample_peak_dbfs": -7.89893944199954,
+      "integrated_lufs": -27.349630030104766
+    },
+    {
+      "file": "public/audio/mix.wav",
+      "sha256": "d1b590ad9366dfe5c97f8546729075868bfbc89d59e7c7ccc4adda5dc8f5c537",
+      "seconds": 42,
+      "sample_rate": 48000,
+      "sample_peak_dbfs": -1.1103465569966273,
+      "integrated_lufs": -17.460436438742995
+    }
+  ],
+  "verification": "Source PCM loudness and peaks measured. Final encoded alignment and listening review are separate checks.",
+  "losslessTransport": [
+    {
+      "file": "public/audio/score.flac",
+      "source": "public/audio/score.wav",
+      "sha256": "4c23476fdfb6045c225537fdcd96ec77b043c3f40c54ba6cf3bcc9fae3d00265"
+    },
+    {
+      "file": "public/audio/sfx.flac",
+      "source": "public/audio/sfx.wav",
+      "sha256": "0b57389c5d6533f7c5b261c06c89ceaec0cf0fd83af3e2617721ed1c58ea78ac"
+    },
+    {
+      "file": "public/audio/mix.flac",
+      "source": "public/audio/mix.wav",
+      "sha256": "abe70979b6b053e024106f43210705b70a27463d10b1af0d561acf227b68df46"
+    }
+  ]
+}

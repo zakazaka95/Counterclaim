@@ -1,0 +1,111 @@
+{
+  "retrieved_date": "2026-11-09",
+  "purpose": "Mission 101: Internet Court Partner Demo Lab, Counterclaim \u00d7 Yellow",
+  "files": [
+    {
+      "file": "internet-court-logo.svg",
+      "url": "https://internetcourt.org/logos/tic-logo-red.svg",
+      "bytes": 15591,
+      "sha256": "4f7e0461894f482fa969bb04935f70d2bfa65d6360449d59d3535d5c6b912906",
+      "content_type": "image/svg+xml",
+      "rights": "Internet Court official website logo; trademark belongs to its owner."
+    },
+    {
+      "file": "yellow-logo-light.svg",
+      "url": "https://www.yellow.org/images/header/yellow_logo_light.svg",
+      "bytes": 4639,
+      "sha256": "947fcea1a5ba78106da94036e5cc5c84cb969e763e893ae743de904835e83db7",
+      "content_type": "image/svg+xml",
+      "rights": "Yellow official website header mark; trademark belongs to its owner."
+    },
+    {
+      "file": "yellow-logo-footer.svg",
+      "url": "https://www.yellow.org/images/footer/logo.svg",
+      "bytes": 4130,
+      "sha256": "b19484a9e025d27b63c3dbfe3e95caf4a828db4929ffa873638727968517dab0",
+      "content_type": "image/svg+xml",
+      "rights": "Yellow official website footer mark; trademark belongs to its owner."
+    },
+    {
+      "file": "yellow-partner.svg",
+      "url": "https://internetcourt.org/partners/yellow.svg",
+      "bytes": 4639,
+      "sha256": "947fcea1a5ba78106da94036e5cc5c84cb969e763e893ae743de904835e83db7",
+      "content_type": "image/svg+xml",
+      "rights": "Yellow mark distributed by the official Internet Court partner wall."
+    },
+    {
+      "file": "genlayer-logo-black.svg",
+      "url": "https://genlayer.com/brand/genlayer-logo-black.svg",
+      "bytes": 1975,
+      "sha256": "aec9e4b44466e309a6541a2b809371f35ee68e4b11adafcd33aec02e2e18f71f",
+      "content_type": "image/svg+xml",
+      "rights": "Official GenLayer brand page SVG; trademark belongs to its owner."
+    },
+    {
+      "file": "genlayer-logo-white.svg",
+      "url": "https://genlayer.com/brand/genlayer-logo-white-cropped.svg",
+      "bytes": 2175,
+      "sha256": "d42e0eff58cea6f6233c6705cfff4e4bab122965f9ddc746bea21ae9e34b9fea",
+      "content_type": "image/svg+xml",
+      "rights": "Official GenLayer brand page SVG; trademark belongs to its owner."
+    },
+    {
+      "file": "genlayer-partner.svg",
+      "url": "https://internetcourt.org/partners/genlayer.svg",
+      "bytes": 3266,
+      "sha256": "d836787c0f3e69e5982de141531d856ab4518749fed949f754adb88768616b46",
+      "content_type": "image/svg+xml",
+      "rights": "GenLayer mark distributed by the official Internet Court partner wall."
+    },
+    {
+      "file": "yellow-sdk-background.webp",
+      "url": "https://www.yellow.org/images/landing/yellow_sdk_background.webp",
+      "bytes": 953106,
+      "sha256": "05d5064312af740e7e6e860dfb48a3bc8567b93d93153fb6c81f4e582253b898",
+      "content_type": "image/webp",
+      "rights": "Official Yellow SDK graphic; use only to illustrate the Yellow integration, without implied endorsement."
+    },
+    {
+      "file": "yellow-square.webp",
+      "url": "https://www.yellow.org/images/landing/yellow_square.webp",
+      "bytes": 599452,
+      "sha256": "c2ee6e71b7ad152f0e23c619b092e41efd1702d9c955ba79cafe4b3dee246eaa",
+      "content_type": "image/webp",
+      "rights": "Official Yellow website brand graphic; use only in contextual product demonstration."
+    },
+    {
+      "file": "InstrumentSerif-Regular.ttf",
+      "url": "https://raw.githubusercontent.com/google/fonts/main/ofl/instrumentserif/InstrumentSerif-Regular.ttf",
+      "bytes": 70012,
+      "sha256": "498efd461f6ddfcb7a111bf9a565709d2085d48201d501ead960d93e84ffbb88",
+      "content_type": "application/octet-stream",
+      "rights": "SIL Open Font License; see InstrumentSerif-OFL.txt."
+    },
+    {
+      "file": "InstrumentSerif-OFL.txt",
+      "url": "https://raw.githubusercontent.com/google/fonts/main/ofl/instrumentserif/OFL.txt",
+      "bytes": 4405,
+      "sha256": "129ed7618959716959f2941fdd5b49e0ad6e6c1d78726761786a00253d865521",
+      "content_type": "text/plain; charset=utf-8",
+      "rights": "SIL Open Font License."
+    },
+    {
+      "file": "DMSans.ttf",
+      "url": "https://raw.githubusercontent.com/google/fonts/main/ofl/dmsans/DMSans%5Bopsz,wght%5D.ttf",
+      "bytes": 240164,
+      "sha256": "8cd08d97e89c24d0aa92edd2f0f4c8ee6195eee9b7c9f154865a58b02f0c1c0d",
+      "content_type": "application/octet-stream",
+      "rights": "SIL Open Font License; see DMSans-OFL.txt."
+    },
+    {
+      "file": "DMSans-OFL.txt",
+      "url": "https://raw.githubusercontent.com/google/fonts/main/ofl/dmsans/OFL.txt",
+      "bytes": 4482,
+      "sha256": "9af36190332437f5ecd09974de43c1f7c77a310a996cdd8ceb25628b458840e1",
+      "content_type": "text/plain; charset=utf-8",
+      "rights": "SIL Open Font License."
+    }
+  ],
+  "failures": []
+}

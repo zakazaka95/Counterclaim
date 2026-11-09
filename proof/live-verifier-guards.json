@@ -1,0 +1,25 @@
+{
+  "observedAt": "2026-11-09T22:26:58.914Z",
+  "actualPersistedReceiptVerified": true,
+  "chainId": 61997,
+  "contractAddress": "0x34b0a821B1AF34A9ac6c71E6e98d1A1f1a0A5303",
+  "caseId": 0,
+  "adjudicationTx": "0x8824d0cec2e245b7064813fd7eefd685c1146a64a66db09e9f1fbb9c24c82dd6",
+  "receiptHash": "364cf868478d0684b30d409eb3cda09ff6391567924a109c1b21353e3e08fb7b",
+  "yellowSessionId": "0x46482dc28f8615809bdf53d9f5e9aae6a65aac13f208776c7db653682749fabf",
+  "yellowVersionBefore": "2",
+  "yellowVersionAfter": "2",
+  "noYellowWritesPerformed": true,
+  "checks": [
+    {
+      "case": "altered complete receipt",
+      "rejected": true,
+      "observedError": "The full persisted ruling and immutable case context do not match"
+    },
+    {
+      "case": "unrelated successful deployment transaction",
+      "rejected": true,
+      "observedError": "Transaction is not the exact adjudicate(case_id) call"
+    }
+  ]
+}

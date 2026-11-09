@@ -1,0 +1,6 @@
+node_modules/
+out/
+.cache/
+public/footage/*.mp4
+public/audio/*.wav
+public/audio/*.mp3

@@ -1,0 +1,35 @@
+name: Verify Counterclaim
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  local-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            server/package-lock.json
+            app/package-lock.json
+            media/package-lock.json
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - run: npm ci
+      - run: npm --prefix server ci
+      - run: npm --prefix app ci
+      - run: python -m unittest discover -s tests -p test_counterclaim.py -v
+      - run: npm test
+      - run: npm --prefix server test
+      - run: npm --prefix app test
+      - run: npm --prefix app run build
+      - run: npm --prefix media ci
+      - run: npm --prefix media run typecheck

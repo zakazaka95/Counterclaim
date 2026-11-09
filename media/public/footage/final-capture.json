@@ -1,0 +1,36 @@
+{
+  "stage": "final",
+  "actualPhase": "settled",
+  "caseId": 0,
+  "sessionId": "0x46482dc28f8615809bdf53d9f5e9aae6a65aac13f208776c7db653682749fabf",
+  "receiptHash": "364cf868478d0684b30d409eb3cda09ff6391567924a109c1b21353e3e08fb7b",
+  "url": "http://127.0.0.1:5178/",
+  "observedAt": "2026-11-09T22:28:15.358Z",
+  "actionsPerformed": "Read-only app capture; no coordinator mutation",
+  "captures": [
+    {
+      "src": "footage/proof.png",
+      "width": 1430,
+      "height": 205,
+      "pixelScale": 2,
+      "selector": "[data-testid=\"proof-panel\"]",
+      "sha256": "c9e1ba2ad0ec2d72523484c222dc1bf01d35c2b3666018dd1064ac8eb933de4b"
+    },
+    {
+      "src": "footage/case-final.png",
+      "width": 1430,
+      "height": 741.875,
+      "pixelScale": 2,
+      "selector": "[data-testid=\"case-workspace\"]",
+      "sha256": "62d45a0d4a7e4152099285b323a41aef3052e6f8209902b519997c26921ef270"
+    },
+    {
+      "src": "footage/closure.png",
+      "width": 516.78125,
+      "height": 233.84375,
+      "pixelScale": 2,
+      "selector": "Native signature section through zero-allocations note",
+      "sha256": "b79db25558975e40a8a64c19b137eb0e579c7de4dc7e00a3469a1929d898f4d4"
+    }
+  ]
+}

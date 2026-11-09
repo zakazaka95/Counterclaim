@@ -1,0 +1,28 @@
+{
+  "stage": "freeze",
+  "actualPhase": "session_open",
+  "caseId": null,
+  "sessionId": "0x46482dc28f8615809bdf53d9f5e9aae6a65aac13f208776c7db653682749fabf",
+  "receiptHash": null,
+  "url": "http://127.0.0.1:5178/",
+  "observedAt": "2026-11-09T22:24:38.342Z",
+  "actionsPerformed": "Read-only app capture; no coordinator mutation",
+  "captures": [
+    {
+      "src": "footage/agreement.png",
+      "width": 865.21875,
+      "height": 302.875,
+      "pixelScale": 2,
+      "selector": "[data-testid=\"agreement-panel\"]",
+      "sha256": "ac7a5736d0176ad09b4594d4c5036c69e4bb78c05a77ad07528a922eae6ec311"
+    },
+    {
+      "src": "footage/evidence.png",
+      "width": 865.21875,
+      "height": 421,
+      "pixelScale": 2,
+      "selector": "[data-testid=\"evidence-panel\"]",
+      "sha256": "c2d7d1e39df4cd77497f2ee4c21328396134c9906ceb04fb523dc33bb94e6b6b"
+    }
+  ]
+}

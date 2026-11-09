@@ -1,0 +1,142 @@
+{
+  "schema": "yellow-court-room-v1",
+  "endpoint": "wss://nitronode-sandbox.yellow.org/v1/ws",
+  "sdkVersion": "1.4.0",
+  "appSessionId": "0x749011351cbf219e8a0f78502cf549b8a9b8c8229efc4e7b3a3193861c1a44e1",
+  "participants": [
+    "0xfB0bE52B6D783936216E0DE00f4704eD9BedAd29",
+    "0xfF9A5832B5e4E41AC16870d49d0064B6d1B8F267"
+  ],
+  "agreementHash": "8f6d1bb0f5eff98c1dbb5b5c50989631590cc57c8f000beec676be833defd233",
+  "phase": "CANCELLED",
+  "createdAt": "2026-11-09T22:14:44.686Z",
+  "actualTokenAllocations": [],
+  "creditUnit": "DEMO_CREDITS",
+  "creditTotal": 100,
+  "isClosed": true,
+  "stages": [
+    {
+      "phase": "AGREED",
+      "observedAt": "2026-11-09T22:14:44.686Z",
+      "definition": {
+        "applicationId": "yellow-court-demo-v1",
+        "participants": [
+          {
+            "walletAddress": "0xfB0bE52B6D783936216E0DE00f4704eD9BedAd29",
+            "signatureWeight": 1
+          },
+          {
+            "walletAddress": "0xfF9A5832B5e4E41AC16870d49d0064B6d1B8F267",
+            "signatureWeight": 1
+          }
+        ],
+        "quorum": 2,
+        "nonce": "1794262484621035484"
+      },
+      "signatures": [
+        "0xa1fbea86acb10f73a27e28232db171a7903eb99464cbd1e7e5d1a8b6b72cb6dae222c1ca0da7c8f59eb660023148622a2f7e1878e9131fa149cca35a4ed660ea2b1c",
+        "0xa1f9081495509c16c579f1159550aff85895126997a300895091d6e1239ff14c1e2bb933fd4785300835f794fbaafe6b2ca7014bec04aa3c59769fb7874fd929861c"
+      ],
+      "snapshot": {
+        "appSessionId": "0x749011351cbf219e8a0f78502cf549b8a9b8c8229efc4e7b3a3193861c1a44e1",
+        "appDefinition": {
+          "applicationId": "yellow-court-demo-v1",
+          "participants": [
+            {
+              "walletAddress": "0xfb0be52b6d783936216e0de00f4704ed9bedad29",
+              "signatureWeight": 1
+            },
+            {
+              "walletAddress": "0xff9a5832b5e4e41ac16870d49d0064b6d1b8f267",
+              "signatureWeight": 1
+            }
+          ],
+          "quorum": 2,
+          "nonce": "1794262484621035484"
+        },
+        "isClosed": false,
+        "sessionData": "{\"actualTokenAllocations\":[],\"agreement\":{\"criteria\":\"This preflight makes no judgment and must be explicitly cancelled.\",\"schema\":\"adapter-preflight-v1\",\"title\":\"Synthetic adapter key-separation preflight\",\"total\":100,\"unit\":\"demo credits\"},\"agreementHash\":\"8f6d1bb0f5eff98c1dbb5b5c50989631590cc57c8f000beec676be833defd233\",\"creditTotal\":100,\"creditUnit\":\"DEMO_CREDITS\",\"phase\":\"AGREED\",\"schema\":\"yellow-court-room-v1\",\"settlementMode\":\"COOPERATIVE_DEMO_CREDITS_ONLY\"}",
+        "version": "1",
+        "allocations": []
+      }
+    },
+    {
+      "phase": "EVIDENCE_FROZEN",
+      "observedAt": "2026-11-09T22:14:45.064Z",
+      "update": {
+        "appSessionId": "0x749011351cbf219e8a0f78502cf549b8a9b8c8229efc4e7b3a3193861c1a44e1",
+        "intent": 0,
+        "version": "2",
+        "allocations": [],
+        "sessionData": "{\"actualTokenAllocations\":[],\"agreement\":{\"criteria\":\"This preflight makes no judgment and must be explicitly cancelled.\",\"schema\":\"adapter-preflight-v1\",\"title\":\"Synthetic adapter key-separation preflight\",\"total\":100,\"unit\":\"demo credits\"},\"agreementHash\":\"8f6d1bb0f5eff98c1dbb5b5c50989631590cc57c8f000beec676be833defd233\",\"creditTotal\":100,\"creditUnit\":\"DEMO_CREDITS\",\"evidence\":{\"artifact\":\"Synthetic transport check, not a completed service or a jury result.\"},\"evidenceHash\":\"c3dc465c8948bff165af73eb2631b7d5ada3a6cb6a15bcd0a602813ffd60d40a\",\"phase\":\"EVIDENCE_FROZEN\",\"schema\":\"yellow-court-room-v1\",\"settlementMode\":\"COOPERATIVE_DEMO_CREDITS_ONLY\"}"
+      },
+      "signatures": [
+        "0xa13fd0b58985396d3ee32227f32f6e32df1a167ae9c74471f38d68ec2ec08f98cf4b9d70fd3be90beb61e0d9278493425c23656382587bdb7498c4496a947693f31b",
+        "0xa108f077c84c565d52935e80fa11326e4ebe131b46668e1d141db039b22f994b3565bfca7571851416db3b874b0a780a9f9a47eba9d16764260654dae8d7b9b1c11c"
+      ],
+      "snapshot": {
+        "appSessionId": "0x749011351cbf219e8a0f78502cf549b8a9b8c8229efc4e7b3a3193861c1a44e1",
+        "appDefinition": {
+          "applicationId": "yellow-court-demo-v1",
+          "participants": [
+            {
+              "walletAddress": "0xfb0be52b6d783936216e0de00f4704ed9bedad29",
+              "signatureWeight": 1
+            },
+            {
+              "walletAddress": "0xff9a5832b5e4e41ac16870d49d0064b6d1b8f267",
+              "signatureWeight": 1
+            }
+          ],
+          "quorum": 2,
+          "nonce": "1794262484621035484"
+        },
+        "isClosed": false,
+        "sessionData": "{\"actualTokenAllocations\":[],\"agreement\":{\"criteria\":\"This preflight makes no judgment and must be explicitly cancelled.\",\"schema\":\"adapter-preflight-v1\",\"title\":\"Synthetic adapter key-separation preflight\",\"total\":100,\"unit\":\"demo credits\"},\"agreementHash\":\"8f6d1bb0f5eff98c1dbb5b5c50989631590cc57c8f000beec676be833defd233\",\"creditTotal\":100,\"creditUnit\":\"DEMO_CREDITS\",\"evidence\":{\"artifact\":\"Synthetic transport check, not a completed service or a jury result.\"},\"evidenceHash\":\"c3dc465c8948bff165af73eb2631b7d5ada3a6cb6a15bcd0a602813ffd60d40a\",\"phase\":\"EVIDENCE_FROZEN\",\"schema\":\"yellow-court-room-v1\",\"settlementMode\":\"COOPERATIVE_DEMO_CREDITS_ONLY\"}",
+        "version": "2",
+        "allocations": []
+      }
+    },
+    {
+      "phase": "CANCELLED",
+      "observedAt": "2026-11-09T22:14:46.318Z",
+      "update": {
+        "appSessionId": "0x749011351cbf219e8a0f78502cf549b8a9b8c8229efc4e7b3a3193861c1a44e1",
+        "intent": 3,
+        "version": "3",
+        "allocations": [],
+        "sessionData": "{\"actualTokenAllocations\":[],\"agreement\":{\"criteria\":\"This preflight makes no judgment and must be explicitly cancelled.\",\"schema\":\"adapter-preflight-v1\",\"title\":\"Synthetic adapter key-separation preflight\",\"total\":100,\"unit\":\"demo credits\"},\"agreementHash\":\"8f6d1bb0f5eff98c1dbb5b5c50989631590cc57c8f000beec676be833defd233\",\"cancellationReason\":\"DEMO_ABORTED_WITHOUT_APPLIED_RULING\",\"creditTotal\":100,\"creditUnit\":\"DEMO_CREDITS\",\"evidence\":{\"artifact\":\"Synthetic transport check, not a completed service or a jury result.\"},\"evidenceHash\":\"c3dc465c8948bff165af73eb2631b7d5ada3a6cb6a15bcd0a602813ffd60d40a\",\"phase\":\"CANCELLED\",\"schema\":\"yellow-court-room-v1\",\"settlementMode\":\"COOPERATIVE_DEMO_CREDITS_ONLY\"}"
+      },
+      "signatures": [
+        "0xa1ae34ba7b3a09fa0bc50cf9aa0398e01d942aade6f6127c9df2167d3ab9e0ac70724f494b22eb726fa9ec27a32481aa530bf7fe275b3502b16a355785900af1701c",
+        "0xa15781bfea5767ed28fc452e9504a1af300435f783d00ba8b68c8bd57bb5aa1cf129fbd4010e2d424d26a69e18dfd049b18c1dba6d728c726015d970857ffb1ef81b"
+      ],
+      "snapshot": {
+        "appSessionId": "0x749011351cbf219e8a0f78502cf549b8a9b8c8229efc4e7b3a3193861c1a44e1",
+        "appDefinition": {
+          "applicationId": "yellow-court-demo-v1",
+          "participants": [
+            {
+              "walletAddress": "0xfb0be52b6d783936216e0de00f4704ed9bedad29",
+              "signatureWeight": 1
+            },
+            {
+              "walletAddress": "0xff9a5832b5e4e41ac16870d49d0064b6d1b8f267",
+              "signatureWeight": 1
+            }
+          ],
+          "quorum": 2,
+          "nonce": "1794262484621035484"
+        },
+        "isClosed": true,
+        "sessionData": "{\"actualTokenAllocations\":[],\"agreement\":{\"criteria\":\"This preflight makes no judgment and must be explicitly cancelled.\",\"schema\":\"adapter-preflight-v1\",\"title\":\"Synthetic adapter key-separation preflight\",\"total\":100,\"unit\":\"demo credits\"},\"agreementHash\":\"8f6d1bb0f5eff98c1dbb5b5c50989631590cc57c8f000beec676be833defd233\",\"cancellationReason\":\"DEMO_ABORTED_WITHOUT_APPLIED_RULING\",\"creditTotal\":100,\"creditUnit\":\"DEMO_CREDITS\",\"evidence\":{\"artifact\":\"Synthetic transport check, not a completed service or a jury result.\"},\"evidenceHash\":\"c3dc465c8948bff165af73eb2631b7d5ada3a6cb6a15bcd0a602813ffd60d40a\",\"phase\":\"CANCELLED\",\"schema\":\"yellow-court-room-v1\",\"settlementMode\":\"COOPERATIVE_DEMO_CREDITS_ONLY\"}",
+        "version": "3",
+        "allocations": []
+      }
+    }
+  ],
+  "evidenceHash": "c3dc465c8948bff165af73eb2631b7d5ada3a6cb6a15bcd0a602813ffd60d40a",
+  "evidenceVersion": "2",
+  "cancelledAt": "2026-11-09T22:14:46.318Z",
+  "closedVersion": "3"
+}

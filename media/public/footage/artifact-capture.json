@@ -1,0 +1,21 @@
+{
+  "stage": "artifact",
+  "actualPhase": "settled",
+  "caseId": 0,
+  "sessionId": "0x46482dc28f8615809bdf53d9f5e9aae6a65aac13f208776c7db653682749fabf",
+  "receiptHash": "364cf868478d0684b30d409eb3cda09ff6391567924a109c1b21353e3e08fb7b",
+  "url": "http://127.0.0.1:5178/",
+  "observedAt": "2026-11-09T22:40:33.916Z",
+  "actionsPerformed": "Read-only app capture; no coordinator mutation",
+  "captures": [
+    {
+      "src": "footage/artifact.png",
+      "width": 484,
+      "height": 198.9375,
+      "pixelScale": 5,
+      "selector": "Actual native Automated tests evidence dialog",
+      "artifactTextSha256": "5db98f945d8118c2682d38dc3eb9c2b15d99e3e2179d40364f5a0cc56fafe608",
+      "sha256": "a800f2c2b46d717e47a5c051c156f1aacef2cd694c8ab77f9a9d29901df7bca2"
+    }
+  ]
+}

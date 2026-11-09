@@ -1,0 +1,80 @@
+{
+  "ready": true,
+  "title": "Counterclaim",
+  "caseId": "0",
+  "caseTitle": "Release handoff: the missing regression suite",
+  "sellerCredits": 75,
+  "buyerCredits": 25,
+  "decision": "RESOLVED",
+  "milestones": [
+    {
+      "id": "landing-page",
+      "title": "Landing page",
+      "weight": 40,
+      "status": "SATISFIED"
+    },
+    {
+      "id": "integration-guide",
+      "title": "Integration guide",
+      "weight": 35,
+      "status": "SATISFIED"
+    },
+    {
+      "id": "regression-tests",
+      "title": "Automated tests",
+      "weight": 25,
+      "status": "NOT_SATISFIED"
+    }
+  ],
+  "sessionId": "0x46482dc28f8615809bdf53d9f5e9aae6a65aac13f208776c7db653682749fabf",
+  "sessionStatus": "CLOSED",
+  "sessionVersions": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "receiptHash": "364cf868478d0684b30d409eb3cda09ff6391567924a109c1b21353e3e08fb7b",
+  "agreementHash": "4452c5ac5dd207cb9e1c797858bcfa613ce1a213e8a20f360aae233976a6c8f9",
+  "contractAddress": "0x34b0a821B1AF34A9ac6c71E6e98d1A1f1a0A5303",
+  "assessmentTransaction": "0x8824d0cec2e245b7064813fd7eefd685c1146a64a66db09e9f1fbb9c24c82dd6",
+  "explorerUrl": "https://explorer-studio-dev.genlayer.com/tx/0x8824d0cec2e245b7064813fd7eefd685c1146a64a66db09e9f1fbb9c24c82dd6",
+  "repositoryUrl": "https://github.com/zakazaka95/Counterclaim",
+  "zeroFundsMoved": true,
+  "proofPath": "public/recorded-demo-proof.json",
+  "originalProofPath": "public/recorded-demo-proof.json",
+  "proofSha256": "9365a0012bc171f352177fc041d886092b1e0bb690a6f618882c2e0d20769128",
+  "sourceSha256": "ff5bb2171ed16dc1b173260e0b335fec8aa695d35f211624db0547272741bd2f",
+  "screens": {
+    "agreement": {
+      "src": "footage/agreement.png",
+      "width": 865.21875,
+      "height": 302.875
+    },
+    "evidence": {
+      "src": "footage/evidence.png",
+      "width": 865.21875,
+      "height": 421
+    },
+    "artifact": {
+      "src": "footage/artifact.png",
+      "width": 484,
+      "height": 198.9375
+    },
+    "verdict": {
+      "src": "footage/verdict.png",
+      "width": 540.78125,
+      "height": 741.875
+    },
+    "allocation": {
+      "src": "footage/allocation.png",
+      "width": 476.78125,
+      "height": 133
+    },
+    "closure": {
+      "src": "footage/closure.png",
+      "width": 516.78125,
+      "height": 233.84375
+    }
+  }
+}

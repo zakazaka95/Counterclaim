@@ -1,0 +1,145 @@
+{
+  "observedAt": "2026-11-09T22:08:58.230Z",
+  "endpoint": "wss://nitronode-sandbox.yellow.org/v1/ws",
+  "transactionValue": "0",
+  "tokenAllocations": [],
+  "stages": [
+    {
+      "stage": "connected",
+      "observedAt": "2026-11-09T22:08:58.772Z"
+    },
+    {
+      "stage": "created",
+      "observedAt": "2026-11-09T22:08:58.851Z"
+    },
+    {
+      "stage": "operated",
+      "observedAt": "2026-11-09T22:08:59.047Z"
+    },
+    {
+      "stage": "closed",
+      "observedAt": "2026-11-09T22:08:59.165Z"
+    }
+  ],
+  "participants": [
+    "0x853B76CD567F35D247CF8ff19d3d38659ff4DC4f",
+    "0xb2a07BA624cA5de3df9084e821140502319a85E5"
+  ],
+  "node": {
+    "nodeAddress": "0x6f375dad1ff0ad968bdde939f76a2b3d6b9d3ec5",
+    "nodeVersion": "n/a",
+    "supportedSigValidators": [
+      0,
+      1
+    ],
+    "blockchains": [
+      {
+        "name": "linea_sepolia",
+        "id": "59141",
+        "channelHubAddress": "0x5dba8515af063db0c243c15ece7b99f91459c7c3",
+        "blockStep": "0",
+        "confirmationDelaySecs": 6
+      },
+      {
+        "name": "polygon_amoy",
+        "id": "80002",
+        "channelHubAddress": "0x5dba8515af063db0c243c15ece7b99f91459c7c3",
+        "blockStep": "0",
+        "confirmationDelaySecs": 6
+      },
+      {
+        "name": "base_sepolia",
+        "id": "84532",
+        "channelHubAddress": "0x5dba8515af063db0c243c15ece7b99f91459c7c3",
+        "blockStep": "0",
+        "confirmationDelaySecs": 4
+      },
+      {
+        "name": "xrpl_evm_testnet",
+        "id": "1449000",
+        "channelHubAddress": "0x5dba8515af063db0c243c15ece7b99f91459c7c3",
+        "blockStep": "0",
+        "confirmationDelaySecs": 0
+      },
+      {
+        "name": "ethereum_sepolia",
+        "id": "11155111",
+        "channelHubAddress": "0x5dba8515af063db0c243c15ece7b99f91459c7c3",
+        "blockStep": "0",
+        "confirmationDelaySecs": 36
+      }
+    ]
+  },
+  "created": {
+    "appSessionId": "0x52df77b9361fed44308e994db09e4a6bbb24a480598d1aa67f7250db4089a103",
+    "version": "1",
+    "status": "open"
+  },
+  "afterCreate": {
+    "appSessionId": "0x52df77b9361fed44308e994db09e4a6bbb24a480598d1aa67f7250db4089a103",
+    "appDefinition": {
+      "applicationId": "yellow-court-demo-v1",
+      "participants": [
+        {
+          "walletAddress": "0x853b76cd567f35d247cf8ff19d3d38659ff4dc4f",
+          "signatureWeight": 1
+        },
+        {
+          "walletAddress": "0xb2a07ba624ca5de3df9084e821140502319a85e5",
+          "signatureWeight": 1
+        }
+      ],
+      "quorum": 2,
+      "nonce": "1794262138772000000"
+    },
+    "isClosed": false,
+    "sessionData": "{\"schema\":\"yellow-court-probe-v1\",\"purpose\":\"Zero-value synthetic integration capability check\",\"actualTokenAllocation\":\"0\"}",
+    "version": "1",
+    "allocations": []
+  },
+  "afterOperate": {
+    "appSessionId": "0x52df77b9361fed44308e994db09e4a6bbb24a480598d1aa67f7250db4089a103",
+    "appDefinition": {
+      "applicationId": "yellow-court-demo-v1",
+      "participants": [
+        {
+          "walletAddress": "0x853b76cd567f35d247cf8ff19d3d38659ff4dc4f",
+          "signatureWeight": 1
+        },
+        {
+          "walletAddress": "0xb2a07ba624ca5de3df9084e821140502319a85e5",
+          "signatureWeight": 1
+        }
+      ],
+      "quorum": 2,
+      "nonce": "1794262138772000000"
+    },
+    "isClosed": false,
+    "sessionData": "{\"schema\":\"yellow-court-probe-v1\",\"phase\":\"metadata-update\",\"actualTokenAllocation\":\"0\"}",
+    "version": "2",
+    "allocations": []
+  },
+  "afterClose": {
+    "appSessionId": "0x52df77b9361fed44308e994db09e4a6bbb24a480598d1aa67f7250db4089a103",
+    "appDefinition": {
+      "applicationId": "yellow-court-demo-v1",
+      "participants": [
+        {
+          "walletAddress": "0x853b76cd567f35d247cf8ff19d3d38659ff4dc4f",
+          "signatureWeight": 1
+        },
+        {
+          "walletAddress": "0xb2a07ba624ca5de3df9084e821140502319a85e5",
+          "signatureWeight": 1
+        }
+      ],
+      "quorum": 2,
+      "nonce": "1794262138772000000"
+    },
+    "isClosed": true,
+    "sessionData": "{\"schema\":\"yellow-court-probe-v1\",\"phase\":\"metadata-update\",\"actualTokenAllocation\":\"0\"}",
+    "version": "3",
+    "allocations": []
+  },
+  "success": true
+}

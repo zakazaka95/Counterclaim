@@ -1,0 +1,195 @@
+{
+  "schema": "yellow-court-room-v1",
+  "endpoint": "wss://nitronode-sandbox.yellow.org/v1/ws",
+  "sdkVersion": "1.4.0",
+  "appSessionId": "0x9e7ebdfa5cbdf73b434bcb1d0a59730763fb3b70f5fa39b6dc41001e40881768",
+  "participants": [
+    "0xe2c2bBB0Db35F4C50E81A22Abd754641386E9B12",
+    "0x1e8b61bdBbe9105342d7f268Aa223E403A20CD2C"
+  ],
+  "agreement": {
+    "title": "Release handoff: the missing regression suite",
+    "pool": 100,
+    "unit": "demo credits",
+    "parties": {
+      "buyer": "0xe2c2bbb0db35f4c50e81a22abd754641386e9b12",
+      "seller": "0x1e8b61bdbbe9105342d7f268aa223e403a20cd2c"
+    },
+    "milestones": [
+      {
+        "id": "landing-page",
+        "title": "Landing page",
+        "weight": 40,
+        "criteria": "A publishable landing-page draft explains the product's purpose, names who benefits, includes an actionable call to try the sandbox, and clearly discloses that the demo moves no real funds. A list of promises or an outline alone does not qualify. Judge the supplied content, not whether it has already been hosted."
+      },
+      {
+        "id": "integration-guide",
+        "title": "Integration guide",
+        "weight": 35,
+        "criteria": "A usable integration guide identifies the runtime and network prerequisites, gives an ordered path from opening a co-signed Yellow session through a GenLayer ruling to a co-signed close, explains the failure path when consensus is inconclusive or a participant refuses to sign, and distinguishes a demo-credit proposal from token settlement. It must not suggest that a GenLayer verdict can bypass either participant's signature."
+      },
+      {
+        "id": "regression-tests",
+        "title": "Automated tests",
+        "weight": 25,
+        "criteria": "Deliver runnable automated regression tests that assert an altered verdict or mismatched agreement/evidence binding is rejected and that a missing participant signature blocks the settlement update. A description of planned tests, a checklist, a placeholder or a promise to add tests later is not delivery. Do not execute code; judge whether the supplied artifact actually contains runnable test cases covering both guards."
+      }
+    ],
+    "claims": {
+      "seller": "All three release deliverables are complete; I request the full 100 demo credits.",
+      "buyer": "The landing copy and guide were supplied, but the regression suite is a status note with TODOs. Only delivered milestones should count."
+    },
+    "scope": "Synthetic supplied-artifact review only. No live work authenticity, code execution, legal advice or actual funds."
+  },
+  "agreementHash": "c7818ae1ef181aaea1f99823789f411d939e48cdeb7722825512a9a3e47bdcb7",
+  "metadataEncoding": "counterclaim-yellow-wire-v1",
+  "maxWireBytes": 1024,
+  "phase": "CANCELLED",
+  "createdAt": "2026-11-09T22:23:46.339Z",
+  "actualTokenAllocations": [],
+  "creditUnit": "DEMO_CREDITS",
+  "creditTotal": 100,
+  "isClosed": true,
+  "stages": [
+    {
+      "phase": "AGREED",
+      "observedAt": "2026-11-09T22:23:46.339Z",
+      "definition": {
+        "applicationId": "yellow-court-demo-v1",
+        "participants": [
+          {
+            "walletAddress": "0xe2c2bBB0Db35F4C50E81A22Abd754641386E9B12",
+            "signatureWeight": 1
+          },
+          {
+            "walletAddress": "0x1e8b61bdBbe9105342d7f268Aa223E403A20CD2C",
+            "signatureWeight": 1
+          }
+        ],
+        "quorum": 2,
+        "nonce": "1794263026271211706"
+      },
+      "signatures": [
+        "0xa1f6422d2cc73f4bd7b384a64e94fbeeb079a4e55426b1ac28190db163735794f6557d6f511a9adc27ad537dfa0f298af0a087ba0df241bba8bda291df25267f211b",
+        "0xa12a0087ee687fa3ced7866058762f690336cf78a62460616639f80f0bd99f8ded06122fbb5b66d4ac7944c6af843d2d07dc14a6b8eac67fc50489bfdfcba4ce3c1b"
+      ],
+      "snapshot": {
+        "appSessionId": "0x9e7ebdfa5cbdf73b434bcb1d0a59730763fb3b70f5fa39b6dc41001e40881768",
+        "appDefinition": {
+          "applicationId": "yellow-court-demo-v1",
+          "participants": [
+            {
+              "walletAddress": "0xe2c2bbb0db35f4c50e81a22abd754641386e9b12",
+              "signatureWeight": 1
+            },
+            {
+              "walletAddress": "0x1e8b61bdbbe9105342d7f268aa223e403a20cd2c",
+              "signatureWeight": 1
+            }
+          ],
+          "quorum": 2,
+          "nonce": "1794263026271211706"
+        },
+        "isClosed": false,
+        "sessionData": "{\"actualTokenAllocations\":[],\"agreementHash\":\"c7818ae1ef181aaea1f99823789f411d939e48cdeb7722825512a9a3e47bdcb7\",\"creditTotal\":100,\"creditUnit\":\"DEMO_CREDITS\",\"phase\":\"AGREED\",\"schema\":\"counterclaim-yellow-wire-v1\"}",
+        "version": "1",
+        "allocations": []
+      }
+    },
+    {
+      "phase": "EVIDENCE_FROZEN",
+      "observedAt": "2026-11-09T22:23:46.688Z",
+      "update": {
+        "appSessionId": "0x9e7ebdfa5cbdf73b434bcb1d0a59730763fb3b70f5fa39b6dc41001e40881768",
+        "intent": 0,
+        "version": "2",
+        "allocations": [],
+        "sessionData": "{\"actualTokenAllocations\":[],\"agreementHash\":\"c7818ae1ef181aaea1f99823789f411d939e48cdeb7722825512a9a3e47bdcb7\",\"creditTotal\":100,\"creditUnit\":\"DEMO_CREDITS\",\"evidenceHash\":\"9e18a03f9248b59823657d5881a149f93bb8320e886218759939ea9bb355d381\",\"phase\":\"EVIDENCE_FROZEN\",\"schema\":\"counterclaim-yellow-wire-v1\"}"
+      },
+      "signatures": [
+        "0xa1e48c1a58283fd05f415f52487d529e4e07058678621c7d25bc135c5238e4bc056fda7f12dc357eb242b79584ff441afbbe9b754a67501a26c37e1519323b23d71b",
+        "0xa15ece6f29b3906b4a6e05d627248ba89bd1fa4e62a3d576b27899375efd19980f7a31df3cf07b2d275912993ffbce627d1c8ee8a9ba8cf640090d8a5ac394542a1b"
+      ],
+      "snapshot": {
+        "appSessionId": "0x9e7ebdfa5cbdf73b434bcb1d0a59730763fb3b70f5fa39b6dc41001e40881768",
+        "appDefinition": {
+          "applicationId": "yellow-court-demo-v1",
+          "participants": [
+            {
+              "walletAddress": "0xe2c2bbb0db35f4c50e81a22abd754641386e9b12",
+              "signatureWeight": 1
+            },
+            {
+              "walletAddress": "0x1e8b61bdbbe9105342d7f268aa223e403a20cd2c",
+              "signatureWeight": 1
+            }
+          ],
+          "quorum": 2,
+          "nonce": "1794263026271211706"
+        },
+        "isClosed": false,
+        "sessionData": "{\"actualTokenAllocations\":[],\"agreementHash\":\"c7818ae1ef181aaea1f99823789f411d939e48cdeb7722825512a9a3e47bdcb7\",\"creditTotal\":100,\"creditUnit\":\"DEMO_CREDITS\",\"evidenceHash\":\"9e18a03f9248b59823657d5881a149f93bb8320e886218759939ea9bb355d381\",\"phase\":\"EVIDENCE_FROZEN\",\"schema\":\"counterclaim-yellow-wire-v1\"}",
+        "version": "2",
+        "allocations": []
+      }
+    },
+    {
+      "phase": "CANCELLED",
+      "observedAt": "2026-11-09T22:23:47.966Z",
+      "update": {
+        "appSessionId": "0x9e7ebdfa5cbdf73b434bcb1d0a59730763fb3b70f5fa39b6dc41001e40881768",
+        "intent": 3,
+        "version": "3",
+        "allocations": [],
+        "sessionData": "{\"actualTokenAllocations\":[],\"agreementHash\":\"c7818ae1ef181aaea1f99823789f411d939e48cdeb7722825512a9a3e47bdcb7\",\"creditTotal\":100,\"creditUnit\":\"DEMO_CREDITS\",\"evidenceHash\":\"9e18a03f9248b59823657d5881a149f93bb8320e886218759939ea9bb355d381\",\"phase\":\"CANCELLED\",\"schema\":\"counterclaim-yellow-wire-v1\"}"
+      },
+      "signatures": [
+        "0xa1c590a0a3fe8186f1fd9df1e9fe278dfbbaab406711743090159da7868e5013db48161bd63aac123c73167a0f1b32c611a8bb848c721f6d6e83f6f3a7b9142e611c",
+        "0xa1d6cf14fffbe57c51b58806b922ed97bc372f2de36dc88688a444d2b4e4aa7da01cb076f719b6e3c3e0791e384920da79abc84165820101aa358fe074b2c4d6441b"
+      ],
+      "snapshot": {
+        "appSessionId": "0x9e7ebdfa5cbdf73b434bcb1d0a59730763fb3b70f5fa39b6dc41001e40881768",
+        "appDefinition": {
+          "applicationId": "yellow-court-demo-v1",
+          "participants": [
+            {
+              "walletAddress": "0xe2c2bbb0db35f4c50e81a22abd754641386e9b12",
+              "signatureWeight": 1
+            },
+            {
+              "walletAddress": "0x1e8b61bdbbe9105342d7f268aa223e403a20cd2c",
+              "signatureWeight": 1
+            }
+          ],
+          "quorum": 2,
+          "nonce": "1794263026271211706"
+        },
+        "isClosed": true,
+        "sessionData": "{\"actualTokenAllocations\":[],\"agreementHash\":\"c7818ae1ef181aaea1f99823789f411d939e48cdeb7722825512a9a3e47bdcb7\",\"creditTotal\":100,\"creditUnit\":\"DEMO_CREDITS\",\"evidenceHash\":\"9e18a03f9248b59823657d5881a149f93bb8320e886218759939ea9bb355d381\",\"phase\":\"CANCELLED\",\"schema\":\"counterclaim-yellow-wire-v1\"}",
+        "version": "3",
+        "allocations": []
+      }
+    }
+  ],
+  "evidence": [
+    {
+      "milestone_id": "landing-page",
+      "artifact_name": "landing-copy.md",
+      "content": "# Disagree on the work. Agree on what happens next.\nCounterclaim helps agent builders handle a disputed delivery without losing the original agreement. Two test agents freeze their terms in a co-signed Yellow sandbox room. A GenLayer jury reviews the submitted artifacts against those terms. Both agents can then co-sign the resulting demo-credit proposal.\nFor developers building agent-to-agent workflows, it makes the disagreement path visible and reproducible.\nTry the sandbox: open a demo room, inspect the three artifacts, request a ruling, then co-sign and close.\nThis demonstration uses synthetic evidence and nonmonetary demo credits. All Yellow token allocations are zero. No real funds move; both participant signatures are still required."
+    },
+    {
+      "milestone_id": "integration-guide",
+      "artifact_name": "integration-guide.md",
+      "content": "# Integrate the disagreement path\nPrerequisites: Node.js 22+, the pinned Yellow SDK, access to the Yellow sandbox WebSocket and GenLayer Studio Devnet RPC on chain 61997. Use isolated test accounts and a deployed matching CounterclaimCourt contract; do not connect a mainnet wallet.\n1. Start the local coordinator and interface. Confirm both network readiness checks.\n2. Open a unanimous two-participant Yellow app session with zero token allocations. Freeze the complete agreement and its hash in session data.\n3. Add the complete artifact bundle. Both test agents sign the next Yellow state binding its evidence hash before adjudication.\n4. Open the matching GenLayer case and request a ruling. Read its persisted receipt and compare the case, Yellow session, agreement and evidence hashes. A submitted transaction alone is not a ruling.\n5. If the receipt is resolved, compute the fixed weighted demo-credit split from the agreed per-milestone outcomes. Both test agents must sign the exact receipt-bound proposal before the Yellow update and close.\nIf the jury is inconclusive or the receipt binding differs, stop without proposing a final update. If either participant refuses to sign, keep the room open; the court cannot override Yellow's signature rule. This is cooperative settlement metadata for 100 nonmonetary demo credits, not a funded escrow, token payout or trustless cross-chain enforcement."
+    },
+    {
+      "milestone_id": "regression-tests",
+      "artifact_name": "tests-status.md",
+      "content": "# Regression suite status\nThe implementation is ready for review. Planned checks: verify the agreement hash; refuse a modified receipt; require both participant signatures. The executable test files have not been delivered in this handoff. TODO: add automated tests after the launch demo."
+    }
+  ],
+  "evidenceHash": "9e18a03f9248b59823657d5881a149f93bb8320e886218759939ea9bb355d381",
+  "evidenceVersion": "2",
+  "cancelledAt": "2026-11-09T22:23:47.966Z",
+  "closedVersion": "3"
+}

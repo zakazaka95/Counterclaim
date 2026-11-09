@@ -1,0 +1,73 @@
+{
+  "observedAt": "2026-11-09T22:39:44.645Z",
+  "status": "VERIFIED_LIVE_READ_ONLY",
+  "contractAddress": "0x34b0a821B1AF34A9ac6c71E6e98d1A1f1a0A5303",
+  "sourceSha256": "ff5bb2171ed16dc1b173260e0b335fec8aa695d35f211624db0547272741bd2f",
+  "sourceMatchesDeployed": true,
+  "chainId": 61997,
+  "caseId": 0,
+  "adjudicationTx": "0x8824d0cec2e245b7064813fd7eefd685c1146a64a66db09e9f1fbb9c24c82dd6",
+  "consensusStatus": "FINALIZED",
+  "executionResult": "FINISHED_WITH_RETURN",
+  "initialValidators": 5,
+  "leaderOnly": false,
+  "exactTransactionAndPersistedReceiptVerified": true,
+  "receiptHash": "364cf868478d0684b30d409eb3cda09ff6391567924a109c1b21353e3e08fb7b",
+  "agreementHash": "4452c5ac5dd207cb9e1c797858bcfa613ce1a213e8a20f360aae233976a6c8f9",
+  "evidenceHash": "9e18a03f9248b59823657d5881a149f93bb8320e886218759939ea9bb355d381",
+  "milestones": [
+    {
+      "id": "landing-page",
+      "status": "SATISFIED"
+    },
+    {
+      "id": "integration-guide",
+      "status": "SATISFIED"
+    },
+    {
+      "id": "regression-tests",
+      "status": "NOT_SATISFIED"
+    }
+  ],
+  "allocation": {
+    "buyer": 25,
+    "seller": 75,
+    "total": 100,
+    "unit": "demo credits"
+  },
+  "yellowSessionId": "0x46482dc28f8615809bdf53d9f5e9aae6a65aac13f208776c7db653682749fabf",
+  "yellowVersion": "4",
+  "yellowClosed": true,
+  "actualTokenAllocations": [],
+  "stages": [
+    {
+      "phase": "AGREED",
+      "version": "1",
+      "isClosed": false,
+      "participantSignatures": 2,
+      "wireUtf8Bytes": 214
+    },
+    {
+      "phase": "EVIDENCE_FROZEN",
+      "version": "2",
+      "isClosed": false,
+      "participantSignatures": 2,
+      "wireUtf8Bytes": 305
+    },
+    {
+      "phase": "VERDICT_APPLIED",
+      "version": "3",
+      "isClosed": false,
+      "participantSignatures": 2,
+      "wireUtf8Bytes": 656
+    },
+    {
+      "phase": "CLOSED",
+      "version": "4",
+      "isClosed": true,
+      "participantSignatures": 2,
+      "wireUtf8Bytes": 647
+    }
+  ],
+  "fundsMoved": false
+}

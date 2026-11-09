@@ -1,0 +1,28 @@
+{
+  "stage": "verdict",
+  "actualPhase": "verdict_ready",
+  "caseId": null,
+  "sessionId": "0x46482dc28f8615809bdf53d9f5e9aae6a65aac13f208776c7db653682749fabf",
+  "receiptHash": "364cf868478d0684b30d409eb3cda09ff6391567924a109c1b21353e3e08fb7b",
+  "url": "http://127.0.0.1:5178/",
+  "observedAt": "2026-11-09T22:27:14.624Z",
+  "actionsPerformed": "Read-only app capture; no coordinator mutation",
+  "captures": [
+    {
+      "src": "footage/verdict.png",
+      "width": 540.78125,
+      "height": 741.875,
+      "pixelScale": 2,
+      "selector": "[data-testid=\"outcome-panel\"]",
+      "sha256": "953cfca9fa51638e033e8e738c0b7fb3fbfb3afca5988008ba91d9606696aafc"
+    },
+    {
+      "src": "footage/allocation.png",
+      "width": 476.78125,
+      "height": 133,
+      "pixelScale": 2,
+      "selector": "Native actual proposed split",
+      "sha256": "bd2dae1e85faac3896856f3a642592d707ba52c322b1a14bcfd67450358187dc"
+    }
+  ]
+}

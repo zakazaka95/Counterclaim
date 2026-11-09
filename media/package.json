@@ -1,0 +1,24 @@
+{
+  "name": "counterclaim-partner-demo-film",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "remotion studio src/index.ts --port=5201 --no-open",
+    "typecheck": "tsc --noEmit",
+    "render": "node scripts/render.mjs",
+    "qa:stills": "node scripts/render.mjs --stills"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.484",
+    "@remotion/bundler": "4.0.484",
+    "@remotion/renderer": "4.0.484",
+    "react": "19.2.7",
+    "react-dom": "19.2.7",
+    "remotion": "4.0.484"
+  },
+  "devDependencies": {
+    "@types/react": "19.2.17",
+    "puppeteer-core": "25.16.0",
+    "typescript": "6.0.3"
+  }
+}

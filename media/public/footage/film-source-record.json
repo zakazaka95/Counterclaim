@@ -1,0 +1,120 @@
+{
+  "proofPath": "public/recorded-demo-proof.json",
+  "proofSha256": "9365a0012bc171f352177fc041d886092b1e0bb690a6f618882c2e0d20769128",
+  "sourceSha256": "ff5bb2171ed16dc1b173260e0b335fec8aa695d35f211624db0547272741bd2f",
+  "sessionId": "0x46482dc28f8615809bdf53d9f5e9aae6a65aac13f208776c7db653682749fabf",
+  "receiptHash": "364cf868478d0684b30d409eb3cda09ff6391567924a109c1b21353e3e08fb7b",
+  "preVerdictCapture": {
+    "stage": "freeze",
+    "actualPhase": "session_open",
+    "caseId": null,
+    "sessionId": "0x46482dc28f8615809bdf53d9f5e9aae6a65aac13f208776c7db653682749fabf",
+    "receiptHash": null,
+    "url": "http://127.0.0.1:5178/",
+    "observedAt": "2026-11-09T22:24:38.342Z",
+    "actionsPerformed": "Read-only app capture; no coordinator mutation",
+    "captures": [
+      {
+        "src": "footage/agreement.png",
+        "width": 865.21875,
+        "height": 302.875,
+        "pixelScale": 2,
+        "selector": "[data-testid=\"agreement-panel\"]",
+        "sha256": "ac7a5736d0176ad09b4594d4c5036c69e4bb78c05a77ad07528a922eae6ec311"
+      },
+      {
+        "src": "footage/evidence.png",
+        "width": 865.21875,
+        "height": 421,
+        "pixelScale": 2,
+        "selector": "[data-testid=\"evidence-panel\"]",
+        "sha256": "c2d7d1e39df4cd77497f2ee4c21328396134c9906ceb04fb523dc33bb94e6b6b"
+      }
+    ]
+  },
+  "verdictCapture": {
+    "stage": "verdict",
+    "actualPhase": "verdict_ready",
+    "caseId": null,
+    "sessionId": "0x46482dc28f8615809bdf53d9f5e9aae6a65aac13f208776c7db653682749fabf",
+    "receiptHash": "364cf868478d0684b30d409eb3cda09ff6391567924a109c1b21353e3e08fb7b",
+    "url": "http://127.0.0.1:5178/",
+    "observedAt": "2026-11-09T22:27:14.624Z",
+    "actionsPerformed": "Read-only app capture; no coordinator mutation",
+    "captures": [
+      {
+        "src": "footage/verdict.png",
+        "width": 540.78125,
+        "height": 741.875,
+        "pixelScale": 2,
+        "selector": "[data-testid=\"outcome-panel\"]",
+        "sha256": "953cfca9fa51638e033e8e738c0b7fb3fbfb3afca5988008ba91d9606696aafc"
+      },
+      {
+        "src": "footage/allocation.png",
+        "width": 476.78125,
+        "height": 133,
+        "pixelScale": 2,
+        "selector": "Native actual proposed split",
+        "sha256": "bd2dae1e85faac3896856f3a642592d707ba52c322b1a14bcfd67450358187dc"
+      }
+    ]
+  },
+  "artifactCapture": {
+    "stage": "artifact",
+    "actualPhase": "settled",
+    "caseId": 0,
+    "sessionId": "0x46482dc28f8615809bdf53d9f5e9aae6a65aac13f208776c7db653682749fabf",
+    "receiptHash": "364cf868478d0684b30d409eb3cda09ff6391567924a109c1b21353e3e08fb7b",
+    "url": "http://127.0.0.1:5178/",
+    "observedAt": "2026-11-09T22:40:33.916Z",
+    "actionsPerformed": "Read-only app capture; no coordinator mutation",
+    "captures": [
+      {
+        "src": "footage/artifact.png",
+        "width": 484,
+        "height": 198.9375,
+        "pixelScale": 5,
+        "selector": "Actual native Automated tests evidence dialog",
+        "artifactTextSha256": "5db98f945d8118c2682d38dc3eb9c2b15d99e3e2179d40364f5a0cc56fafe608",
+        "sha256": "a800f2c2b46d717e47a5c051c156f1aacef2cd694c8ab77f9a9d29901df7bca2"
+      }
+    ]
+  },
+  "finalCapture": {
+    "stage": "final",
+    "actualPhase": "settled",
+    "caseId": 0,
+    "sessionId": "0x46482dc28f8615809bdf53d9f5e9aae6a65aac13f208776c7db653682749fabf",
+    "receiptHash": "364cf868478d0684b30d409eb3cda09ff6391567924a109c1b21353e3e08fb7b",
+    "url": "http://127.0.0.1:5178/",
+    "observedAt": "2026-11-09T22:28:15.358Z",
+    "actionsPerformed": "Read-only app capture; no coordinator mutation",
+    "captures": [
+      {
+        "src": "footage/proof.png",
+        "width": 1430,
+        "height": 205,
+        "pixelScale": 2,
+        "selector": "[data-testid=\"proof-panel\"]",
+        "sha256": "c9e1ba2ad0ec2d72523484c222dc1bf01d35c2b3666018dd1064ac8eb933de4b"
+      },
+      {
+        "src": "footage/case-final.png",
+        "width": 1430,
+        "height": 741.875,
+        "pixelScale": 2,
+        "selector": "[data-testid=\"case-workspace\"]",
+        "sha256": "62d45a0d4a7e4152099285b323a41aef3052e6f8209902b519997c26921ef270"
+      },
+      {
+        "src": "footage/closure.png",
+        "width": 516.78125,
+        "height": 233.84375,
+        "pixelScale": 2,
+        "selector": "Native signature section through zero-allocations note",
+        "sha256": "b79db25558975e40a8a64c19b137eb0e579c7de4dc7e00a3469a1929d898f4d4"
+      }
+    ]
+  }
+}

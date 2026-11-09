@@ -1,0 +1,13 @@
+* text=auto eol=lf
+*.png -text
+*.jpg -text
+*.webp -text
+*.mp4 -text
+*.flac -text
+*.wav -text
+*.ttf -text
+*.zip -text
+media/assets/** -text
+media/public/brand/** -text
+app/public/brand/** -text
+**/*OFL.txt -text -whitespace
