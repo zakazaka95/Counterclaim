@@ -42,6 +42,8 @@ Rendering first revalidates the archived evidence and capture hashes. An absent
 real ruling, mismatched receipt, unclosed session or changed screenshot prevents a
 final export. It does not create any network transactions. Review stills in
 `out/qa/` before encoding; use `npm run render -- --skip-stills` once those match.
+To regenerate only the static cover without touching either movie, use
+`npm run render -- --poster-only`.
 
 ## Recorded result and limits
 

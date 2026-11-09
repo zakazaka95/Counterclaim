@@ -45,6 +45,20 @@ Final master SHA-256:
 SFX-only SHA-256:
 `fc4455ba001499c36fb9e73d680ef5ddb82cd0fb57dd2f67c5db4dd6beb39080`
 
+## Static cover correction
+
+Final delivery inspection caught a separate cover-export bug: `Still` composition
+timing left the animated closing content transparent despite a surrounding frame
+freeze. The poster now renders `Closing` with an explicit static frame override
+(`still=true`, frame 80), while the movie uses the original animated default.
+The newly rendered PNG was opened and checked directly: title, tagline, all three
+marks, zero-funds note and repository CTA are visible. Only the poster was
+rerendered; both delivered MP4 hashes above remain unchanged. The first sequence's
+nonvisible label was also corrected to “Signed terms, delivery disputed.”
+
+Corrected poster SHA-256:
+`297286ad1b6e22b58cdabdc35c4c5bc6f6ece1d01326e912b0a5a15fd408ff6b`
+
 ## Factual boundary
 
 75/25 are nonmonetary demo credits. The actual Yellow allocations array is empty,

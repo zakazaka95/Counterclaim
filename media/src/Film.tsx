@@ -1,5 +1,5 @@
 import React from 'react';
-import { AbsoluteFill, Audio, Easing, Freeze, Img, Sequence, interpolate, staticFile, useCurrentFrame, useVideoConfig } from 'remotion';
+import { AbsoluteFill, Audio, Easing, Img, Sequence, interpolate, staticFile, useCurrentFrame, useVideoConfig } from 'remotion';
 import rawEvidence from '../public/film-evidence.json';
 
 type Capture = {src:string;width:number;height:number;focus?:{cx:number;cy:number;zoom:number}};
@@ -157,8 +157,8 @@ const RecordProof:React.FC=()=>{
  </AbsoluteFill>;
 };
 
-const Closing:React.FC=()=>{
- const f=useCurrentFrame();const a=ramp(f,0,24);const b=ramp(f,18,24);const c=ramp(f,28,25);
+const Closing:React.FC<{still?:boolean}>=({still=false})=>{
+ const currentFrame=useCurrentFrame();const f=still?80:currentFrame;const a=ramp(f,0,24);const b=ramp(f,18,24);const c=ramp(f,28,25);
  return <AbsoluteFill style={{background:PAPER,color:INK}}><StageTexture/><Chapter label="Independent partner demo"/>
   <div style={{position:'absolute',left:0,top:218,width:'100%',textAlign:'center',opacity:a,transform:`translateY(${(1-a)*28}px)`}}><div className="serif" style={{fontSize:174,letterSpacing:'-.035em'}}>Counterclaim<span style={{color:'#a89e00'}}>.</span></div><div style={{fontSize:44,letterSpacing:'-.025em',marginTop:22}}>From disputed work to an agreed split.</div></div>
   <div style={{position:'absolute',left:0,top:623,width:'100%',opacity:b,transform:`translateY(${(1-b)*16}px)`}}><Logos/></div>
@@ -170,7 +170,7 @@ const Closing:React.FC=()=>{
 export const CounterclaimFilm:React.FC<{music?:boolean}>=({music=true})=>{
  const {fps}=useVideoConfig();
  return <AbsoluteFill className="film" style={{background:INK}}><style>{globalCss}</style>
-  <Sequence from={0} durationInFrames={4*fps} name="01 — Work delivered, terms disputed"><Opening/></Sequence>
+  <Sequence from={0} durationInFrames={4*fps} name="01 — Signed terms, delivery disputed"><Opening/></Sequence>
   <Sequence from={4*fps} durationInFrames={6.2*fps} name="02 — Actual frozen agreement"><Agreement/></Sequence>
   <Sequence from={10.2*fps} durationInFrames={6*fps} name="03 — Actual delivery evidence"><Evidence/></Sequence>
   <Sequence from={16.2*fps} durationInFrames={15*fps} name="04 — Verdict carried into Yellow"><VerdictBridge/></Sequence>
@@ -181,4 +181,4 @@ export const CounterclaimFilm:React.FC<{music?:boolean}>=({music=true})=>{
  </AbsoluteFill>;
 };
 
-export const CounterclaimPoster:React.FC=()=> <AbsoluteFill className="film" style={{background:PAPER}}><style>{globalCss}</style><Freeze frame={80}><Closing/></Freeze></AbsoluteFill>;
+export const CounterclaimPoster:React.FC=()=> <AbsoluteFill className="film" style={{background:PAPER}}><style>{globalCss}</style><Closing still/></AbsoluteFill>;

@@ -13,6 +13,7 @@ let facts=JSON.parse(await readFile('public/film-evidence.json','utf8'));
 const stillsOnly=process.argv.includes('--stills');
 const draft=process.argv.includes('--draft');
 const skipStills=process.argv.includes('--skip-stills');
+const posterOnly=process.argv.includes('--poster-only');
 if(!stillsOnly&&!draft){
  const verification=spawnSync(process.execPath,['scripts/ingest-proof.mjs',facts.proofPath||'public/recorded-demo-proof.json'],{encoding:'utf8'});
  if(verification.status!==0)throw new Error(verification.stderr||'Archived proof binding failed');
@@ -28,6 +29,15 @@ if(!stillsOnly&&!draft){
  await access(path.resolve(root,facts.proofPath));
 }
 const serveUrl=await bundle({entryPoint:path.join(root,'src/index.ts'),publicDir:path.join(root,'public'),onProgress:(p)=>{if(p===100)console.log('Bundled film source');}});
+if(posterOnly){
+ const poster=await selectComposition({serveUrl,id:'CounterclaimPoster',browserExecutable});
+ const output=path.join(out,'counterclaim-poster.png');
+ await renderStill({composition:poster,serveUrl,frame:0,browserExecutable,output,imageFormat:'png',logLevel:'warn'});
+ const record={file:'out/counterclaim-poster.png',sha256:createHash('sha256').update(await readFile(output)).digest('hex'),staticClosing:true,width:1920,height:1080};
+ await writeFile(path.join(out,'poster-record.json'),JSON.stringify(record,null,2)+'\n');
+ console.log(JSON.stringify(record,null,2));
+ process.exit(0);
+}
 const composition=await selectComposition({serveUrl,id:'CounterclaimFilm',browserExecutable});
 if(composition.durationInFrames!==1260||composition.fps!==30)throw new Error('Mission duration changed unexpectedly');
 const stillFrames=[80,210,390,600,820,1010,1200];
