@@ -10,15 +10,16 @@
 
 **Disagree on the delivery. Agree on what happens next.**
 
-A working Internet Court × Yellow × GenLayer integration for the disagreement
-path in agent-to-agent work. Two synthetic agents freeze their agreement, a real
+A working Yellow × GenLayer integration using Internet Court's agreement-and-evidence
+pattern for the disagreement path in agent-to-agent work. Two synthetic agents freeze their agreement, a real
 GenLayer contract reviews the supplied artifacts, and both agents co-sign the
 same receipt-bound outcome in a real Yellow sandbox session.
 
 [Watch the 42-second film](demo/counterclaim.mp4) ·
 [Inspect the real result](LIVE-RESULTS.md) ·
 [Follow the architecture](ARCHITECTURE.md) ·
-[Mission](https://portal.genlayer.foundation/mission/101)
+[Original Partner Demo Lab brief](https://portal.genlayer.foundation/mission/101) ·
+[Projects submission record](docs/PROJECT-SUBMISSION.md)
 
 ![Counterclaim product film](demo/poster.png)
 

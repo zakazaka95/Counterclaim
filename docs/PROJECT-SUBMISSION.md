@@ -1,28 +1,31 @@
 # Counterclaim — ordinary Projects submission
 
-Prepared November 10, 2026. **Copy prepared; Portal submission is not yet claimed.**
+Submitted November 10, 2026. **Portal status verified: Pending review.**
 This is the regular **Builder → Projects** route. The user supplied Joaquin
 Bressan's reply recommending a project submission while Builders Working Group
 has no open spots. That routing advice is not project acceptance or endorsement.
 
 ## Submission metadata
 
-| Field | Prepared value |
+| Field | Observed submission value |
 | --- | --- |
 | Project name | Counterclaim |
 | Category | Builder → Projects |
 | Tag | Dispute Resolution |
 | Focus | Evidence Assessment |
-| Contribution date | Use the actual date allowed by the Portal at submission |
+| Contribution date | November 10, 2026 |
+| Submitted / last updated | November 10, 2026 |
 | Website / project entry point | https://github.com/zakazaka95/Counterclaim |
 | Repository | https://github.com/zakazaka95/Counterclaim |
 | Dedicated contract link | https://explorer-studio-dev.genlayer.com/address/0x34b0a821B1AF34A9ac6c71E6e98d1A1f1a0A5303 |
 | Formal Portal evidence | Five items listed below; the contract link is a separate field |
 | Delivery model | Locally runnable app; the public repository is the entry point, not a hosted frontend |
-| Demo video field | Leave blank unless an actual supported YouTube or X URL is available |
+| Demo video field | Blank; the public GitHub MP4 is attached as supporting evidence |
 | Public film | https://github.com/zakazaka95/Counterclaim/blob/main/demo/counterclaim.mp4 |
-| Portal submission ID | Not yet observed |
-| Portal review status | Not yet submitted by this preparation record |
+| Portal submission ID | `c5a6123f-1355-47ce-8547-a9cdc4b3ce83` |
+| Portal review status | Pending review; five evidence items verified |
+| Portal record | https://portal.genlayer.foundation/my-submissions?q=Counterclaim |
+| CAPTCHA / submission | Completed after the user's fresh action-time confirmation; submitted once |
 
 The existing 42-second film is public in the repository. A GitHub MP4 URL must not
 be entered into a field that accepts only YouTube or X. No YouTube upload or X
@@ -92,6 +95,6 @@ allocations are empty, the credits are nonmonetary metadata, and both participan
 must still sign. The cooperative relay and RPC are explicit trust boundaries.
 The recorded result is one synthetic case, not a semantic-accuracy benchmark.
 
-After a successful Portal submission is visibly observed, replace the two pending
-metadata rows with the actual ID and review status. Do not infer acceptance from
-successful submission.
+The saved Portal record was visibly verified with the description, Joaquin routing
+note, five evidence links and dedicated contract link. Pending review records
+successful submission; no steward acceptance or awarded points are claimed.

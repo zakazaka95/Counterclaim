@@ -1,4 +1,10 @@
-# Partner Demo Lab submission copy
+# Original Partner Demo Lab submission draft
+
+Counterclaim was subsequently submitted through the regular **Projects** category
+on November 10, 2026, following Joaquin Bressan's routing guidance. See the
+[actual Projects submission record](PROJECT-SUBMISSION.md) for the saved entry,
+verification instructions and current review status. This original mission draft
+does not represent a separate Partner Demo Lab submission.
 
 ## Title
 
@@ -16,4 +22,5 @@ Counterclaim connects Internet Court's agreement-and-evidence workflow to real Y
 - Film file: `demo/counterclaim.mp4`; attach the actual public post/video URL after upload.
 - Reproduction and exact observed outcomes: `README.md` and `LIVE-RESULTS.md`.
 
-No X post, YouTube upload or Portal submission is claimed by this prepared copy.
+No X post or YouTube upload was made by this workflow. The regular Projects
+submission is recorded separately in `PROJECT-SUBMISSION.md`.
