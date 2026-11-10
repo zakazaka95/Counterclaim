@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Counterclaim</title>
+  <desc id="desc">Two opposing claim shapes face the same central space. Neon yellow and warm white on near black.</desc>
+  <rect width="512" height="512" rx="112" fill="#0b0d09"/>
+  <path fill="#d9f433" d="M240 120H188C134 120 92 162 92 220V292C92 350 134 392 188 392H240V336H188C166 336 148 314 148 292V220C148 198 166 176 188 176H240Z"/>
+  <path fill="#f6f5ee" d="M272 120H324C378 120 420 162 420 220V292C420 350 378 392 324 392H272V336H324C346 336 364 314 364 292V220C364 198 346 176 324 176H272Z"/>
+</svg>
