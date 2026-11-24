@@ -86,16 +86,16 @@ export default function App() {
 
   const ruling = hasRuling(demo);
   const proposalAllowed = ruling && (demo.settlementAllowed ?? Boolean(demo.allocation));
-  const action = demo.phase === 'verdict_ready' && !proposalAllowed ? { path: '', label: 'More evidence needed', detail: 'The ruling is inconclusive. No final proposal can be co-signed.' } : actionFor(demo.phase);
+  const action = demo.phase === 'verdict_ready' && !proposalAllowed ? { path: '', label: 'Review inconclusive', detail: 'No guessed award is made. The accepted refund deadline governs recovery.' } : actionFor(demo.phase);
   const phaseIndex = { idle: 0, session_open: 1, judging: 1, verdict_ready: 2, settled: 3 }[demo.phase];
-  const yellowNeeded = action.path === 'session' || action.path === 'settle';
+  const yellowNeeded = action.path === 'session';
   const working = Boolean(busy) || status.busy === true;
   const canAct = connection === 'online' && !working && Boolean(action.path) && (yellowNeeded ? status.yellow.ready : status.genlayer.ready);
   const visibleError = error ?? (status.error !== dismissedRemoteError ? status.error : undefined);
   const accepted = demo.adjudication?.acceptedDeliverables;
   const split = proposalAllowed ? demo.allocation : undefined;
   const sellerPercent = split ? split.seller / split.total * 100 : 0;
-  const signatures = demo.signatures;
+  const signatures = demo.authorization ?? demo.signatures;
   const activity = [...demo.activity].reverse();
 
   async function perform(path: string) {
@@ -113,13 +113,13 @@ export default function App() {
     <header className="site-header">
       <a className="wordmark" href="#" aria-label="Counterclaim home"><span className="wordmark-symbol" aria-hidden="true"><i /><i /></span>counterclaim<span className="wordmark-period">.</span></a>
       <nav aria-label="Main navigation"><a className="nav-active" href="#case">Demo room</a><button type="button" onClick={() => setHelpOpen(value => !value)} aria-expanded={helpOpen}>How it works</button><External href={status.repositoryUrl} className="source-nav">Source</External></nav>
-      <div className="environment"><span />Sandbox<span className="environment-divider">/</span><span className="no-funds">No funds moved</span></div>
+      <div className="environment"><span />Sandbox<span className="environment-divider">/</span><span className="no-funds">Faucet test GEN</span></div>
     </header>
 
     <main>
       <section className="hero" aria-labelledby="hero-title">
         <div className="hero-copy"><div className="eyebrow hero-eyebrow"><span className="small-cross">+</span> Agreements for an agentic world</div><h1 id="hero-title">A fair way<br /><em>forward.</em></h1><p>Agents can disagree.<br className="mobile-break" /> Their deals shouldn’t get stuck.</p></div>
-        <div className="hero-diagram" aria-label="Agreement, independent judgment, co-signed outcome">
+        <div className="hero-diagram" aria-label="Authenticated delivery, independent judgment, unilateral claim">
           <div className="diagram-line" /><div className="diagram-line line-two" />
           <div className="agent-node node-buyer"><div className="agent-glyph">B<span /></div><div><span>BUYER AGENT</span><strong>“The tests are missing.”</strong></div></div>
           <div className="court-node"><div className="court-node-inside"><Icon name="scales" size={32} /></div><span>Evidence over argument.</span></div>
@@ -130,20 +130,20 @@ export default function App() {
 
       <section className="partner-strip" aria-label="Integration partners"><span className="partner-caption">Built with</span><a href="https://yellow.org/" target="_blank" rel="noreferrer" aria-label="Yellow"><img className="yellow-mark" src="/brand/yellow-logo.svg" alt="Yellow" /></a><span className="partner-plus">×</span><a href="https://internetcourt.org/" target="_blank" rel="noreferrer" aria-label="Internet Court"><img className="court-mark" src="/brand/internet-court-logo.svg" alt="Internet Court" /></a><span className="partner-plus">×</span><a href="https://genlayer.com/" target="_blank" rel="noreferrer" aria-label="GenLayer"><img className="genlayer-mark" src="/brand/genlayer-logo.svg" alt="GenLayer" /></a><span className="partner-right">Partner Demo Lab <Icon name="diagonal" size={14} /></span></section>
 
-      {helpOpen && <section className="how-panel" id="how-it-works"><div><span className="eyebrow">01 · Agree</span><h3>Freeze the deal.</h3><p>Two isolated test agents sign the same agreement and evidence in a real Yellow sandbox session.</p></div><div><span className="eyebrow">02 · Review</span><h3>Let the evidence speak.</h3><p>A GenLayer contract evaluates the complete delivery against the frozen acceptance criteria.</p></div><div><span className="eyebrow">03 · Co-sign</span><h3>Find a way forward.</h3><p>Both agents co-sign a verdict-bound proposal. This demo moves zero tokens; the split uses nonmonetary credits.</p></div></section>}
+      {helpOpen && <section className="how-panel" id="how-it-works"><div><span className="eyebrow">01 · Agree</span><h3>Freeze the deal.</h3><p>The buyer funds the contract. The seller accepts the exact terms and submits the complete work from its own account.</p></div><div><span className="eyebrow">02 · Review</span><h3>Let the evidence speak.</h3><p>Independent validators assess the exact seller-registered artifacts against both parties’ accepted criteria.</p></div><div><span className="eyebrow">03 · Claim</span><h3>Find a way forward.</h3><p>Each participant claims its own test GEN award without a new signature from the other party. Yellow closure is optional.</p></div></section>}
 
       <section className="case-section" id="case" aria-labelledby="case-title">
-        <div className="section-header"><div><div className="eyebrow">THE DEMO ROOM <span className="label-separator">/</span> {demo.caseId !== undefined ? `GENLAYER CASE ${demo.caseId}` : 'CASE PENDING'}</div><h2 id="case-title">{proposalAllowed && accepted !== undefined ? `${demo.deliverables.length} promised. ${accepted} accepted.` : 'Three milestones. One disagreement.'}</h2></div><div className={`case-status ${demo.phase === 'settled' ? 'status-success' : ''}`}><span />{demo.phase === 'settled' ? 'Resolved together' : demo.phase === 'judging' ? 'Jury reviewing' : ruling ? proposalAllowed ? 'Proposal ready' : 'Needs clarity' : demo.session?.id ? 'Room open' : 'Ready to begin'}</div></div>
+        <div className="section-header"><div><div className="eyebrow">THE DEMO ROOM <span className="label-separator">/</span> {demo.caseId !== undefined ? `GENLAYER CASE ${demo.caseId}` : 'CASE PENDING'}</div><h2 id="case-title">{proposalAllowed && accepted !== undefined ? `${demo.deliverables.length} promised. ${accepted} accepted.` : 'Three milestones. One disagreement.'}</h2></div><div className={`case-status ${demo.phase === 'settled' ? 'status-success' : ''}`}><span />{demo.phase === 'settled' ? 'Awards claimed' : demo.phase === 'judging' ? 'Jury reviewing' : ruling ? proposalAllowed ? 'Award ready' : 'Needs clarity' : demo.session?.id ? 'Room open' : 'Ready to begin'}</div></div>
 
-        <div className="journey" aria-label="Case progress"><Step number={1} title="The agreement" detail="Terms & evidence frozen" active={phaseIndex === 0} complete={phaseIndex > 0} /><div className="step-connector" /><Step number={2} title="The ruling" detail="GenLayer reviews the case" active={phaseIndex === 1} complete={phaseIndex > 1} /><div className="step-connector" /><Step number={3} title="The way forward" detail="Both agents co-sign" active={phaseIndex === 2} complete={phaseIndex === 3} /></div>
+        <div className="journey" aria-label="Case progress"><Step number={1} title="The agreement" detail="Terms & evidence frozen" active={phaseIndex === 0} complete={phaseIndex > 0} /><div className="step-connector" /><Step number={2} title="The ruling" detail="GenLayer reviews the case" active={phaseIndex === 1} complete={phaseIndex > 1} /><div className="step-connector" /><Step number={3} title="The way forward" detail="Each party claims independently" active={phaseIndex === 2} complete={phaseIndex === 3} /></div>
 
         {visibleError && <div className="error-message" role="alert"><Icon name="info" size={20} /><div><strong>That step didn’t complete.</strong><p>{visibleError}</p></div><button type="button" className="icon-button" onClick={() => { setError(null); setDismissedRemoteError(status.error); }} aria-label="Dismiss error"><Icon name="close" size={18} /></button></div>}
 
         <div className="case-grid" data-testid="case-workspace">
           <div className="case-main">
             <section className="agreement-panel" data-testid="agreement-panel" aria-label="Frozen agreement">
-              <div className="panel-heading"><span className="eyebrow">THE AGREEMENT</span><span className="quiet-badge"><Icon name={demo.session?.id ? 'lock' : 'file'} size={13} />{demo.session?.id ? 'Frozen on Yellow' : 'Synthetic case fixture'}</span></div>
-              <div className="agreement-summary"><h3>Release<br />handoff.</h3><div className="credit-amount"><span>{demo.agreement.budget}</span><p>demo credits<small>Nonmonetary allocation</small></p></div></div>
+              <div className="panel-heading"><span className="eyebrow">THE AGREEMENT</span><span className="quiet-badge"><Icon name={demo.session?.id ? 'lock' : 'file'} size={13} />{demo.session?.id ? 'Authenticated delivery' : 'Synthetic case fixture'}</span></div>
+              <div className="agreement-summary"><h3>Release<br />handoff.</h3><div className="credit-amount"><span>{demo.agreement.budget}</span><p>demo credits<small>Milestone weights</small></p></div></div>
               <p className="agreement-description">Three milestones, agreed in advance. Delivered work earns its weight. Undelivered work stays with the buyer.</p>
               <div className="parties"><div><span className="party-avatar buyer-avatar">B</span><div><strong>Buyer agent</strong><span>{demo.agreement.buyer ? truncate(demo.agreement.buyer) : 'Commissioned the release'}</span></div></div><span className="party-connection"><Icon name="link" size={16} /></span><div><span className="party-avatar seller-avatar">S</span><div><strong>Seller agent</strong><span>{demo.agreement.seller ? truncate(demo.agreement.seller) : 'Responsible for delivery'}</span></div></div></div>
             </section>
@@ -161,19 +161,21 @@ export default function App() {
 
           <aside className={`outcome-panel ${ruling ? 'has-ruling' : ''}`} data-testid="outcome-panel" aria-label="Ruling and proposed split">
             <div className="outcome-top"><span className="eyebrow">THE WAY FORWARD</span><div className="small-court-symbol"><Icon name="scales" size={18} /></div></div>
-            {ruling ? <><div className="ruling-tag"><span />{demo.phase === 'settled' ? 'Co-signed outcome' : 'GenLayer ruling received'}</div>{proposalAllowed ? <h3>Credit where<br /><em>it’s due.</em></h3> : <h3>Room for<br /><em>more clarity.</em></h3>}<p className="outcome-description">{demo.adjudication?.summary ?? 'The agreed evidence has been assessed. Both agents can now accept the proposed split.'}</p></> : <><div className="ruling-tag muted-ruling"><span />{demo.phase === 'judging' ? 'Actual consensus in progress' : 'Independent review'}</div><h3>A resolution,<br /><em>not a stalemate.</em></h3><p className="outcome-description">The complete agreement and delivery record go to GenLayer. A ruling becomes a proposal both agents can accept.</p></>}
+            {ruling ? <><div className="ruling-tag"><span />{demo.phase === 'settled' ? 'Independent escrow awards' : 'GenLayer ruling received'}</div>{proposalAllowed ? <h3>Credit where<br /><em>it’s due.</em></h3> : <h3>Room for<br /><em>more clarity.</em></h3>}<p className="outcome-description">{demo.adjudication?.summary ?? 'The exact registered delivery has been assessed. Each participant can claim its own award.'}</p></> : <><div className="ruling-tag muted-ruling"><span />{demo.phase === 'judging' ? 'Actual consensus in progress' : 'Independent review'}</div><h3>A resolution,<br /><em>not a stalemate.</em></h3><p className="outcome-description">The seller’s authenticated delivery goes to GenLayer. A resolved ruling fixes each party’s claim on the escrow.</p></>}
 
-            <div className={`split-graphic ${split ? 'split-ready' : ''}`} aria-label={split ? `Proposed split: seller ${split.seller}, buyer ${split.buyer} demo credits` : 'Split awaits a real GenLayer ruling'}>
-              <div className="split-heading"><span>Proposed split</span><span>{split ? `${split.total} credits` : 'Awaiting ruling'}</span></div>
+            <div className={`split-graphic ${split ? 'split-ready' : ''}`} aria-label={split ? `Milestone weights: seller ${split.seller}, buyer ${split.buyer} demo credits` : 'Split awaits a real GenLayer ruling'}>
+              <div className="split-heading"><span>Milestone outcome</span><span>{split ? `${split.total} credits` : 'Awaiting ruling'}</span></div>
               <div className="allocation-bar"><div className="seller-allocation" style={{ flexBasis: `${split ? sellerPercent : 50}%`, ...(split?.seller === 0 ? { padding: 0 } : {}) }}>{split ? split.seller : '—'}</div><div className="buyer-allocation" style={split ? { flexBasis: `${100 - sellerPercent}%`, flexGrow: 0, ...(split.buyer === 0 ? { padding: 0 } : {}) } : undefined}>{split ? split.buyer : '—'}</div></div>
               <div className="allocation-labels"><span><i />Seller agent{split ? ` · ${split.seller}` : ''}</span><span><i />Buyer agent{split ? ` · ${split.buyer}` : ''}</span></div>
             </div>
 
-            <div className="signatures"><div><span className={`signature-mark ${signatures?.buyer ? 'signed' : ''}`}>{signatures?.buyer ? <Icon name="check" size={12} /> : <Icon name="fingerprint" size={12} />}</span><span>Buyer signature</span><small>{signatures?.buyer ? 'Signed' : 'Required'}</small></div><div><span className={`signature-mark ${signatures?.seller ? 'signed' : ''}`}>{signatures?.seller ? <Icon name="check" size={12} /> : <Icon name="fingerprint" size={12} />}</span><span>Seller signature</span><small>{signatures?.seller ? 'Signed' : 'Required'}</small></div></div>
+            {demo.escrow && <div className="escrow-record" style={{marginBottom: 20, padding: 16, border: '1px solid var(--border, #deded7)', borderRadius: 12}}><span className="eyebrow">ONCHAIN TEST ESCROW</span><p style={{fontSize: 13}}>Deposit: {demo.escrow.totalWei} wei</p>{demo.escrow.sellerWei && <p style={{fontSize: 13}}>Seller: {demo.escrow.sellerWei} wei · Buyer: {demo.escrow.buyerWei} wei</p>}<p style={{fontSize: 12}}>Each party claims independently. No new counterparty signature.</p>{demo.authorization?.deliveredBy && <code style={{fontSize: 11}}>Delivered by {truncate(demo.authorization.deliveredBy, 9)}</code>}</div>}
 
-            <button type="button" data-testid="primary-action" className={`button button-primary ${demo.phase === 'settled' ? 'button-finished' : ''}`} disabled={!canAct} aria-busy={working} onClick={() => void perform(action.path)}>{working ? <><span className="spinner" />{busy === 'session' ? 'Opening signed room…' : busy === 'adjudicate' ? 'Submitting for review…' : busy === 'settle' ? 'Co-signing proposal…' : 'Network request running…'}</> : <>{action.label}<Icon name={demo.phase === 'settled' ? 'check' : demo.phase === 'judging' ? 'clock' : 'arrow'} size={19} /></>}</button>
+            <div className="signatures"><div><span className={`signature-mark ${signatures?.buyer ? 'signed' : ''}`}>{signatures?.buyer ? <Icon name="check" size={12} /> : <Icon name="fingerprint" size={12} />}</span><span>Buyer authorization</span><small>{signatures?.buyer ? 'Signed' : 'Required'}</small></div><div><span className={`signature-mark ${signatures?.seller ? 'signed' : ''}`}>{signatures?.seller ? <Icon name="check" size={12} /> : <Icon name="fingerprint" size={12} />}</span><span>Seller authorization</span><small>{signatures?.seller ? 'Signed' : 'Required'}</small></div></div>
+
+            <button type="button" data-testid="primary-action" className={`button button-primary ${demo.phase === 'settled' ? 'button-finished' : ''}`} disabled={!canAct} aria-busy={working} onClick={() => void perform(action.path)}>{working ? <><span className="spinner" />{busy === 'session' ? 'Opening signed room…' : busy === 'adjudicate' ? 'Submitting for review…' : busy === 'settle' ? 'Claiming test GEN awards…' : 'Network request running…'}</> : <>{action.label}<Icon name={demo.phase === 'settled' ? 'check' : demo.phase === 'judging' ? 'clock' : 'arrow'} size={19} /></>}</button>
             <p className="action-detail">{connection !== 'online' ? connection === 'connecting' ? 'Connecting to the demonstration service…' : 'Start the coordinator to run the real sandbox demo.' : working ? 'Waiting for the actual protocol response. Consensus can take a few minutes.' : !canAct && action.path ? (yellowNeeded ? status.yellow.reason : status.genlayer.reason) ?? 'This service needs configuration before the next step.' : action.detail}</p>
-            <div className="outcome-boundary"><Icon name="info" size={13} /><span>Demo credits only. Yellow token allocations stay at zero.</span></div>
+            <div className="outcome-boundary"><Icon name="info" size={13} /><span>The contract holds faucet test GEN. Yellow allocations stay at zero; its closure cannot block these awards.</span></div>
           </aside>
         </div>
 
@@ -185,7 +187,7 @@ export default function App() {
       </section>
     </main>
 
-    <footer className="site-footer"><div><a className="wordmark footer-wordmark" href="#">counterclaim<span className="wordmark-period">.</span></a><p>Better agreements. A fair way forward.</p></div><div className="footer-note">A reproducible partner demonstration.<br />Synthetic agents. Real protocol interactions. Zero funds moved.</div><External href={status.repositoryUrl} className="footer-source"><Icon name="code" size={16} />Explore the code</External></footer>
+    <footer className="site-footer"><div><a className="wordmark footer-wordmark" href="#">counterclaim<span className="wordmark-period">.</span></a><p>Better agreements. A fair way forward.</p></div><div className="footer-note">A reproducible partner demonstration.<br />Synthetic agents. Authenticated text delivery. Faucet test GEN only.</div><External href={status.repositoryUrl} className="footer-source"><Icon name="code" size={16} />Explore the code</External></footer>
     <EvidenceDialog milestone={evidence} onClose={() => setEvidence(null)} />
   </div>;
 }

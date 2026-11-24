@@ -14,6 +14,8 @@ export type Demo = {
   adjudication?: { status?: string; decision?: string; summary?: string; transactionHash?: string; explorerUrl?: string; receiptHash?: string; acceptedDeliverables?: number; totalDeliverables?: number };
   allocation?: { buyer: number; seller: number; total: number; unit: string };
   signatures?: { buyer: boolean; seller: boolean };
+  authorization?: { buyer: boolean; seller: boolean; deliveredBy?: string; termsHash?: string };
+  escrow?: { totalWei: string; buyerWei?: string; sellerWei?: string; claims?: { buyer: boolean; seller: boolean }; independent: boolean };
   activity: Activity[];
 };
 
@@ -63,6 +65,10 @@ export function normalizeDemo(value: unknown): Demo {
   const adjudication = object(raw.adjudication);
   const allocation = object(raw.allocation);
   const signatures = object(raw.signatures);
+  const authorization = object(raw.authorization);
+  const escrow = object(raw.escrow);
+  const claims = object(escrow.claims);
+  const wei = (value: unknown) => typeof value === 'string' && /^\d+$/.test(value) ? value : undefined;
   const milestones = Array.isArray(raw.deliverables) && raw.deliverables.length ? raw.deliverables : emptyDemo.deliverables;
   const buyer = number(allocation.buyer, -1), seller = number(allocation.seller, -1), total = number(allocation.total, -1);
   // Never turn a malformed split into a successful allocation chart.
@@ -78,17 +84,19 @@ export function normalizeDemo(value: unknown): Demo {
     adjudication: raw.adjudication ? { status: optional(adjudication.status), decision: optional(adjudication.decision), summary: optional(adjudication.summary), transactionHash: optional(adjudication.transactionHash ?? adjudication.transaction_hash), explorerUrl: safeLink(adjudication.explorerUrl), receiptHash: optional(adjudication.receiptHash ?? adjudication.receipt_hash), acceptedDeliverables: typeof adjudication.acceptedDeliverables === 'number' ? adjudication.acceptedDeliverables : undefined, totalDeliverables: typeof adjudication.totalDeliverables === 'number' ? adjudication.totalDeliverables : undefined } : undefined,
     allocation: validSplit ? { buyer, seller, total, unit: 'demo credits' } : undefined,
     signatures: raw.signatures ? { buyer: signatures.buyer === true, seller: signatures.seller === true } : undefined,
+    authorization: raw.authorization ? { buyer: authorization.buyer === true, seller: authorization.seller === true, deliveredBy: optional(authorization.deliveredBy), termsHash: optional(authorization.termsHash) } : undefined,
+    escrow: wei(escrow.totalWei) ? { totalWei: wei(escrow.totalWei)!, buyerWei: wei(escrow.buyerWei), sellerWei: wei(escrow.sellerWei), independent: escrow.independent === true, claims: escrow.claims ? { buyer: claims.buyer === true, seller: claims.seller === true } : undefined } : undefined,
     activity: Array.isArray(raw.activity) ? raw.activity.map((value, i) => { const row = object(value); return { id: string(row.id, 'event-' + i), title: string(row.title, 'Activity'), detail: optional(row.detail), status: optional(row.status), at: optional(row.at), url: safeLink(row.url) }; }) : [],
   };
 }
 
 export function actionFor(phase: Phase) {
   return {
-    idle: { path: 'session', label: 'Open demo room', detail: 'Freeze the agreement in a signed Yellow session.' },
+    idle: { path: 'session', label: 'Open demo room', detail: 'Freeze the agreement in a signed Yellow session. Isolated agents use faucet test GEN.' },
     session_open: { path: 'adjudicate', label: 'Request a ruling', detail: 'Ask GenLayer to assess the complete frozen evidence.' },
     judging: { path: '', label: 'Jury reviewing…', detail: 'The actual consensus result will appear here.' },
-    verdict_ready: { path: 'settle', label: 'Co-sign & close room', detail: 'Both sandbox agents must accept the verdict-bound proposal.' },
-    settled: { path: '', label: 'Room closed', detail: 'The signed proposal is recorded. No funds were moved.' },
+    verdict_ready: { path: 'settle', label: 'Claim the escrow awards', detail: 'Each agent claims its own award on GenLayer. The other party cannot block it.' },
+    settled: { path: '', label: 'Awards claimed', detail: 'Faucet test GEN only. Yellow closure is a separate optional step.' },
   }[phase];
 }
 

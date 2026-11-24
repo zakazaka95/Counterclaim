@@ -6,10 +6,17 @@ import {hashJson} from '../scripts/canonical.mjs';
 
 const owner = '0x' + '1'.repeat(40), contractAddress = '0x' + 'a'.repeat(40), txHash = '0x' + 'b'.repeat(64);
 function example() {
-  const agreement = {title: 'A complete synthetic agreement'}, evidence = [{content: 'Complete supplied text'}];
-  const snapshot = {case_id: 7, chain_id: 61997, contract_address: contractAddress, session_id: '0x' + 'c'.repeat(64),
+  const agreement = {title: 'A complete synthetic agreement', pool: 100, parties: {buyer: owner, seller: '0x' + '2'.repeat(40)}}, evidence = [{content: 'Complete supplied text'}];
+  const authorization = {buyer_opened_by: owner, buyer_opened_at: 10, seller_accepted_by: agreement.parties.seller, seller_accepted_at: 11, seller_delivered_by: agreement.parties.seller, seller_delivered_at: 12};
+  const snapshot = {schema: 'counterclaim-ruling-v2', case_id: 7, chain_id: 61997, contract_address: contractAddress, session_id: '0x' + 'c'.repeat(64),
+    authorization, escrow: {total_wei: '1000', unit: 'GEN_WEI'}, delivery_deadline: 100, refund_after: 200,
+    evidence_scope: 'CONTRACT_STORED_SELLER_DELIVERY_ONLY', refund_policy: 'BUYER_REFUND_IF_NO_DELIVERY_OR_NO_RESOLVED_RULING_BY_DEADLINE',
     agreement, evidence, agreement_hash: hashJson(agreement), evidence_hash: hashJson(evidence)};
-  const receipt = {case_id: 7, case_hash: hashJson(snapshot), chain_id: 61997, contract_address: contractAddress,
+  snapshot.terms_hash = hashJson({schema: snapshot.schema, case_id: snapshot.case_id, chain_id: snapshot.chain_id,
+    contract_address: snapshot.contract_address, session_id: snapshot.session_id, agreement_hash: snapshot.agreement_hash,
+    escrow_wei: snapshot.escrow.total_wei, delivery_deadline: snapshot.delivery_deadline, refund_after: snapshot.refund_after,
+    evidence_scope: snapshot.evidence_scope, refund_policy: snapshot.refund_policy});
+  const receipt = {schema: snapshot.schema, authorization, terms_hash: snapshot.terms_hash, settlement: {buyer_wei: '250', seller_wei: '750', total_wei: '1000', unit: 'GEN_WEI'}, case_id: 7, case_hash: hashJson(snapshot), chain_id: 61997, contract_address: contractAddress,
     session_id: snapshot.session_id, agreement_hash: snapshot.agreement_hash, evidence_hash: snapshot.evidence_hash,
     decision: 'RESOLVED', settlement_allowed: true, inspection: {prompt_truncated: false, semantic_complete: true},
     allocation: {buyer: 25, seller: 75, total: 100, unit: 'demo credits'}};
@@ -74,4 +81,38 @@ test('missing or malformed raw calldata fails closed', () => {
 test('accepted but still appealable decision cannot be signed into Yellow', () => {
   const x = example(); x.transaction.statusName = 'ACCEPTED';
   assert.throws(() => assertRulingTransaction(x), /must be finalized/);
+});
+
+test('either authenticated participant may adjudicate, but a relay cannot', () => {
+  const x = example();
+  x.transaction.from_address = x.stored.snapshot.agreement.parties.seller;
+  assert.equal(assertRulingTransaction(x), true);
+  x.transaction.from_address = '0x' + '9'.repeat(40);
+  assert.throws(() => assertRulingTransaction(x), /caller or target/);
+});
+
+test('a self-consistent digest cannot hide missing seller delivery authorization', () => {
+  const x = example();
+  x.stored.snapshot.authorization.seller_delivered_by = owner;
+  x.stored.case_hash = hashJson(x.stored.snapshot);
+  x.receipt.case_hash = x.stored.case_hash;
+  x.stored.receipt_hash = hashJson(x.receipt);
+  assert.throws(() => assertStoredRuling(x.stored, x), /participant consent/);
+});
+
+test('escrow deadline substitution breaks the seller accepted terms', () => {
+  const x = example();
+  x.stored.snapshot.refund_after++;
+  x.stored.case_hash = hashJson(x.stored.snapshot);
+  x.receipt.case_hash = x.stored.case_hash;
+  x.stored.receipt_hash = hashJson(x.receipt);
+  assert.throws(() => assertStoredRuling(x.stored, x), /accepted terms hash/);
+});
+
+test('a conserved weight allocation cannot stand in for the wrong monetary award', () => {
+  const x = example();
+  x.receipt.settlement.seller_wei = '751';
+  x.receipt.settlement.buyer_wei = '249';
+  x.stored.receipt_hash = hashJson(x.receipt);
+  assert.throws(() => assertStoredRuling(x.stored, x), /wei do not conserve/);
 });

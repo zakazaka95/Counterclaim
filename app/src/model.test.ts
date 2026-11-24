@@ -37,3 +37,14 @@ test('the actual numeric zero case ID remains visible and unknown IDs stay unass
   assert.equal(normalizeDemo({ case_id: 12 }).caseId, '12');
   for (const value of [undefined, null, -1, Infinity, 0.5]) assert.equal(normalizeDemo({ caseId: value }).caseId, undefined);
 });
+
+test('escrow amounts stay exact decimal strings and do not depend on peer signatures', () => {
+  const demo = normalizeDemo({phase: 'verdict_ready', signatures: {buyer: false, seller: false},
+    escrow: {totalWei: '90071992547409931', sellerWei: '67553994410557448', buyerWei: '22517998136852483', independent: true},
+    authorization: {buyer: true, seller: true, deliveredBy: '0x123'}});
+  assert.equal(demo.escrow?.totalWei, '90071992547409931');
+  assert.equal(demo.escrow?.independent, true);
+  assert.equal(demo.authorization?.seller, true);
+  assert.equal(actionFor(demo.phase).path, 'settle');
+  for (const value of [1, '-1', '1.5', 'NaN']) assert.equal(normalizeDemo({escrow: {totalWei: value}}).escrow, undefined);
+});

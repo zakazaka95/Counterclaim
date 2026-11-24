@@ -5,5 +5,6 @@ for (const action of ['session', 'adjudicate', 'settle']) {
   const result = await response.json();
   if (!response.ok) throw new Error(result.error || 'Demo action failed');
   console.log(JSON.stringify({phase: result.phase, caseId: result.caseId, session: result.session,
-    decision: result.adjudication?.decision, allocation: result.allocation}, null, 2));
+    decision: result.adjudication?.decision, allocation: result.allocation,
+    authorization: result.authorization, nativeTestEscrow: result.escrow}, null, 2));
 }

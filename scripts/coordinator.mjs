@@ -3,12 +3,12 @@ import {readFile, writeFile, mkdir} from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath, pathToFileURL} from 'node:url';
 import {createYellowRoom, restoreYellowRoom} from '../server/lib/yellow-room.mjs';
-import {createGenLayerRuntime, ROOT, EXPLORER, saveProof} from './genlayer.mjs';
+import {createGenLayerRuntime, ROOT, DEMO_ESCROW_WEI, saveProof} from './genlayer.mjs';
 import {canonicalJson, hashJson} from './canonical.mjs';
 
 const fixture = JSON.parse(await readFile(path.join(ROOT, 'fixtures/case.json'), 'utf8'));
 const LOCAL = path.join(ROOT, '.local');
-const STATE_FILE = path.join(LOCAL, 'current-demo.json');
+const STATE_FILE = path.join(LOCAL, 'current-demo-v2.json');
 const PORT = Number(process.env.PORT || 8787);
 const now = () => new Date().toISOString();
 
@@ -23,14 +23,22 @@ export async function createCoordinator() {
   let room = null;
   let busy = false;
   let lastError = null;
-  let state = {phase: 'idle', activity: [], agreement: {title: fixture.title, budget: '100', unit: 'demo credits'},
+  let state = {schema: 'counterclaim-ui-v2', phase: 'idle', activity: [], agreement: {title: fixture.title, budget: '100', unit: 'demo credits'},
     deliverables: fixture.milestones.map((row, index) => ({id: row.id, title: row.title, description: row.criteria,
       weight: row.weight, status: 'pending', evidence: fixture.evidence[index].content, artifactName: fixture.evidence[index].artifact_name})),
-    signatures: {buyer: false, seller: false}, scope: fixture.scope};
+    signatures: {buyer: false, seller: false}, scope: fixture.scope,
+    escrow: {totalWei: DEMO_ESCROW_WEI.toString(), independent: true, claims: {buyer: false, seller: false}},
+    authorization: {buyer: false, seller: false}};
   try {
     const saved = JSON.parse(await readFile(STATE_FILE, 'utf8'));
+    if (saved.state?.schema !== 'counterclaim-ui-v2' || saved.contractAddress !== runtime.deployment?.address) {
+      throw new Error('Saved demo is not bound to this exact v2 deployment; preserve it and start a new v2 room');
+    }
     state = saved.state;
-    if (saved.appSessionId) room = await restoreYellowRoom({appSessionId: saved.appSessionId, verifyGenLayer: runtime.verifyGenLayer});
+    if (saved.appSessionId) {
+      room = await restoreYellowRoom({appSessionId: saved.appSessionId, verifyGenLayer: runtime.verifyGenLayer});
+      runtime.attachParticipants(room.record.privateKeys, room.participants);
+    }
   } catch (error) {
     if (error.code !== 'ENOENT') lastError = `Recovery requires attention: ${error.message}`;
   }
@@ -47,11 +55,14 @@ export async function createCoordinator() {
 
   async function persist() {
     await mkdir(LOCAL, {recursive: true});
-    await writeFile(STATE_FILE, JSON.stringify({appSessionId: room?.appSessionId || null, state}, null, 2) + '\n', {mode: 0o600});
-    const proof = {schema: 'counterclaim-demo-proof-v1', observedAt: now(), scope: fixture.scope,
+    await writeFile(STATE_FILE, JSON.stringify({appSessionId: room?.appSessionId || null,
+      contractAddress: runtime.deployment?.address, state}, null, 2) + '\n', {mode: 0o600});
+    const proof = {schema: 'counterclaim-demo-proof-v2', observedAt: now(), scope: fixture.scope,
       phase: state.phase, demo: view(), genlayer: runtime.deployment,
       yellow: room ? room.proof() : null, completeAgreement: room ? room.agreement : null,
-      completeEvidence: fixture.evidence, actualTokenAllocations: [], fundsMoved: false};
+      completeEvidence: fixture.evidence, yellowTokenAllocations: [],
+      nativeTestEscrow: state.escrow, realMoneyMoved: false,
+      settlementAuthority: 'Authenticated GenLayer escrow; Yellow co-signing is an optional mirror only'};
     await saveProof('demo-proof', proof);
   }
 
@@ -60,13 +71,15 @@ export async function createCoordinator() {
       reason: room ? 'Actual signed session available' : 'Ready to open a zero-token signed session'},
       genlayer: {ready: Boolean(runtime.deployment), network: 'Studio Devnet', chainId: runtime.chainId,
         contractAddress: runtime.deployment?.address, reason: runtime.deployment ? 'Matching deployed court' : 'Run npm run setup:genlayer'},
-      repositoryUrl: process.env.PUBLIC_REPOSITORY_URL || 'https://github.com/zakazaka95/Counterclaim', busy, ...(lastError ? {error: lastError} : {})};
+      repositoryUrl: process.env.PUBLIC_REPOSITORY_URL || 'https://github.com/zakazaka95/Counterclaim',
+      settlementMode: 'PARTICIPANT_AUTHENTICATED_NATIVE_TEST_ESCROW', busy, ...(lastError ? {error: lastError} : {})};
   }
 
   async function session() {
     if (state.phase !== 'idle' || room) throw new Error('Reset or finish the current room before opening another');
     if (!runtime.deployment) throw new Error('Deploy the exact CounterclaimCourt source first');
     room = await createYellowRoom({agreementFactory: buildAgreement, verifyGenLayer: runtime.verifyGenLayer});
+    runtime.attachParticipants(room.record.privateKeys, room.participants);
     const agreement = room.agreement;
     state.phase = 'session_open';
     state.startedAt = now();
@@ -98,7 +111,13 @@ export async function createCoordinator() {
       const opened = await runtime.openCase({sessionId: room.appSessionId, agreement: room.agreement, evidence: fixture.evidence});
       state.caseId = opened.caseId;
       state.caseOpenTx = opened.hash;
-      activity('Case persisted on GenLayer', `Case ${opened.caseId}; exact session, agreement and evidence hashes.`, 'complete', opened.explorerUrl);
+      state.authorization = {buyer: true, seller: true,
+        deliveredBy: opened.stored.snapshot.authorization.seller_delivered_by,
+        termsHash: opened.stored.snapshot.terms_hash};
+      state.authorizationTransactions = Object.fromEntries(Object.entries(opened.authorizationTransactions).map(([key, tx]) => [key, tx.hash]));
+      activity('Buyer funded authenticated escrow', `Case ${opened.caseId}; the buyer signed the terms and deposited test GEN.`, 'complete', opened.explorerUrl);
+      activity('Seller accepted the exact terms', 'An independent seller transaction accepted the case, session, deadlines and escrow commitment.', 'complete', opened.authorizationTransactions.sellerAccepted.explorerUrl);
+      activity('Seller delivered the committed artifacts', 'Only the authenticated seller wrote these complete bytes; the relay cannot replace them.', 'complete', opened.authorizationTransactions.sellerDelivered.explorerUrl);
       await persist();
     }
     const result = await runtime.adjudicate(state.caseId);
@@ -116,6 +135,8 @@ export async function createCoordinator() {
       return {...row, status: outcome === 'SATISFIED' ? 'accepted' : outcome === 'NOT_SATISFIED' ? 'missing' : 'pending'};
     });
     if (receipt.allocation) state.allocation = {...receipt.allocation};
+    if (receipt.settlement) state.escrow = {...state.escrow, totalWei: receipt.settlement.total_wei,
+      buyerWei: receipt.settlement.buyer_wei, sellerWei: receipt.settlement.seller_wei};
     state.activity = state.activity.map(row => row.status === 'pending' ? {...row, status: 'complete'} : row);
     activity('Persisted ruling received', `${receipt.decision}; ${state.adjudication.acceptedDeliverables} of ${fixture.milestones.length} milestones satisfied.`, 'complete', result.explorerUrl);
     await persist();
@@ -124,31 +145,38 @@ export async function createCoordinator() {
 
   async function settle() {
     if (!room || state.phase !== 'verdict_ready' || state.receipt?.settlement_allowed !== true) {
-      throw new Error('Only a resolved, independently re-read persisted ruling can be co-signed');
+      throw new Error('Only the finalized resolved ruling can release its exact escrow awards');
     }
     const input = {receipt: state.receipt, txHash: state.adjudication.transactionHash,
       contractAddress: runtime.deployment.address, chainId: runtime.chainId};
-    const phase = room.proof().phase;
-    if (phase === 'EVIDENCE_FROZEN') {
-      const applied = await room.applyVerdict(input);
-      state.session.version = Number(applied.snapshot.version);
-      activity('Both agents co-signed the proposal', `Yellow version ${applied.snapshot.version} binds the full GenLayer receipt and demo-credit split.`);
-    } else if (phase === 'VERDICT_APPLIED' || phase === 'CLOSED') {
-      await runtime.verifyGenLayer(input);
-      if (room.proof().verdict?.receiptHash !== state.receiptHash) throw new Error('Recovered Yellow proposal binds another receipt');
-    } else throw new Error('The actual Yellow phase cannot close this proposal');
-    state.signatures = {buyer: true, seller: true};
-    await persist();
-    const closed = room.proof().phase === 'CLOSED' ? {snapshot: await room.readSession()} : await room.close();
+    await runtime.verifyGenLayer(input);
+    state.escrow.claimTxs ||= {};
+    state.escrow.balanceProofs ||= {};
+    // A participant needs only its own account. The counterparty, relay owner,
+    // and both Yellow session signers have no veto over these native claims.
+    for (const role of ['seller', 'buyer']) {
+      const amount = role === 'seller' ? state.receipt.settlement.seller_wei : state.receipt.settlement.buyer_wei;
+      if (BigInt(amount) > 0n && !state.escrow.claims[role]) {
+        const claimed = await runtime.claim(state.caseId, role);
+        state.escrow.claims[role] = true;
+        state.escrow.claimTxs[role] = claimed.hash;
+        state.escrow.balanceProofs[role] = claimed.balanceProof;
+        activity(`${role === 'seller' ? 'Seller' : 'Buyer'} independently claimed`, 'The exact native test-GEN award was emitted and the contract balance debit observed; no counterparty signature.', 'complete', claimed.explorerUrl);
+        await persist();
+      }
+    }
     state.phase = 'settled';
-    state.session = {...state.session, status: 'closed', version: Number(closed.snapshot.version), isClosed: true};
     state.finishedAt = now();
-    activity('Yellow room closed', `Version ${closed.snapshot.version} read back as closed. No token allocations or funds moved.`);
+    state.session = {...state.session, status: 'escrow settled; Yellow mirror optional'};
+    activity('Escrow settled independently of Yellow', 'The original Yellow room can remain open. Its unanimous quorum cannot block the GenLayer escrow awards.');
     await persist();
     return view();
   }
 
   async function reset() {
+    if (state.caseId !== undefined && state.phase !== 'settled') {
+      throw new Error('Finish the native escrow claims before resetting this room; an open escrow must not be abandoned');
+    }
     if (room) {
       const phase = room.proof().phase;
       if (['AGREED', 'EVIDENCE_FROZEN'].includes(phase)) await room.cancel();
@@ -157,10 +185,12 @@ export async function createCoordinator() {
       await saveProof('archived-' + room.appSessionId, {demo: view(), yellow: room.proof()});
       room = null;
     }
-    state = {phase: 'idle', activity: [], agreement: {title: fixture.title, budget: '100', unit: 'demo credits'},
+    state = {schema: 'counterclaim-ui-v2', phase: 'idle', activity: [], agreement: {title: fixture.title, budget: '100', unit: 'demo credits'},
       deliverables: fixture.milestones.map((row, index) => ({id: row.id, title: row.title, description: row.criteria,
         weight: row.weight, status: 'pending', evidence: fixture.evidence[index].content,
-        artifactName: fixture.evidence[index].artifact_name})), signatures: {buyer: false, seller: false}, scope: fixture.scope};
+        artifactName: fixture.evidence[index].artifact_name})), signatures: {buyer: false, seller: false}, scope: fixture.scope,
+      escrow: {totalWei: DEMO_ESCROW_WEI.toString(), independent: true, claims: {buyer: false, seller: false}},
+      authorization: {buyer: false, seller: false}};
     await persist();
     return view();
   }
