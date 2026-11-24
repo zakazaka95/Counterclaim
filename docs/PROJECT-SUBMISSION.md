@@ -1,11 +1,13 @@
 # Counterclaim — Projects correction, November 24, 2026
 
 The steward requested substantive changes to the original version 1 submission.
-The current Portal state observed on November 24 is **Action needed**. The v2
+The Portal correction was saved and resubmitted on November 24. Its verified
+current state is **Pending review**, with six evidence items and the saved
+928-character response visible. The v2
 correction below has a matching v2.0.0 deployment and passed 77 local tests plus
 the app build and media typecheck. Its authenticated delivery, finalized ruling
-and unilateral seller payout are verified. The existing Portal entry is prepared
-for updating but has not yet been resubmitted.
+and unilateral seller payout are verified. The original submission ID and
+November 10 contribution date are preserved.
 
 | Current field | Record |
 | --- | --- |
@@ -13,7 +15,8 @@ for updating but has not yet been resubmitted.
 | Original submission ID | `c5a6123f-1355-47ce-8547-a9cdc4b3ce83` |
 | Original submitted / contribution date | November 10, 2026 |
 | Review note observed | November 24, 2026 |
-| Current review state | Action needed; correction not yet resubmitted |
+| Current review state | Resubmitted November 24; Pending review |
+| Formal correction evidence / response | Six evidence items; saved response verified; Action needed count 0 |
 | Portal record | https://portal.genlayer.foundation/my-submissions?q=Counterclaim |
 | Website / repository entry point | https://github.com/zakazaka95/Counterclaim |
 | Delivery model | Locally runnable app; no hosted frontend is claimed |

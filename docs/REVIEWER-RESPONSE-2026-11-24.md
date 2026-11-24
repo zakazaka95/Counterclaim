@@ -1,7 +1,7 @@
 # Counterclaim — response to the November 24 review
 
 The v2 correction has a matching deployment, a finalized ruling and a verified
-unilateral native payout. The updated Portal response is prepared, not yet sent.
+unilateral native payout. The updated Portal response was saved and resubmitted on November 24; the same entry now shows Pending review.
 Original entry: `c5a6123f-1355-47ce-8547-a9cdc4b3ce83`.
 
 The steward note was:
@@ -65,4 +65,4 @@ refund path exists for unresolved cases and is covered by local tests.
 
 The v1 film and old network proof are preserved as historical evidence. They are
 not presented as proof of this correction. No steward acceptance or points are
-claimed; the existing Action needed entry still awaits its updated submission.
+claimed; the existing entry is back in Pending review with six evidence items and the saved response.

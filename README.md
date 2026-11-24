@@ -112,7 +112,7 @@ controls shown in the v1 film do not describe the current native claim path.
 | Actual finalized transfer | 750000000000000 wei to the seller; court balance 1000000000000000 → 250000000000000 wei; recipient net credit 623623999999177 wei after its claim fees |
 | Authorization, tamper, duplicate-claim and timeout guards | Covered by passing local tests; no live rejection transactions claimed |
 | Updated tests and frontend build | 33 Python + 20 root JS + 17 Yellow + 7 UI tests = 77 passed; app build and media typecheck passed |
-| Updated Portal entry | Prepared for the existing Action needed entry; not resubmitted yet |
+| Updated Portal entry | Resubmitted November 24; Pending review, six evidence items and the saved steward response verified |
 
 The local verification commands are:
 
