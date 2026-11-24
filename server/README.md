@@ -1,5 +1,38 @@
 # Yellow sandbox adapter
 
+## Role in the version 2 correction
+
+The November 24 correction moves the consequential payment authority into the
+GenLayer court's native GEN escrow. The buyer's funding, named seller's exact-term
+acceptance, seller-only immutable text delivery and separate native claims are
+onchain actions. See the [v2 architecture](../ARCHITECTURE.md) and
+[review response](../docs/REVIEWER-RESPONSE-2026-11-24.md).
+
+This Yellow adapter remains an **optional cooperative metadata mirror**. It still
+requires both participant signatures and still has empty Yellow token allocations.
+A missing Yellow signature cannot block a v2 native claim. The normalized credit
+projection in session metadata is not the native escrow balance or a Yellow token
+payout. The compact wire version identifies the metadata format, not the court's
+receipt version.
+
+The root runtime's v2 `verifyGenLayer` gate must verify the actual persisted terms,
+separate participant authorization, exact seller delivery, escrow binding, receipt
+and finalized adjudication before the mirror is signed. The transport adapter's
+common receipt-field validation does not replace that gate. Never fabricate the
+callback result from browser inputs.
+
+**Evidence status:** the proof files and network observations listed below are
+historical version 1 records. They establish the earlier Yellow transport behavior,
+not completion of the v2 native escrow flow. The v2 source-matched deployment is
+recorded, and the updated overall suites passed 77 tests including this adapter's
+17 tests; the app build and media typecheck passed. The
+[v2 reviewer record](../proof/reviewer-verification-v2.json) separately confirms a
+finalized seller-native claim while Yellow stayed unchanged and open at version 2.
+Both Yellow signing processes stopped before the ruling; no post-ruling mirror
+update or cooperative close is claimed by that non-cooperation run.
+
+## Adapter behavior and historical version 1 evidence
+
 This is a genuine `@yellow-org/sdk` **1.4.0** integration with Yellow's public
 Nitronode sandbox. It creates a real unanimous two-participant app session, commits
 hashes of the frozen agreement and complete evidence in co-signed session metadata, and
@@ -12,7 +45,7 @@ GenLayer case also persists the complete review inputs. Nothing is sliced to fit
 
 **All Yellow token allocations are empty.** The displayed split is exactly 100
 nonmonetary **demo credits**, recorded as an agreed proposal in `sessionData`.
-No token deposit, approval, transfer, checkpoint or payout is implemented here.
+No Yellow token deposit, approval, transfer, checkpoint or payout is implemented here.
 The sandbox session versions and signatures are real; a money settlement is not
 claimed. Do not point this adapter at production or connect a funded wallet.
 
@@ -37,12 +70,14 @@ claimed. Do not point this adapter at production or connect a funded wallet.
 - Evidence freezes once. A resolved verdict cannot be applied twice. An
   inconclusive verdict, changed receipt, wrong case/session/hash/authority,
   changed credit allocation or missing participant must not authorize a close.
-- GenLayer **informs cooperative settlement**. It cannot override Yellow's
-  signature quorum. Yellow's node is trusted for liveness/relay; the app session
-  has no unilateral onchain exit, built-in dispute adjudicator or timeout.
+- GenLayer cannot override Yellow's signature quorum. Yellow's node is trusted
+  for liveness/relay; this empty-token app session has no unilateral token exit.
+  In version 1 that made the proposal cooperative-only. Version 2's native GEN
+  claim and agreed timeout are separate court actions and do not wait for this
+  optional mirror to close.
 - The injected `verifyGenLayer` callback is a server-side authority boundary. It
   must read the pinned contract and exact case from the configured RPC, verify
-  accepted successful execution and the complete persisted receipt, and return
+  finalized successful execution and the complete persisted receipt, and return
   the normalized binding below. Never populate it from a browser request or
   simply return `verified: true` without the actual read.
 
@@ -115,13 +150,13 @@ and authority identities, and an allocation matching that normalized proposal.
 
 ## Verification evidence
 
-`npm test` runs **17 local validation tests**. They cover complete hash binding,
+The recorded version 1 suite contained **17 local validation tests**. They covered complete hash binding,
 tampered receipts/allocations, wrong authority, stale source identity, inconclusive
 results, exact buyer/seller participant identity, safe canonical input bounds and
 immutable returned payloads, compact source commitments and the exact 1024-byte
 boundary including multibyte Unicode.
 
-The following public proof records are actual observed sandbox calls, not mocks:
+The following public proof records are actual observed **version 1** sandbox calls, not mocks:
 
 - `proof/connection-probe.json`: signed create → metadata operate → close, persisted
   at versions 1, 2 and 3 with empty token allocations.

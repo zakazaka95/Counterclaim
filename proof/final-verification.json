@@ -1,73 +1,334 @@
 {
-  "observedAt": "2026-11-09T22:39:44.645Z",
-  "status": "VERIFIED_LIVE_READ_ONLY",
-  "contractAddress": "0x34b0a821B1AF34A9ac6c71E6e98d1A1f1a0A5303",
-  "sourceSha256": "ff5bb2171ed16dc1b173260e0b335fec8aa695d35f211624db0547272741bd2f",
-  "sourceMatchesDeployed": true,
+  "schema": "counterclaim-reviewer-verification-v2",
+  "observedAt": "2026-11-24T18:00:28.085Z",
+  "status": "VERIFIED_UNILATERAL_NATIVE_TEST_GEN_SETTLEMENT",
   "chainId": 61997,
+  "rpc": "https://studio-dev.genlayer.com/api",
+  "contractAddress": "0xC68b67797C630cBBf2bb80D290d68A787c855E14",
+  "contractUrl": "https://explorer-studio-dev.genlayer.com/address/0xC68b67797C630cBBf2bb80D290d68A787c855E14",
+  "sourceSha256": "e034dbbf10ccdaaf80125d3e13630837590df2d97da79c212ccce7ca88f44860",
+  "sourceMatchesDeployed": true,
   "caseId": 0,
-  "adjudicationTx": "0x8824d0cec2e245b7064813fd7eefd685c1146a64a66db09e9f1fbb9c24c82dd6",
-  "consensusStatus": "FINALIZED",
-  "executionResult": "FINISHED_WITH_RETURN",
-  "initialValidators": 5,
-  "leaderOnly": false,
-  "exactTransactionAndPersistedReceiptVerified": true,
-  "receiptHash": "364cf868478d0684b30d409eb3cda09ff6391567924a109c1b21353e3e08fb7b",
-  "agreementHash": "4452c5ac5dd207cb9e1c797858bcfa613ce1a213e8a20f360aae233976a6c8f9",
-  "evidenceHash": "9e18a03f9248b59823657d5881a149f93bb8320e886218759939ea9bb355d381",
-  "milestones": [
-    {
-      "id": "landing-page",
-      "status": "SATISFIED"
-    },
-    {
-      "id": "integration-guide",
-      "status": "SATISFIED"
-    },
-    {
-      "id": "regression-tests",
-      "status": "NOT_SATISFIED"
-    }
-  ],
-  "allocation": {
-    "buyer": 25,
-    "seller": 75,
-    "total": 100,
-    "unit": "demo credits"
+  "authorizationTransactions": {
+    "buyerOpened": "0x6d353ee2fa04f5b01f73b7d4fb2419f05437c81a7f6bee05623c4540d86ca379",
+    "sellerAccepted": "0x49871244343ea62713cbace4e0c6faba6d66d236029d9273fe8cebc05bd8a708",
+    "sellerDelivered": "0xb135d8971868a02d335491fbff8f6ef73f7ffac030edaa0fbe594c48a798d3f0"
   },
-  "yellowSessionId": "0x46482dc28f8615809bdf53d9f5e9aae6a65aac13f208776c7db653682749fabf",
-  "yellowVersion": "4",
-  "yellowClosed": true,
-  "actualTokenAllocations": [],
-  "stages": [
-    {
-      "phase": "AGREED",
-      "version": "1",
-      "isClosed": false,
-      "participantSignatures": 2,
-      "wireUtf8Bytes": 214
+  "participants": {
+    "buyer": "0x03A903767a58d6ebf1E9833264d42e1a3AC4af91",
+    "seller": "0x2e0a4FDaCfB400aC9720b1CB3acAE72E1754e45C"
+  },
+  "authenticatedDelivery": {
+    "buyer_opened_at": 1795542170,
+    "buyer_opened_by": "0x03a903767a58d6ebf1e9833264d42e1a3ac4af91",
+    "seller_accepted_at": 1795542244,
+    "seller_accepted_by": "0x2e0a4fdacfb400ac9720b1cb3acae72e1754e45c",
+    "seller_delivered_at": 1795542308,
+    "seller_delivered_by": "0x2e0a4fdacfb400ac9720b1cb3acae72e1754e45c"
+  },
+  "termsHash": "056482279e690b9e6e92aa58e7a0f17152ecc3a60edd06e133b45747bfe19bdd",
+  "agreementHash": "81ac2824cd6b84850b5601b14f5793b839dfa28a0b59db1395d36cff1b3300e8",
+  "evidenceHash": "0497e1b8cce20058406063bb31b5f24fc86e70211a3cb92bcbf8a240b9db22aa",
+  "fullStoredCase": {
+    "attempts": 1,
+    "case_hash": "a17fb0492a175ac92e53031930c11350baa4817a3ad6219ab877d776a2a968af",
+    "claims": {
+      "buyer": {
+        "amount_wei": "250000000000000",
+        "emitted": false,
+        "emitted_at": null
+      },
+      "seller": {
+        "amount_wei": "750000000000000",
+        "emitted": true,
+        "emitted_at": 1795543172
+      }
     },
-    {
-      "phase": "EVIDENCE_FROZEN",
-      "version": "2",
-      "isClosed": false,
-      "participantSignatures": 2,
-      "wireUtf8Bytes": 305
+    "last_observed_at": 1795543172,
+    "receipt": {
+      "agreement_hash": "81ac2824cd6b84850b5601b14f5793b839dfa28a0b59db1395d36cff1b3300e8",
+      "allocation": {
+        "buyer": 25,
+        "seller": 75,
+        "total": 100,
+        "unit": "demo credits"
+      },
+      "assessed_at": 1795542375,
+      "attempt": 1,
+      "authorization": {
+        "buyer_opened_at": 1795542170,
+        "buyer_opened_by": "0x03a903767a58d6ebf1e9833264d42e1a3ac4af91",
+        "seller_accepted_at": 1795542244,
+        "seller_accepted_by": "0x2e0a4fdacfb400ac9720b1cb3acae72e1754e45c",
+        "seller_delivered_at": 1795542308,
+        "seller_delivered_by": "0x2e0a4fdacfb400ac9720b1cb3acae72e1754e45c"
+      },
+      "case_hash": "a17fb0492a175ac92e53031930c11350baa4817a3ad6219ab877d776a2a968af",
+      "case_id": 0,
+      "chain_id": 61997,
+      "contract_address": "0xc68b67797c630cbbf2bb80d290d68a787c855e14",
+      "decision": "RESOLVED",
+      "evidence_hash": "0497e1b8cce20058406063bb31b5f24fc86e70211a3cb92bcbf8a240b9db22aa",
+      "inspection": {
+        "prompt_chars": 9033,
+        "prompt_sha256": "7ea2fe78cea78e8a8c5ea5195cc8d1d35edecbf4d5197d1b20b702a7b94f1ccf",
+        "prompt_truncated": false,
+        "prompt_utf8_bytes": 9033,
+        "semantic_complete": true
+      },
+      "milestones": [
+        {
+          "id": "landing-page",
+          "status": "SATISFIED"
+        },
+        {
+          "id": "integration-guide",
+          "status": "SATISFIED"
+        },
+        {
+          "id": "regression-tests",
+          "status": "NOT_SATISFIED"
+        }
+      ],
+      "schema": "counterclaim-ruling-v2",
+      "session_id": "0xb3d87586f692d8374316f931f63eefa29bb4dab6148808be3491d907c3a5618d",
+      "settlement": {
+        "buyer_wei": "250000000000000",
+        "seller_wei": "750000000000000",
+        "total_wei": "1000000000000000",
+        "unit": "GEN_WEI"
+      },
+      "settlement_allowed": true,
+      "summary": "The stored ruling fixes each participant's native-GEN escrow award; either participant can claim independently.",
+      "terms_hash": "056482279e690b9e6e92aa58e7a0f17152ecc3a60edd06e133b45747bfe19bdd",
+      "whole_review": "COMPLETE"
     },
-    {
-      "phase": "VERDICT_APPLIED",
-      "version": "3",
-      "isClosed": false,
-      "participantSignatures": 2,
-      "wireUtf8Bytes": 656
+    "receipt_hash": "98c01906311135393b7bcb5efc121efa7e9dcc8c8fc9bca4e09493a1111abf33",
+    "snapshot": {
+      "agreement": {
+        "claims": {
+          "buyer": "The landing copy and guide were supplied, but the regression suite is a status note with TODOs. Only delivered milestones should count.",
+          "seller": "All three release deliverables are complete; I request the full 100 demo credits."
+        },
+        "milestones": [
+          {
+            "criteria": "A publishable landing-page draft explains the product's purpose, names who benefits, includes an actionable call to try the sandbox, and clearly discloses that only faucet test GEN is used, with no mainnet funds. A list of promises or an outline alone does not qualify. Judge the supplied content, not whether it has already been hosted.",
+            "id": "landing-page",
+            "title": "Landing page",
+            "weight": 40
+          },
+          {
+            "criteria": "A usable integration guide names Node.js 24, Yellow sandbox and GenLayer Studio chain 61997. It explains buyer-funded GEN test escrow, seller acceptance of the exact domain-bound terms hash, seller delivery of the complete artifacts by authenticated contract call, independent GenLayer review, and each participant's unilateral claim. It explains that Yellow closure remains cooperative and is optional for the onchain payout, and that an inconclusive review follows the agreed refund deadline. An outline or list of promises does not qualify.",
+            "id": "integration-guide",
+            "title": "Integration guide",
+            "weight": 35
+          },
+          {
+            "criteria": "Deliver automated regression test source containing executable test cases that assert a non-seller cannot replace delivered artifacts and that a resolved award can be claimed without a new signature from the counterparty. A planned checklist, placeholder or promise is not delivery. This is a static review of the submitted test source for the specified assertions, not proof of execution or runtime correctness. Do not execute code.",
+            "id": "regression-tests",
+            "title": "Automated tests",
+            "weight": 25
+          }
+        ],
+        "parties": {
+          "buyer": "0x03a903767a58d6ebf1e9833264d42e1a3ac4af91",
+          "seller": "0x2e0a4fdacfb400ac9720b1cb3acae72e1754e45c"
+        },
+        "pool": 100,
+        "scope": "The seller's authenticated onchain artifact submission is the agreed delivery channel. Review exactly those complete text bytes against the accepted criteria. Do not infer external files, authorship, hosting or code execution. Synthetic agents and faucet test GEN only; no legal ruling.",
+        "title": "Release handoff: the missing regression suite",
+        "unit": "demo credits"
+      },
+      "agreement_hash": "81ac2824cd6b84850b5601b14f5793b839dfa28a0b59db1395d36cff1b3300e8",
+      "authorization": {
+        "buyer_opened_at": 1795542170,
+        "buyer_opened_by": "0x03a903767a58d6ebf1e9833264d42e1a3ac4af91",
+        "seller_accepted_at": 1795542244,
+        "seller_accepted_by": "0x2e0a4fdacfb400ac9720b1cb3acae72e1754e45c",
+        "seller_delivered_at": 1795542308,
+        "seller_delivered_by": "0x2e0a4fdacfb400ac9720b1cb3acae72e1754e45c"
+      },
+      "case_id": 0,
+      "chain_id": 61997,
+      "contract_address": "0xc68b67797c630cbbf2bb80d290d68a787c855e14",
+      "delivery_deadline": 1795545664,
+      "escrow": {
+        "total_wei": "1000000000000000",
+        "unit": "GEN_WEI"
+      },
+      "evidence": [
+        {
+          "artifact_name": "landing-copy.md",
+          "content": "# Disagree on the work. Keep a way to settle.\nCounterclaim helps agent builders handle disputed digital deliveries under terms both parties accepted. A buyer locks test GEN in a GenLayer contract. The seller accepts the exact terms and delivers the complete text artifacts through its own authenticated contract call. Independent GenLayer validators assess those exact bytes against the agreed criteria.\nFor developers building agent-to-agent workflows, it makes the delivery identity and disagreement path visible and reproducible.\nTry the sandbox: open a demo room, inspect the seller-registered artifacts, request a ruling, then claim the resulting award. Each party can claim without the other's cooperation. A Yellow session mirrors the agreement; its optional co-signed close does not control the escrow.\nThis demonstration uses synthetic agents and faucet-funded test GEN, not mainnet funds. Yellow token allocations stay at zero. The 100 demo credits are milestone weights, not an additional token.",
+          "milestone_id": "landing-page"
+        },
+        {
+          "artifact_name": "integration-guide.md",
+          "content": "# Integrate authenticated delivery and settlement\nPrerequisites: Node.js 24, the pinned Yellow SDK, Yellow sandbox WebSocket and GenLayer Studio RPC on chain 61997. Generate separate isolated buyer and seller test accounts. Never use a mainnet wallet.\n1. Open a co-signed Yellow session with zero token allocations. This supplies an auxiliary agreement record, not the authority to spend the GenLayer escrow.\n2. The buyer calls payable open_case with the complete agreement, session reference, delivery deadline and refund deadline, sending test GEN. The contract verifies that the sender is the declared buyer and locks these terms.\n3. The seller reads the complete onchain case and accepts its exact terms hash, binding the chain, court, buyer, seller, session, amount, deadlines and refund policy. Only that seller may then call deliver with the complete ordered artifact bundle. This authenticated onchain submission is the agreed delivery channel. Its exact content, digest and submitting identity are persisted; the relay cannot substitute different evidence at adjudication.\n4. Either participant requests adjudication. Validators independently review every complete artifact against its exact criterion. Read the finalized transaction and stored receipt, comparing all context and source hashes. A merely submitted transaction is not a ruling.\n5. A resolved receipt deterministically allocates the escrow by milestone weights. Each party calls claim for its own award. No post-ruling signature or Yellow update from the other party is needed. Yellow can optionally mirror and close with both signatures; a refusal leaves that room open without blocking the GenLayer payout.\nIf the seller misses delivery, the buyer may use the agreed timeout refund. If review is inconclusive or technical retries are exhausted, no guessed allocation is made: the buyer may refund after the preaccepted refund deadline, then claim.\nOnly complete bounded text artifacts delivered onchain are in scope. This does not prove authorship, external website behavior or code execution. The demo uses synthetic inputs and faucet test GEN; Yellow balances are not bridged.",
+          "milestone_id": "integration-guide"
+        },
+        {
+          "artifact_name": "tests-status.md",
+          "content": "# Regression suite status\nThe implementation is ready for review. Planned checks: verify the agreement hash; refuse a modified receipt; require both participant signatures. The executable test files have not been delivered in this handoff. TODO: add automated tests after the launch demo.",
+          "milestone_id": "regression-tests"
+        }
+      ],
+      "evidence_hash": "0497e1b8cce20058406063bb31b5f24fc86e70211a3cb92bcbf8a240b9db22aa",
+      "evidence_scope": "CONTRACT_STORED_SELLER_DELIVERY_ONLY",
+      "opened_at": 1795542170,
+      "refund_after": 1795628464,
+      "refund_policy": "BUYER_REFUND_IF_NO_DELIVERY_OR_NO_RESOLVED_RULING_BY_DEADLINE",
+      "schema": "counterclaim-ruling-v2",
+      "session_id": "0xb3d87586f692d8374316f931f63eefa29bb4dab6148808be3491d907c3a5618d",
+      "terms_hash": "056482279e690b9e6e92aa58e7a0f17152ecc3a60edd06e133b45747bfe19bdd",
+      "token_allocations": []
     },
-    {
-      "phase": "CLOSED",
-      "version": "4",
-      "isClosed": true,
-      "participantSignatures": 2,
-      "wireUtf8Bytes": 647
+    "status": "RESOLVED"
+  },
+  "ruling": {
+    "hash": "0x8680534d17e4df175d22015c69a6d02ccdcb7c65a457d13ac98c4226d7602995",
+    "url": "https://explorer-studio-dev.genlayer.com/tx/0x8680534d17e4df175d22015c69a6d02ccdcb7c65a457d13ac98c4226d7602995",
+    "status": "FINALIZED",
+    "executionResult": "FINISHED_WITH_RETURN",
+    "initialValidators": 5,
+    "leaderOnly": false
+  },
+  "sellerClaim": {
+    "hash": "0x89ddff840170de7316739a4f492a7b7115ff5728efde51524d01526053ed4998",
+    "url": "https://explorer-studio-dev.genlayer.com/tx/0x89ddff840170de7316739a4f492a7b7115ff5728efde51524d01526053ed4998",
+    "recipient": "0x2e0a4FDaCfB400aC9720b1CB3acAE72E1754e45C",
+    "amountWei": "750000000000000",
+    "finalized": true,
+    "balanceProof": {
+      "beforeWei": "1000000000000000",
+      "afterWei": "250000000000000",
+      "debitWei": "750000000000000",
+      "exactClaimDebitObserved": true,
+      "recipientBeforeWei": "99999758147749997531",
+      "recipientAfterWei": "100000381771749996708",
+      "recipientBalanceIncludesClaimantNetworkFees": true,
+      "exactRecipientAndValueMessageVerified": true,
+      "recipientNetChangeWei": "623623999999177",
+      "recordedDataVerifiedAt": "2026-11-24T18:02:06.498Z"
+    },
+    "transferMessages": {
+      "messages": [
+        {
+          "messageType": "0",
+          "recipient": "0x2e0a4FDaCfB400aC9720b1CB3acAE72E1754e45C",
+          "value": 750000000000000,
+          "data": "",
+          "onAcceptance": false
+        }
+      ],
+      "triggeredTransactions": [],
+      "fees": {
+        "deposit": "760137600010352",
+        "userValue": "0",
+        "distribution": {
+          "leaderTimeunitsAllocation": "100",
+          "validatorTimeunitsAllocation": "200",
+          "appealRounds": "0",
+          "executionBudgetPerRound": "152534400000000",
+          "totalMessageFees": "150000000000000",
+          "rotations": [
+            "3"
+          ],
+          "maxPriceGenPerTimeUnit": "2",
+          "storageFeeMaxGasPrice": "300000000",
+          "receiptFeeMaxGasPrice": "300000000"
+        },
+        "locked": {
+          "genPerTimeUnit": "1",
+          "storageUnitPrice": "250000000",
+          "receiptGasPrice": "250000000"
+        },
+        "consumed": {
+          "executionConsumed": "126376000000000",
+          "storageFeeUsed": "72000000000",
+          "messageFeesConsumed": "125000000000000",
+          "messageFeesBudgetTotal": "150000000000000",
+          "leaderTimeunitsUsed": "1",
+          "validatorTimeunitsUsed": "4",
+          "perRound": [
+            {
+              "round": 0,
+              "consensusRound": "Accepted",
+              "leaderTimeunits": "1",
+              "validatorTimeunits": "4",
+              "maxValidatorTimeunits": "2"
+            }
+          ]
+        }
+      }
     }
-  ],
-  "fundsMoved": false
+  },
+  "buyerClaimed": false,
+  "buyerAwardStillReservedWei": "250000000000000",
+  "contractBalanceAfterWei": "250000000000000",
+  "nonCooperation": {
+    "buyerTransactionsAfterOffer": 0,
+    "yellowSigningProcessesStoppedBeforeRuling": true,
+    "yellowWritesAfterEvidenceFreeze": 0,
+    "noCounterpartySignatureForClaim": true
+  },
+  "yellow": {
+    "appSessionId": "0xb3d87586f692d8374316f931f63eefa29bb4dab6148808be3491d907c3a5618d",
+    "before": {
+      "appSessionId": "0xb3d87586f692d8374316f931f63eefa29bb4dab6148808be3491d907c3a5618d",
+      "appDefinition": {
+        "applicationId": "yellow-court-demo-v1",
+        "participants": [
+          {
+            "walletAddress": "0x03a903767a58d6ebf1e9833264d42e1a3ac4af91",
+            "signatureWeight": 1
+          },
+          {
+            "walletAddress": "0x2e0a4fdacfb400ac9720b1cb3acae72e1754e45c",
+            "signatureWeight": 1
+          }
+        ],
+        "quorum": 2,
+        "nonce": "1795542063740414643"
+      },
+      "isClosed": false,
+      "sessionData": "{\"actualTokenAllocations\":[],\"agreementHash\":\"81ac2824cd6b84850b5601b14f5793b839dfa28a0b59db1395d36cff1b3300e8\",\"creditTotal\":100,\"creditUnit\":\"DEMO_CREDITS\",\"evidenceHash\":\"0497e1b8cce20058406063bb31b5f24fc86e70211a3cb92bcbf8a240b9db22aa\",\"phase\":\"EVIDENCE_FROZEN\",\"schema\":\"counterclaim-yellow-wire-v1\"}",
+      "version": "2",
+      "allocations": []
+    },
+    "after": {
+      "appSessionId": "0xb3d87586f692d8374316f931f63eefa29bb4dab6148808be3491d907c3a5618d",
+      "appDefinition": {
+        "applicationId": "yellow-court-demo-v1",
+        "participants": [
+          {
+            "walletAddress": "0x03a903767a58d6ebf1e9833264d42e1a3ac4af91",
+            "signatureWeight": 1
+          },
+          {
+            "walletAddress": "0x2e0a4fdacfb400ac9720b1cb3acae72e1754e45c",
+            "signatureWeight": 1
+          }
+        ],
+        "quorum": 2,
+        "nonce": "1795542063740414643"
+      },
+      "isClosed": false,
+      "sessionData": "{\"actualTokenAllocations\":[],\"agreementHash\":\"81ac2824cd6b84850b5601b14f5793b839dfa28a0b59db1395d36cff1b3300e8\",\"creditTotal\":100,\"creditUnit\":\"DEMO_CREDITS\",\"evidenceHash\":\"0497e1b8cce20058406063bb31b5f24fc86e70211a3cb92bcbf8a240b9db22aa\",\"phase\":\"EVIDENCE_FROZEN\",\"schema\":\"counterclaim-yellow-wire-v1\"}",
+      "version": "2",
+      "allocations": []
+    },
+    "unchangedVersion": true,
+    "remainsOpen": true,
+    "actualTokenAllocations": []
+  },
+  "scope": "Synthetic direct-account participants; faucet-funded Studio test GEN only. Yellow metadata is not a token escrow. Buyer refund remains independently claimable.",
+  "explorerLinks": [
+    "https://explorer-studio-dev.genlayer.com/address/0xC68b67797C630cBBf2bb80D290d68A787c855E14",
+    "https://explorer-studio-dev.genlayer.com/tx/0x6d353ee2fa04f5b01f73b7d4fb2419f05437c81a7f6bee05623c4540d86ca379",
+    "https://explorer-studio-dev.genlayer.com/tx/0x49871244343ea62713cbace4e0c6faba6d66d236029d9273fe8cebc05bd8a708",
+    "https://explorer-studio-dev.genlayer.com/tx/0xb135d8971868a02d335491fbff8f6ef73f7ffac030edaa0fbe594c48a798d3f0",
+    "https://explorer-studio-dev.genlayer.com/tx/0x8680534d17e4df175d22015c69a6d02ccdcb7c65a457d13ac98c4226d7602995",
+    "https://explorer-studio-dev.genlayer.com/tx/0x89ddff840170de7316739a4f492a7b7115ff5728efde51524d01526053ed4998"
+  ]
 }

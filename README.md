@@ -8,7 +8,141 @@
 
 # Counterclaim
 
-**Disagree on the delivery. Agree on what happens next.**
+**Agree on the work. Authenticate the delivery. Claim without another signature.**
+
+## Version 2 correction — November 24, 2026
+
+The reviewer identified two real limitations in version 1: the relay selected
+the pasted artifacts without onchain participant authorization, and a losing
+party could prevent the cooperative Yellow close. Version 2 changes the protocol,
+not just its description. See the [review response](docs/REVIEWER-RESPONSE-2026-11-24.md).
+
+**Current evidence status:** v2.0.0 has a source-matched Studio deployment, and
+77 local tests plus the app build and media typecheck passed on November 24. Separate buyer funding,
+seller acceptance and seller delivery have succeeded; the finalized ruling fixes
+a 75/25 escrow split. The seller's 0.00075 test-GEN claim finalized, its exact
+native transfer and positive net recipient credit were observed, and 0.00025 GEN
+remains reserved for the buyer. The buyer made no court call after funding, and
+Yellow remained open and unchanged. The November 9 proof files and 42-second film document **version 1**;
+they do not demonstrate v2 authorization or GEN escrow. No updated Portal review
+decision is claimed.
+
+### The new delivery boundary
+
+The parties expressly agree that the seller's exact onchain UTF-8 text submission
+is the digital work being delivered. The buyer fixes the named seller, complete
+milestone criteria, weights, deadlines and native GEN deposit. The seller must
+independently accept the exact terms hash before submitting the immutable artifact
+bundle from that seller address. The relay cannot substitute its own delivery.
+
+This authenticates **which wallet delivered which bytes under which accepted
+terms**. It does not prove original authorship, offchain repository ownership,
+external hosting, real-world work or successful code execution. Source-code
+artifacts receive static source assessment only. These limits are part of the
+agreement rather than facts inferred by the jury.
+
+### Native settlement is independent of Yellow
+
+1. The buyer calls payable `open_case(session_id, agreement_json,
+   delivery_deadline, refund_after)` and locks the exact GEN value.
+2. The named seller calls `accept_case(case_id, expected_terms_hash)`.
+3. Only that seller can call `deliver(case_id, evidence_json)` to freeze the
+   complete agreed text delivery. Adjudication reads the persisted bundle.
+4. Either participant can call `adjudicate(case_id)`. Independent GenLayer
+   executions assess the complete criteria and delivery; deterministic code
+   derives backed native GEN entitlements from the result.
+5. Each participant calls `claim(case_id)` for its own entitlement. The other
+   party's signature and a Yellow close are not prerequisites. An EOA transfer
+   is scheduled for finalization; the UI must distinguish scheduling from a
+   verified finalized payout.
+6. If the agreed refund deadline passes without resolution, the buyer may invoke
+   `refund_timeout(case_id)` and then claim the agreed refund. Time passing alone
+   does not submit that transaction.
+
+Yellow remains an optional two-signature record of the agreement and outcome.
+Its token allocations stay empty. A participant may refuse the Yellow mirror;
+that refusal cannot veto the separate native GEN claim. The v2 court does not
+unlock Yellow-held tokens or bypass Yellow's quorum.
+
+### Reproduce the correction
+
+Use Node.js 24 and Python 3.12+. Work only with disposable Studio accounts and
+faucet GEN. The intended reviewer fixture escrows **0.001 test GEN**. It is a
+development-network value transfer, not a mainnet payment. A 75/25 split is the
+fixture's observed result in the recorded run. Fresh judgments are not forced to
+repeat it. Inspect the actual receipt and native transfer evidence.
+
+```sh
+git clone https://github.com/zakazaka95/Counterclaim.git
+cd Counterclaim
+npm ci
+npm --prefix server ci
+npm --prefix app ci
+node scripts/reviewer-demo.mjs
+```
+
+The reviewer runner records the actual deployment, separate buyer/seller
+authorization transactions, exact delivery, ruling and native claim. It stops on
+an unresolved or failed operation rather than creating success evidence. The live
+result will be summarized in [LIVE-RESULTS.md](LIVE-RESULTS.md).
+
+The local interface entry points are:
+
+```sh
+npm run setup:genlayer
+npm start
+```
+
+In a second terminal, run `npm --prefix app run dev`, then open
+`http://127.0.0.1:5178`. Use **Open demo room**, **Request a ruling**, then
+**Claim the escrow awards**. The UI's coordinated two-claim path and the reviewer's
+seller-only non-cooperation run are distinct demonstrations. The older cooperative
+controls shown in the v1 film do not describe the current native claim path.
+
+### Correction evidence checklist
+
+| Required observation | Current record |
+| --- | --- |
+| Immutable v2 source commit | [3602e22e30933c41b116b09f7e535cada06578f6](https://github.com/zakazaka95/Counterclaim/blob/3602e22e30933c41b116b09f7e535cada06578f6/contracts/CounterclaimCourt.py) |
+| Exact v2 source SHA-256 | `e034dbbf10ccdaaf80125d3e13630837590df2d97da79c212ccce7ca88f44860` |
+| Source-matched v2 deployment and schema | [0xC68b67797C630cBBf2bb80D290d68A787c855E14](https://explorer-studio-dev.genlayer.com/address/0xC68b67797C630cBBf2bb80D290d68A787c855E14), version 2.0.0 |
+| Buyer funding, separate seller acceptance and seller delivery | Confirmed for case 0; exact transactions in [LIVE-RESULTS.md](LIVE-RESULTS.md) |
+| Finalized consensus receipt binding all material state | [0x8680534d…7602995](https://explorer-studio-dev.genlayer.com/tx/0x8680534d17e4df175d22015c69a6d02ccdcb7c65a457d13ac98c4226d7602995); seller 0.00075 / buyer 0.00025 test GEN |
+| Native claim without a counterparty or Yellow signature | Seller's [finalized claim](https://explorer-studio-dev.genlayer.com/tx/0x89ddff840170de7316739a4f492a7b7115ff5728efde51524d01526053ed4998); buyer inactive after offer, Yellow unchanged/open at version 2 |
+| Actual finalized transfer | 750000000000000 wei to the seller; court balance 1000000000000000 → 250000000000000 wei; recipient net credit 623623999999177 wei after its claim fees |
+| Authorization, tamper, duplicate-claim and timeout guards | Covered by passing local tests; no live rejection transactions claimed |
+| Updated tests and frontend build | 33 Python + 20 root JS + 17 Yellow + 7 UI tests = 77 passed; app build and media typecheck passed |
+| Updated Portal entry | Prepared for the existing Action needed entry; not resubmitted yet |
+
+The local verification commands are:
+
+```sh
+python -m unittest discover -s tests -p test_counterclaim.py -v
+npm test
+npm --prefix server test
+npm --prefix app test
+npm --prefix app run build
+```
+
+Controlled-output tests, live network observations and general jury accuracy are
+different kinds of evidence. The passed local checks are not a jury-accuracy
+benchmark. The native payout is supported separately by the finalized claim,
+external transfer message, court debit and recipient balance observations in
+[proof/reviewer-verification-v2.json](proof/reviewer-verification-v2.json).
+
+[Protocol and trust boundaries](ARCHITECTURE.md) ·
+[Projects submission and correction copy](docs/PROJECT-SUBMISSION.md) ·
+[Optional Yellow adapter](server/README.md)
+
+<details>
+<summary>Historical version 1 — cooperative zero-token Yellow demonstration</summary>
+
+Everything in this section describes the November 9, 2026 version 1 run. Its
+53-test count, deployment, receipts, 75/25 nonmonetary credits and film remain
+historical evidence only. Version 1 did not authenticate the seller's onchain
+delivery or release native escrow without both Yellow signatures.
+
+**Version 1: Disagree on the delivery. Agree on what happens next.**
 
 A working Yellow × GenLayer integration using Internet Court's agreement-and-evidence
 pattern for the disagreement path in agent-to-agent work. Two synthetic agents freeze their agreement, a real
@@ -187,3 +321,5 @@ Original application, contract and adapter code is MIT licensed. Third-party
 brands, typefaces and reused motion components retain their own rights and notices;
 see [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md). Logo use identifies the demonstrated
 integration and is not an endorsement claim.
+
+</details>

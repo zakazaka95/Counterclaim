@@ -1,0 +1,87 @@
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "ctor": {
+      "params": [],
+      "kwparams": {}
+    },
+    "methods": {
+      "adjudicate": {
+        "params": [
+          [
+            "case_id",
+            "int"
+          ]
+        ],
+        "kwparams": {},
+        "readonly": false,
+        "ret": "dict",
+        "payable": false
+      },
+      "get_attempt": {
+        "params": [
+          [
+            "case_id",
+            "int"
+          ],
+          [
+            "attempt",
+            "int"
+          ]
+        ],
+        "kwparams": {},
+        "readonly": true,
+        "ret": "dict"
+      },
+      "get_case": {
+        "params": [
+          [
+            "case_id",
+            "int"
+          ]
+        ],
+        "kwparams": {},
+        "readonly": true,
+        "ret": "dict"
+      },
+      "get_case_for_session": {
+        "params": [
+          [
+            "session_id",
+            "string"
+          ]
+        ],
+        "kwparams": {},
+        "readonly": true,
+        "ret": "int"
+      },
+      "get_stats": {
+        "params": [],
+        "kwparams": {},
+        "readonly": true,
+        "ret": "dict"
+      },
+      "open_case": {
+        "params": [
+          [
+            "session_id",
+            "string"
+          ],
+          [
+            "agreement_json",
+            "string"
+          ],
+          [
+            "evidence_json",
+            "string"
+          ]
+        ],
+        "kwparams": {},
+        "readonly": false,
+        "ret": "int",
+        "payable": false
+      }
+    }
+  },
+  "id": 1
+}

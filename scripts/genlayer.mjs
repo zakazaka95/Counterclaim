@@ -8,7 +8,7 @@ import {createAccount, generatePrivateKey, createClient, isSuccessful,
 import {studioDevnet} from 'genlayer-js/chains';
 import {parseEther, keccak256} from 'viem';
 import {canonicalJson, hashJson, jsonValue} from './canonical.mjs';
-import {assertStoredRuling, assertRulingTransaction} from './verify-ruling.mjs';
+import {assertStoredRuling, assertRulingTransaction, assertClaimTransferMessage} from './verify-ruling.mjs';
 
 export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const RPC = process.env.GENLAYER_RPC || 'https://studio-dev.genlayer.com/api';
@@ -356,6 +356,9 @@ export async function createGenLayerRuntime() {
     const finalTransaction = jsonValue(await client.getTransaction({hash: tx.hash}));
     const transferMessages = {messages: finalTransaction.messages || [],
       triggeredTransactions: finalTransaction.triggered_transactions || [], fees: finalTransaction.fees || null};
+    assertClaimTransferMessage(transferMessages.messages, {recipient: actor(role).account.address, amountWei: allocation.amount_wei});
+    balanceProof.exactRecipientAndValueMessageVerified = true;
+    balanceProof.recipientNetChangeWei = (BigInt(balanceProof.recipientAfterWei) - BigInt(balanceProof.recipientBeforeWei)).toString();
     const result = {...tx, role, recipient: actor(role).account.address, amountWei: allocation.amount_wei, stored, balanceProof, transferMessages};
     await saveProof(role + '-claim-readback', {caseId, recipient: result.recipient, amountWei: result.amountWei,
       transactionHash: tx.hash, finalized: true, persistedClaim: stored.claims[role], balanceProof, transferMessages,

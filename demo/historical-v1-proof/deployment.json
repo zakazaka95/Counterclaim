@@ -1,0 +1,27 @@
+{
+  "address": "0x34b0a821B1AF34A9ac6c71E6e98d1A1f1a0A5303",
+  "txHash": "0xcf467d309a93bd4016a422afa49118be4fcd17298f3ecc4ca03fbd65c2adf448",
+  "chainId": 61997,
+  "rpc": "https://studio-dev.genlayer.com/api",
+  "explorerUrl": "https://explorer-studio-dev.genlayer.com/address/0x34b0a821B1AF34A9ac6c71E6e98d1A1f1a0A5303",
+  "sourceSha256": "ff5bb2171ed16dc1b173260e0b335fec8aa695d35f211624db0547272741bd2f",
+  "sourceFile": "contracts/CounterclaimCourt.py",
+  "deployedAt": "2026-11-09T22:17:05.907Z",
+  "executionVerified": true,
+  "leaderOnly": false,
+  "value": "0",
+  "account": "0x8E4c565ba144360489426a2F40B692DA81FDEbFC",
+  "sourceComparison": "Complete deployed source matches after LF/edge-whitespace normalization",
+  "stats": {
+    "cases": 0,
+    "contract_version": "1.0.0",
+    "max_attempts": 3,
+    "max_milestones": 5,
+    "max_prompt_bytes": 65000,
+    "max_prompt_chars": 40000,
+    "moves_funds": false,
+    "owner": "0x8e4c565ba144360489426a2f40b692da81fdebfc",
+    "receipt_schema": "counterclaim-ruling-v1",
+    "scope": "COOPERATIVE_YELLOW_PROPOSAL_OVER_SUPPLIED_SYNTHETIC_ARTIFACTS"
+  }
+}

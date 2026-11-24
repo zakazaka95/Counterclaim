@@ -1,0 +1,116 @@
+{
+  "caseId": 0,
+  "attempts": 1,
+  "case_hash": "d0974d9adc347728d213b4a62cc483378a9865d10aa3b174d6d72f7f821ffa03",
+  "last_observed_at": 1794263106,
+  "receipt": {
+    "agreement_hash": "4452c5ac5dd207cb9e1c797858bcfa613ce1a213e8a20f360aae233976a6c8f9",
+    "allocation": {
+      "buyer": 25,
+      "seller": 75,
+      "total": 100,
+      "unit": "demo credits"
+    },
+    "assessed_at": 1794263106,
+    "attempt": 1,
+    "case_hash": "d0974d9adc347728d213b4a62cc483378a9865d10aa3b174d6d72f7f821ffa03",
+    "case_id": 0,
+    "chain_id": 61997,
+    "contract_address": "0x34b0a821b1af34a9ac6c71e6e98d1a1f1a0a5303",
+    "decision": "RESOLVED",
+    "evidence_hash": "9e18a03f9248b59823657d5881a149f93bb8320e886218759939ea9bb355d381",
+    "inspection": {
+      "prompt_chars": 6866,
+      "prompt_sha256": "e0b26af8c5159b06b3b1dbc6e7750123f6143e9196a93f01e01361466396fd76",
+      "prompt_truncated": false,
+      "prompt_utf8_bytes": 6866,
+      "semantic_complete": true
+    },
+    "milestones": [
+      {
+        "id": "landing-page",
+        "status": "SATISFIED"
+      },
+      {
+        "id": "integration-guide",
+        "status": "SATISFIED"
+      },
+      {
+        "id": "regression-tests",
+        "status": "NOT_SATISFIED"
+      }
+    ],
+    "schema": "counterclaim-ruling-v1",
+    "session_id": "0x46482dc28f8615809bdf53d9f5e9aae6a65aac13f208776c7db653682749fabf",
+    "settlement_allowed": true,
+    "summary": "Only satisfied milestones count toward the seller's proposed demo credits; both Yellow participants must still co-sign.",
+    "whole_review": "COMPLETE"
+  },
+  "receipt_hash": "364cf868478d0684b30d409eb3cda09ff6391567924a109c1b21353e3e08fb7b",
+  "snapshot": {
+    "agreement": {
+      "claims": {
+        "buyer": "The landing copy and guide were supplied, but the regression suite is a status note with TODOs. Only delivered milestones should count.",
+        "seller": "All three release deliverables are complete; I request the full 100 demo credits."
+      },
+      "milestones": [
+        {
+          "criteria": "A publishable landing-page draft explains the product's purpose, names who benefits, includes an actionable call to try the sandbox, and clearly discloses that the demo moves no real funds. A list of promises or an outline alone does not qualify. Judge the supplied content, not whether it has already been hosted.",
+          "id": "landing-page",
+          "title": "Landing page",
+          "weight": 40
+        },
+        {
+          "criteria": "A usable integration guide identifies the runtime and network prerequisites, gives an ordered path from opening a co-signed Yellow session through a GenLayer ruling to a co-signed close, explains the failure path when consensus is inconclusive or a participant refuses to sign, and distinguishes a demo-credit proposal from token settlement. It must not suggest that a GenLayer verdict can bypass either participant's signature.",
+          "id": "integration-guide",
+          "title": "Integration guide",
+          "weight": 35
+        },
+        {
+          "criteria": "Deliver runnable automated regression tests that assert an altered verdict or mismatched agreement/evidence binding is rejected and that a missing participant signature blocks the settlement update. A description of planned tests, a checklist, a placeholder or a promise to add tests later is not delivery. Do not execute code; judge whether the supplied artifact actually contains runnable test cases covering both guards.",
+          "id": "regression-tests",
+          "title": "Automated tests",
+          "weight": 25
+        }
+      ],
+      "parties": {
+        "buyer": "0x81a5139cde9a3d70a9fc6e302d659a2b103af729",
+        "seller": "0xc1fc02b54a06a9ac9f86c58c1ad97c19e0279494"
+      },
+      "pool": 100,
+      "scope": "Synthetic supplied-artifact review only. No live work authenticity, code execution, legal advice or actual funds.",
+      "title": "Release handoff: the missing regression suite",
+      "unit": "demo credits"
+    },
+    "agreement_hash": "4452c5ac5dd207cb9e1c797858bcfa613ce1a213e8a20f360aae233976a6c8f9",
+    "case_id": 0,
+    "chain_id": 61997,
+    "contract_address": "0x34b0a821b1af34a9ac6c71e6e98d1a1f1a0a5303",
+    "evidence": [
+      {
+        "artifact_name": "landing-copy.md",
+        "content": "# Disagree on the work. Agree on what happens next.\nCounterclaim helps agent builders handle a disputed delivery without losing the original agreement. Two test agents freeze their terms in a co-signed Yellow sandbox room. A GenLayer jury reviews the submitted artifacts against those terms. Both agents can then co-sign the resulting demo-credit proposal.\nFor developers building agent-to-agent workflows, it makes the disagreement path visible and reproducible.\nTry the sandbox: open a demo room, inspect the three artifacts, request a ruling, then co-sign and close.\nThis demonstration uses synthetic evidence and nonmonetary demo credits. All Yellow token allocations are zero. No real funds move; both participant signatures are still required.",
+        "milestone_id": "landing-page"
+      },
+      {
+        "artifact_name": "integration-guide.md",
+        "content": "# Integrate the disagreement path\nPrerequisites: Node.js 22+, the pinned Yellow SDK, access to the Yellow sandbox WebSocket and GenLayer Studio Devnet RPC on chain 61997. Use isolated test accounts and a deployed matching CounterclaimCourt contract; do not connect a mainnet wallet.\n1. Start the local coordinator and interface. Confirm both network readiness checks.\n2. Open a unanimous two-participant Yellow app session with zero token allocations. Freeze the complete agreement and its hash in session data.\n3. Add the complete artifact bundle. Both test agents sign the next Yellow state binding its evidence hash before adjudication.\n4. Open the matching GenLayer case and request a ruling. Read its persisted receipt and compare the case, Yellow session, agreement and evidence hashes. A submitted transaction alone is not a ruling.\n5. If the receipt is resolved, compute the fixed weighted demo-credit split from the agreed per-milestone outcomes. Both test agents must sign the exact receipt-bound proposal before the Yellow update and close.\nIf the jury is inconclusive or the receipt binding differs, stop without proposing a final update. If either participant refuses to sign, keep the room open; the court cannot override Yellow's signature rule. This is cooperative settlement metadata for 100 nonmonetary demo credits, not a funded escrow, token payout or trustless cross-chain enforcement.",
+        "milestone_id": "integration-guide"
+      },
+      {
+        "artifact_name": "tests-status.md",
+        "content": "# Regression suite status\nThe implementation is ready for review. Planned checks: verify the agreement hash; refuse a modified receipt; require both participant signatures. The executable test files have not been delivered in this handoff. TODO: add automated tests after the launch demo.",
+        "milestone_id": "regression-tests"
+      }
+    ],
+    "evidence_hash": "9e18a03f9248b59823657d5881a149f93bb8320e886218759939ea9bb355d381",
+    "evidence_scope": "COMPLETE_SUPPLIED_ARTIFACTS_ONLY",
+    "opened_at": 1794263096,
+    "schema": "counterclaim-ruling-v1",
+    "session_id": "0x46482dc28f8615809bdf53d9f5e9aae6a65aac13f208776c7db653682749fabf",
+    "token_allocations": []
+  },
+  "status": "RESOLVED",
+  "txHash": "0x8824d0cec2e245b7064813fd7eefd685c1146a64a66db09e9f1fbb9c24c82dd6",
+  "contractAddress": "0x34b0a821B1AF34A9ac6c71E6e98d1A1f1a0A5303"
+}

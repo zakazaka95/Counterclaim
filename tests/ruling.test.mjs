@@ -1,10 +1,21 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {abi} from 'genlayer-js';
-import {assertRulingTransaction, assertStoredRuling} from '../scripts/verify-ruling.mjs';
+import {assertRulingTransaction, assertStoredRuling, assertClaimTransferMessage} from '../scripts/verify-ruling.mjs';
 import {hashJson} from '../scripts/canonical.mjs';
 
 const owner = '0x' + '1'.repeat(40), contractAddress = '0x' + 'a'.repeat(40), txHash = '0x' + 'b'.repeat(64);
+
+test('native claim evidence must send the exact award to its recipient on finalization', () => {
+  const message = {messageType: '0', recipient: owner, value: '750000000000000', data: '', onAcceptance: false};
+  const expected = {recipient: owner, amountWei: message.value};
+  assert.equal(assertClaimTransferMessage([message], expected), true);
+  for (const change of [{recipient: contractAddress}, {value: '750000000000001'}, {onAcceptance: true}, {messageType: '1'}, {data: '0xabcd'}, {value: Number.MAX_SAFE_INTEGER + 1}]) {
+    assert.throws(() => assertClaimTransferMessage([{...message, ...change}], expected));
+  }
+  assert.throws(() => assertClaimTransferMessage([message, message], expected));
+  assert.throws(() => assertClaimTransferMessage([], expected));
+});
 function example() {
   const agreement = {title: 'A complete synthetic agreement', pool: 100, parties: {buyer: owner, seller: '0x' + '2'.repeat(40)}}, evidence = [{content: 'Complete supplied text'}];
   const authorization = {buyer_opened_by: owner, buyer_opened_at: 10, seller_accepted_by: agreement.parties.seller, seller_accepted_at: 11, seller_delivered_by: agreement.parties.seller, seller_delivered_at: 12};

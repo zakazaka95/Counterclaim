@@ -1,0 +1,44 @@
+{
+  "observedAt": "2026-11-24T17:59:18.122Z",
+  "concreteMessageBudgetSeedWei": "150000000000000",
+  "distribution": {
+    "leaderTimeunitsAllocation": 100,
+    "validatorTimeunitsAllocation": 200,
+    "appealRounds": 0,
+    "executionBudgetPerRound": 152534400000000,
+    "executionConsumed": 0,
+    "totalMessageFees": 150000000000000,
+    "rotations": [
+      3
+    ],
+    "maxPriceGenPerTimeUnit": 2,
+    "storageFeeMaxGasPrice": 300000000,
+    "receiptFeeMaxGasPrice": 300000000
+  },
+  "messageAllocations": [
+    {
+      "messageType": 0,
+      "onAcceptance": false,
+      "parentIndex": "115792089237316195423570985008687907853269984665640564039457584007913129639935",
+      "recipient": "0x2e0a4fdacfb400ac9720b1cb3acae72e1754e45c",
+      "callKey": "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "budget": 150000000000000,
+      "feeParams": "0x000000000000000000000000000000000000000000000000000000000007a1200000000000000000000000000000000000000000000000000000000011e1a300"
+    }
+  ],
+  "feeValue": 760137600010352,
+  "observed": {
+    "executionFeeConsumed": 126376000000000,
+    "executionFeeReportTotal": 126304000000000,
+    "recommendedExecutionBudgetPerRound": 303216000000000,
+    "genvmMessageFeeConsumed": 125000000000000,
+    "messageFeeBudget": 150000000000000,
+    "messageFeeConsumed": 125000000000000,
+    "messageFeeRefunded": 0,
+    "internalDeclaredBudget": 0,
+    "externalMessageReserved": 125000000000000,
+    "externalMessageReimbursed": 0,
+    "externalMessageRemainder": 125000000000000,
+    "recommendedTotalMessageFees": 150000000000000
+  }
+}

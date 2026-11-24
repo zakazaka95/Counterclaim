@@ -1,0 +1,156 @@
+{
+  "schema": "yellow-court-room-v1",
+  "endpoint": "wss://nitronode-sandbox.yellow.org/v1/ws",
+  "sdkVersion": "1.4.0",
+  "appSessionId": "0xb3d87586f692d8374316f931f63eefa29bb4dab6148808be3491d907c3a5618d",
+  "participants": [
+    "0x03A903767a58d6ebf1E9833264d42e1a3AC4af91",
+    "0x2e0a4FDaCfB400aC9720b1CB3acAE72E1754e45C"
+  ],
+  "agreement": {
+    "title": "Release handoff: the missing regression suite",
+    "pool": 100,
+    "unit": "demo credits",
+    "milestones": [
+      {
+        "id": "landing-page",
+        "title": "Landing page",
+        "weight": 40,
+        "criteria": "A publishable landing-page draft explains the product's purpose, names who benefits, includes an actionable call to try the sandbox, and clearly discloses that only faucet test GEN is used, with no mainnet funds. A list of promises or an outline alone does not qualify. Judge the supplied content, not whether it has already been hosted."
+      },
+      {
+        "id": "integration-guide",
+        "title": "Integration guide",
+        "weight": 35,
+        "criteria": "A usable integration guide names Node.js 24, Yellow sandbox and GenLayer Studio chain 61997. It explains buyer-funded GEN test escrow, seller acceptance of the exact domain-bound terms hash, seller delivery of the complete artifacts by authenticated contract call, independent GenLayer review, and each participant's unilateral claim. It explains that Yellow closure remains cooperative and is optional for the onchain payout, and that an inconclusive review follows the agreed refund deadline. An outline or list of promises does not qualify."
+      },
+      {
+        "id": "regression-tests",
+        "title": "Automated tests",
+        "weight": 25,
+        "criteria": "Deliver automated regression test source containing executable test cases that assert a non-seller cannot replace delivered artifacts and that a resolved award can be claimed without a new signature from the counterparty. A planned checklist, placeholder or promise is not delivery. This is a static review of the submitted test source for the specified assertions, not proof of execution or runtime correctness. Do not execute code."
+      }
+    ],
+    "claims": {
+      "seller": "All three release deliverables are complete; I request the full 100 demo credits.",
+      "buyer": "The landing copy and guide were supplied, but the regression suite is a status note with TODOs. Only delivered milestones should count."
+    },
+    "scope": "The seller's authenticated onchain artifact submission is the agreed delivery channel. Review exactly those complete text bytes against the accepted criteria. Do not infer external files, authorship, hosting or code execution. Synthetic agents and faucet test GEN only; no legal ruling.",
+    "parties": {
+      "buyer": "0x03a903767a58d6ebf1e9833264d42e1a3ac4af91",
+      "seller": "0x2e0a4fdacfb400ac9720b1cb3acae72e1754e45c"
+    }
+  },
+  "agreementHash": "81ac2824cd6b84850b5601b14f5793b839dfa28a0b59db1395d36cff1b3300e8",
+  "metadataEncoding": "counterclaim-yellow-wire-v1",
+  "maxWireBytes": 1024,
+  "phase": "EVIDENCE_FROZEN",
+  "createdAt": "2026-11-24T17:41:03.817Z",
+  "actualTokenAllocations": [],
+  "creditUnit": "DEMO_CREDITS",
+  "creditTotal": 100,
+  "isClosed": false,
+  "stages": [
+    {
+      "phase": "AGREED",
+      "observedAt": "2026-11-24T17:41:03.817Z",
+      "definition": {
+        "applicationId": "yellow-court-demo-v1",
+        "participants": [
+          {
+            "walletAddress": "0x03A903767a58d6ebf1E9833264d42e1a3AC4af91",
+            "signatureWeight": 1
+          },
+          {
+            "walletAddress": "0x2e0a4FDaCfB400aC9720b1CB3acAE72E1754e45C",
+            "signatureWeight": 1
+          }
+        ],
+        "quorum": 2,
+        "nonce": "1795542063740414643"
+      },
+      "signatures": [
+        "0xa18c3749c2c48beab009e5060cef2389a41d97a4bbe693526d5252c24f2a9349bc67d07ac4f5d3390b24a150025201d0eaa07e1c739e8749dfc9c997970f84ef341b",
+        "0xa17ceb6a98ea303ade732514ae6e342ee649c43da3b860363e27d37488a8ecbc350657da7ea28073ddde30df6fe4c0e6d563f958c88d27e992b9e85e9e7656a3111b"
+      ],
+      "snapshot": {
+        "appSessionId": "0xb3d87586f692d8374316f931f63eefa29bb4dab6148808be3491d907c3a5618d",
+        "appDefinition": {
+          "applicationId": "yellow-court-demo-v1",
+          "participants": [
+            {
+              "walletAddress": "0x03a903767a58d6ebf1e9833264d42e1a3ac4af91",
+              "signatureWeight": 1
+            },
+            {
+              "walletAddress": "0x2e0a4fdacfb400ac9720b1cb3acae72e1754e45c",
+              "signatureWeight": 1
+            }
+          ],
+          "quorum": 2,
+          "nonce": "1795542063740414643"
+        },
+        "isClosed": false,
+        "sessionData": "{\"actualTokenAllocations\":[],\"agreementHash\":\"81ac2824cd6b84850b5601b14f5793b839dfa28a0b59db1395d36cff1b3300e8\",\"creditTotal\":100,\"creditUnit\":\"DEMO_CREDITS\",\"phase\":\"AGREED\",\"schema\":\"counterclaim-yellow-wire-v1\"}",
+        "version": "1",
+        "allocations": []
+      }
+    },
+    {
+      "phase": "EVIDENCE_FROZEN",
+      "observedAt": "2026-11-24T17:41:04.134Z",
+      "update": {
+        "appSessionId": "0xb3d87586f692d8374316f931f63eefa29bb4dab6148808be3491d907c3a5618d",
+        "intent": 0,
+        "version": "2",
+        "allocations": [],
+        "sessionData": "{\"actualTokenAllocations\":[],\"agreementHash\":\"81ac2824cd6b84850b5601b14f5793b839dfa28a0b59db1395d36cff1b3300e8\",\"creditTotal\":100,\"creditUnit\":\"DEMO_CREDITS\",\"evidenceHash\":\"0497e1b8cce20058406063bb31b5f24fc86e70211a3cb92bcbf8a240b9db22aa\",\"phase\":\"EVIDENCE_FROZEN\",\"schema\":\"counterclaim-yellow-wire-v1\"}"
+      },
+      "signatures": [
+        "0xa16930979374edba73d76fdc8d12e8b6439eddd75becba8c296f14aa2d127e72071f6c7c64bf22ada98f6e4539cf33ce96c80b3fe88e549f418f4384953d7766421c",
+        "0xa19173ded235aa09b678a9ffaf2871aa9732e18eeff0568fd71c569c91106f1a1b71a3d3be9cf1f89ad3ebe9ddb895d9e0c0c1a7a6efe5cf70c35e61ee2c803ed11c"
+      ],
+      "snapshot": {
+        "appSessionId": "0xb3d87586f692d8374316f931f63eefa29bb4dab6148808be3491d907c3a5618d",
+        "appDefinition": {
+          "applicationId": "yellow-court-demo-v1",
+          "participants": [
+            {
+              "walletAddress": "0x03a903767a58d6ebf1e9833264d42e1a3ac4af91",
+              "signatureWeight": 1
+            },
+            {
+              "walletAddress": "0x2e0a4fdacfb400ac9720b1cb3acae72e1754e45c",
+              "signatureWeight": 1
+            }
+          ],
+          "quorum": 2,
+          "nonce": "1795542063740414643"
+        },
+        "isClosed": false,
+        "sessionData": "{\"actualTokenAllocations\":[],\"agreementHash\":\"81ac2824cd6b84850b5601b14f5793b839dfa28a0b59db1395d36cff1b3300e8\",\"creditTotal\":100,\"creditUnit\":\"DEMO_CREDITS\",\"evidenceHash\":\"0497e1b8cce20058406063bb31b5f24fc86e70211a3cb92bcbf8a240b9db22aa\",\"phase\":\"EVIDENCE_FROZEN\",\"schema\":\"counterclaim-yellow-wire-v1\"}",
+        "version": "2",
+        "allocations": []
+      }
+    }
+  ],
+  "evidence": [
+    {
+      "milestone_id": "landing-page",
+      "artifact_name": "landing-copy.md",
+      "content": "# Disagree on the work. Keep a way to settle.\nCounterclaim helps agent builders handle disputed digital deliveries under terms both parties accepted. A buyer locks test GEN in a GenLayer contract. The seller accepts the exact terms and delivers the complete text artifacts through its own authenticated contract call. Independent GenLayer validators assess those exact bytes against the agreed criteria.\nFor developers building agent-to-agent workflows, it makes the delivery identity and disagreement path visible and reproducible.\nTry the sandbox: open a demo room, inspect the seller-registered artifacts, request a ruling, then claim the resulting award. Each party can claim without the other's cooperation. A Yellow session mirrors the agreement; its optional co-signed close does not control the escrow.\nThis demonstration uses synthetic agents and faucet-funded test GEN, not mainnet funds. Yellow token allocations stay at zero. The 100 demo credits are milestone weights, not an additional token."
+    },
+    {
+      "milestone_id": "integration-guide",
+      "artifact_name": "integration-guide.md",
+      "content": "# Integrate authenticated delivery and settlement\nPrerequisites: Node.js 24, the pinned Yellow SDK, Yellow sandbox WebSocket and GenLayer Studio RPC on chain 61997. Generate separate isolated buyer and seller test accounts. Never use a mainnet wallet.\n1. Open a co-signed Yellow session with zero token allocations. This supplies an auxiliary agreement record, not the authority to spend the GenLayer escrow.\n2. The buyer calls payable open_case with the complete agreement, session reference, delivery deadline and refund deadline, sending test GEN. The contract verifies that the sender is the declared buyer and locks these terms.\n3. The seller reads the complete onchain case and accepts its exact terms hash, binding the chain, court, buyer, seller, session, amount, deadlines and refund policy. Only that seller may then call deliver with the complete ordered artifact bundle. This authenticated onchain submission is the agreed delivery channel. Its exact content, digest and submitting identity are persisted; the relay cannot substitute different evidence at adjudication.\n4. Either participant requests adjudication. Validators independently review every complete artifact against its exact criterion. Read the finalized transaction and stored receipt, comparing all context and source hashes. A merely submitted transaction is not a ruling.\n5. A resolved receipt deterministically allocates the escrow by milestone weights. Each party calls claim for its own award. No post-ruling signature or Yellow update from the other party is needed. Yellow can optionally mirror and close with both signatures; a refusal leaves that room open without blocking the GenLayer payout.\nIf the seller misses delivery, the buyer may use the agreed timeout refund. If review is inconclusive or technical retries are exhausted, no guessed allocation is made: the buyer may refund after the preaccepted refund deadline, then claim.\nOnly complete bounded text artifacts delivered onchain are in scope. This does not prove authorship, external website behavior or code execution. The demo uses synthetic inputs and faucet test GEN; Yellow balances are not bridged."
+    },
+    {
+      "milestone_id": "regression-tests",
+      "artifact_name": "tests-status.md",
+      "content": "# Regression suite status\nThe implementation is ready for review. Planned checks: verify the agreement hash; refuse a modified receipt; require both participant signatures. The executable test files have not been delivered in this handoff. TODO: add automated tests after the launch demo."
+    }
+  ],
+  "evidenceHash": "0497e1b8cce20058406063bb31b5f24fc86e70211a3cb92bcbf8a240b9db22aa",
+  "evidenceVersion": "2"
+}

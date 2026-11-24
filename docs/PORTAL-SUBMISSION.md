@@ -1,9 +1,20 @@
-# Original Partner Demo Lab submission draft
+# Original Partner Demo Lab submission draft — version 1 archive
+
+**This is historical copy, not the current correction.** On November 24 the
+steward requested participant-authorized delivery and a consequential result that
+does not require both parties' continued cooperation. The v2 Projects correction
+uses buyer-funded native GEN escrow, separate seller acceptance, seller-only exact
+onchain text delivery and unilateral native claims. Its source-matched v2 deployment
+and 77 local tests plus app build and media typecheck are recorded. Its finalized
+seller claim transferred 0.00075 test GEN while the buyer stayed inactive and
+Yellow remained open. The corrected Portal entry is prepared but not resubmitted
+yet. See [PROJECT-SUBMISSION.md](PROJECT-SUBMISSION.md) and the
+[reviewer response](REVIEWER-RESPONSE-2026-11-24.md) for the correction and its limits.
 
 Counterclaim was subsequently submitted through the regular **Projects** category
 on November 10, 2026, following Joaquin Bressan's routing guidance. See the
 [actual Projects submission record](PROJECT-SUBMISSION.md) for the saved entry,
-verification instructions and current review status. This original mission draft
+original verification instructions and review history. This original mission draft
 does not represent a separate Partner Demo Lab submission.
 
 ## Title

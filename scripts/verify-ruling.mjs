@@ -7,6 +7,17 @@ const decodeRaw = value => {
   return jsonValue(abi.calldata.decode(Uint8Array.from(value)));
 };
 
+export function assertClaimTransferMessage(messages, {recipient, amountWei}) {
+  const message = messages?.[0];
+  const value = message?.value;
+  if (typeof value === 'number' && !Number.isSafeInteger(value)) throw new Error('Unsafe native transfer amount');
+  if (!Array.isArray(messages) || messages.length !== 1 || String(message?.messageType) !== '0' ||
+      !sameAddress(message?.recipient, recipient) || message?.onAcceptance !== false ||
+      !['', '0x'].includes(message?.data) || !['string', 'number', 'bigint'].includes(typeof value) ||
+      BigInt(value) !== BigInt(amountWei) || BigInt(amountWei) <= 0n) throw new Error('Finalized transfer message does not match the exact participant award');
+  return true;
+}
+
 export function assertRulingTransaction({transaction, receipt, txHash, contractAddress}) {
   if (!isSuccessful(transaction) || transaction.hash !== txHash) throw new Error('The exact adjudication transaction has not executed successfully');
   if (transaction.statusName !== 'FINALIZED' || transaction.lifecycle?.outcome && transaction.lifecycle.outcome !== 'accepted') {

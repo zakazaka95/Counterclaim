@@ -1,4 +1,98 @@
-# Counterclaim — ordinary Projects submission
+# Counterclaim — Projects correction, November 24, 2026
+
+The steward requested substantive changes to the original version 1 submission.
+The current Portal state observed on November 24 is **Action needed**. The v2
+correction below has a matching v2.0.0 deployment and passed 77 local tests plus
+the app build and media typecheck. Its authenticated delivery, finalized ruling
+and unilateral seller payout are verified. The existing Portal entry is prepared
+for updating but has not yet been resubmitted.
+
+| Current field | Record |
+| --- | --- |
+| Project / category | Counterclaim / Builder → Projects |
+| Original submission ID | `c5a6123f-1355-47ce-8547-a9cdc4b3ce83` |
+| Original submitted / contribution date | November 10, 2026 |
+| Review note observed | November 24, 2026 |
+| Current review state | Action needed; correction not yet resubmitted |
+| Portal record | https://portal.genlayer.foundation/my-submissions?q=Counterclaim |
+| Website / repository entry point | https://github.com/zakazaka95/Counterclaim |
+| Delivery model | Locally runnable app; no hosted frontend is claimed |
+| v2 court source commit | `3602e22e30933c41b116b09f7e535cada06578f6` |
+| v2 matching contract | https://explorer-studio-dev.genlayer.com/address/0xC68b67797C630cBBf2bb80D290d68A787c855E14 |
+| v2 finalized ruling | https://explorer-studio-dev.genlayer.com/tx/0x8680534d17e4df175d22015c69a6d02ccdcb7c65a457d13ac98c4226d7602995; case 0, fixed 75/25 native entitlements |
+| v2 native seller claim | https://explorer-studio-dev.genlayer.com/tx/0x89ddff840170de7316739a4f492a7b7115ff5728efde51524d01526053ed4998; finalized 0.00075 test GEN, positive recipient net credit after fees |
+| Buyer award / Yellow state | 0.00025 GEN remains reserved; no buyer withdrawal; Yellow version 2 unchanged and open |
+| Current demo-video field | No v2 YouTube or X upload claimed; the existing GitHub film is historical v1 |
+
+Joaquin Bressan's earlier guidance concerned the ordinary Projects route while
+Builders Working Group had no open spots. It was not acceptance or endorsement.
+The [reviewer response](REVIEWER-RESPONSE-2026-11-24.md) maps the correction to the
+actual technical concerns.
+
+## One-liner
+
+A delivery escrow where both parties approve the terms, the seller submits the work onchain, and GenLayer determines native GEN payouts.
+
+Character count: **136 / 180**.
+
+## Description
+
+Counterclaim is a locally runnable delivery escrow for digital work submitted as exact onchain text. The buyer locks native GEN and fixed acceptance criteria; the named seller separately accepts the exact terms hash, then alone can deliver the immutable artifact bytes. GenLayer validators assess that authenticated delivery against the complete agreed criteria, while contract code fixes each party's GEN entitlement. Each party can claim its own payout without the other's approval; a pre-agreed timeout refunds an unresolved case. Yellow is an optional co-signed record, never the authority that releases the escrow. This authenticates the submitting wallet and exact delivery, not authorship, external hosting or code execution. The reviewer demo uses disposable Studio accounts and 0.001 faucet GEN. Joaquin Bressan recommended the Projects route while Builders Working Group had no open spots.
+
+Character count: **899 / 1000**.
+
+## How-to
+
+### 1. Install the corrected local app
+
+Use Node.js 24 and Python 3.12+. Clone `https://github.com/zakazaka95/Counterclaim.git`, enter `Counterclaim`, then run `npm ci`, `npm --prefix server ci` and `npm --prefix app ci`. Use only disposable Studio accounts and faucet test GEN. Do not provide a personal funded wallet key.
+
+### 2. Run the authenticated escrow demonstration
+
+From the repository root run `node scripts/reviewer-demo.mjs`. The correction runner retains the exact deployment and transaction identities for buyer funding, separate seller acceptance, seller-only delivery, ruling and native claim. A failed or inconclusive operation does not create a successful verification record. Inspect the actual output and public proof paths.
+
+### 3. Inspect the participants and exact work
+
+Read the persisted case and each transaction sender. Confirm the buyer funded the native deposit, the named seller accepted the exact stored terms hash, and that same seller submitted the artifact bytes. Confirm the agreed scope is onchain text delivery and static source assessment, not external authorship, hosting or executed tests.
+
+### 4. Verify the ruling and independent claims
+
+Inspect the finalized ruling and fixed GEN entitlements, then the seller's own `claim(case_id)` and native transfer while the buyer and Yellow signers remain inactive. The buyer's award stays reserved for its own claim. The fixture is intended to produce a 75/25 split if the jury agrees; retain the actual result. The passing local suites separately cover unauthorized calls, tampering, duplicate claims and timeout refunds.
+
+For the local interface, run `npm run setup:genlayer` and `npm start` in the
+repository root, then `npm --prefix app run dev` in a second terminal and open
+`http://127.0.0.1:5178`. Use **Open demo room**, **Request a ruling**, then
+**Claim the escrow awards**. This coordinated UI path differs from the recorded
+seller-only reviewer run. The old film is historical v1.
+
+## Expected verification outcome
+
+Recorded v2 case 0: a buyer-funded 0.001 faucet GEN escrow, separate seller acceptance and seller-only delivery. The finalized ruling awards 75% seller / 25% buyer. The seller claimed 0.00075 test GEN without another buyer transaction or Yellow co-sign; 0.00025 remains reserved. Yellow stays open at version 2. Exact source, transactions, receipt and balance snapshots are linked. Local tests cover unauthorized calls, tampering, duplicate claims and timeouts.
+
+Character count: **461 / 500**.
+
+## Verified version 2 evidence
+
+| Evidence | Record |
+| --- | --- |
+| Public repository | https://github.com/zakazaka95/Counterclaim |
+| Immutable v2 contract source | [3602e22e30933c41b116b09f7e535cada06578f6](https://github.com/zakazaka95/Counterclaim/blob/3602e22e30933c41b116b09f7e535cada06578f6/contracts/CounterclaimCourt.py) |
+| Matching v2 Explorer contract | https://explorer-studio-dev.genlayer.com/address/0xC68b67797C630cBBf2bb80D290d68A787c855E14 |
+| Finalized v2 ruling | https://explorer-studio-dev.genlayer.com/tx/0x8680534d17e4df175d22015c69a6d02ccdcb7c65a457d13ac98c4226d7602995 |
+| Native seller claim | https://explorer-studio-dev.genlayer.com/tx/0x89ddff840170de7316739a4f492a7b7115ff5728efde51524d01526053ed4998 |
+| Full authorization, ruling and payout proof | https://github.com/zakazaka95/Counterclaim/blob/main/proof/reviewer-verification-v2.json |
+| Updated reviewer response | [REVIEWER-RESPONSE-2026-11-24.md](REVIEWER-RESPONSE-2026-11-24.md) |
+
+The earlier v1 contract, ruling, Yellow session and film are preserved below for
+audit history. They must not be attached as evidence that v2 fixed the concerns.
+
+<details>
+<summary>Historical version 1 submission — saved November 10, 2026</summary>
+
+The following is the original saved copy and then-observed Pending review status.
+It describes the cooperative nonmonetary version, not the November 24 correction.
+
+## Version 1 ordinary Projects submission
 
 Submitted November 10, 2026. **Portal status verified: Pending review.**
 This is the regular **Builder → Projects** route. The user supplied Joaquin
@@ -83,7 +177,7 @@ https://explorer-studio-dev.genlayer.com/address/0x34b0a821B1AF34A9ac6c71E6e98d1
 
 Additional repository verification references, not separate Portal evidence cards:
 
-- [Compact public verification record](https://github.com/zakazaka95/Counterclaim/blob/main/proof/final-verification.json)
+- [Compact version 1 verification record](https://github.com/zakazaka95/Counterclaim/blob/8aba84e43359a791ded97a2d58fe6c4cba409994/proof/final-verification.json)
 - [Passing published CI for the recorded release](https://github.com/zakazaka95/Counterclaim/actions/runs/42715503620)
 
 ## Scope of the submitted demonstration
@@ -98,3 +192,5 @@ The recorded result is one synthetic case, not a semantic-accuracy benchmark.
 The saved Portal record was visibly verified with the description, Joaquin routing
 note, five evidence links and dedicated contract link. Pending review records
 successful submission; no steward acceptance or awarded points are claimed.
+
+</details>

@@ -1,0 +1,57 @@
+{
+  "observedAt": "2026-11-24T17:59:10.551Z",
+  "policy": {
+    "genPerTimeUnit": "1",
+    "storageUnitPrice": "250000000",
+    "receiptGasPrice": "250000000",
+    "intrinsicGas": "21000",
+    "bootloaderOverhead": "60000",
+    "gasPerChangedSlot": "1000",
+    "calldataGasPerByte": "16",
+    "fixedProposeReceiptGas": "210000",
+    "fixedMessageRevealGas": "100000",
+    "receiptWrapperBytes": "1024",
+    "extraExecGas": "210000",
+    "messageFeeParamsBudgetFloor": "78852000000000",
+    "genvmStartBudgetFloor": "78852000000000",
+    "maxAllocationTreeDepth": "5",
+    "maxAllocatedMessages": "20",
+    "maxMessagesPerTx": "0",
+    "minExternalGasLimit": "0",
+    "defaultExternalGasLimit": "500000",
+    "maxEqOutputsBytes": "0",
+    "maxSubmittedMessagesBytes": "0",
+    "timeUnitOverlayBps": "1500",
+    "minProposeTimeunits": "30",
+    "maxProposeTimeunits": "600",
+    "minCommitTimeunits": "30",
+    "maxCommitTimeunits": "600"
+  },
+  "defaultFees": {
+    "distribution": {
+      "leaderTimeunitsAllocation": "100",
+      "validatorTimeunitsAllocation": "200",
+      "appealRounds": "0",
+      "executionBudgetPerRound": "78852000000000",
+      "executionConsumed": "0",
+      "totalMessageFees": "0",
+      "rotations": [
+        "0"
+      ],
+      "maxPriceGenPerTimeUnit": "2",
+      "storageFeeMaxGasPrice": "300000000",
+      "receiptFeeMaxGasPrice": "300000000"
+    },
+    "feeValue": "78852000002588"
+  },
+  "exactExternalAllocation": {
+    "messageType": 0,
+    "onAcceptance": false,
+    "parentIndex": "115792089237316195423570985008687907853269984665640564039457584007913129639935",
+    "recipient": "0x2e0a4FDaCfB400aC9720b1CB3acAE72E1754e45C",
+    "callKey": "0x0000000000000000000000000000000000000000000000000000000000000000",
+    "budget": 150000000000000,
+    "feeParams": "0x000000000000000000000000000000000000000000000000000000000007a1200000000000000000000000000000000000000000000000000000000011e1a300"
+  },
+  "messageBudgetWei": 150000000000000
+}

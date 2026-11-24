@@ -4,11 +4,55 @@
     "kwparams": {}
   },
   "methods": {
+    "accept_case": {
+      "params": [
+        [
+          "case_id",
+          "int"
+        ],
+        [
+          "expected_terms_hash",
+          "string"
+        ]
+      ],
+      "kwparams": {},
+      "readonly": false,
+      "ret": "dict",
+      "payable": false
+    },
     "adjudicate": {
       "params": [
         [
           "case_id",
           "int"
+        ]
+      ],
+      "kwparams": {},
+      "readonly": false,
+      "ret": "dict",
+      "payable": false
+    },
+    "claim": {
+      "params": [
+        [
+          "case_id",
+          "int"
+        ]
+      ],
+      "kwparams": {},
+      "readonly": false,
+      "ret": "dict",
+      "payable": false
+    },
+    "deliver": {
+      "params": [
+        [
+          "case_id",
+          "int"
+        ],
+        [
+          "evidence_json",
+          "string"
         ]
       ],
       "kwparams": {},
@@ -47,6 +91,10 @@
         [
           "session_id",
           "string"
+        ],
+        [
+          "buyer_address",
+          "string"
         ]
       ],
       "kwparams": {},
@@ -70,13 +118,29 @@
           "string"
         ],
         [
-          "evidence_json",
-          "string"
+          "delivery_deadline",
+          "int"
+        ],
+        [
+          "refund_after",
+          "int"
         ]
       ],
       "kwparams": {},
       "readonly": false,
       "ret": "int",
+      "payable": true
+    },
+    "refund_timeout": {
+      "params": [
+        [
+          "case_id",
+          "int"
+        ]
+      ],
+      "kwparams": {},
+      "readonly": false,
+      "ret": "dict",
       "payable": false
     }
   }

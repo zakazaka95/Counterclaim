@@ -1,0 +1,76 @@
+{
+  "caseId": 0,
+  "recipient": "0x2e0a4FDaCfB400aC9720b1CB3acAE72E1754e45C",
+  "amountWei": "750000000000000",
+  "transactionHash": "0x89ddff840170de7316739a4f492a7b7115ff5728efde51524d01526053ed4998",
+  "finalized": true,
+  "persistedClaim": {
+    "amount_wei": "750000000000000",
+    "emitted": true,
+    "emitted_at": 1795543172
+  },
+  "balanceProof": {
+    "beforeWei": "1000000000000000",
+    "afterWei": "250000000000000",
+    "debitWei": "750000000000000",
+    "exactClaimDebitObserved": true,
+    "recipientBeforeWei": "99999758147749997531",
+    "recipientAfterWei": "100000381771749996708",
+    "recipientBalanceIncludesClaimantNetworkFees": true,
+    "exactRecipientAndValueMessageVerified": true,
+    "recipientNetChangeWei": "623623999999177",
+    "recordedDataVerifiedAt": "2026-11-24T18:02:06.498Z"
+  },
+  "transferMessages": {
+    "messages": [
+      {
+        "messageType": "0",
+        "recipient": "0x2e0a4FDaCfB400aC9720b1CB3acAE72E1754e45C",
+        "value": 750000000000000,
+        "data": "",
+        "onAcceptance": false
+      }
+    ],
+    "triggeredTransactions": [],
+    "fees": {
+      "deposit": "760137600010352",
+      "userValue": "0",
+      "distribution": {
+        "leaderTimeunitsAllocation": "100",
+        "validatorTimeunitsAllocation": "200",
+        "appealRounds": "0",
+        "executionBudgetPerRound": "152534400000000",
+        "totalMessageFees": "150000000000000",
+        "rotations": [
+          "3"
+        ],
+        "maxPriceGenPerTimeUnit": "2",
+        "storageFeeMaxGasPrice": "300000000",
+        "receiptFeeMaxGasPrice": "300000000"
+      },
+      "locked": {
+        "genPerTimeUnit": "1",
+        "storageUnitPrice": "250000000",
+        "receiptGasPrice": "250000000"
+      },
+      "consumed": {
+        "executionConsumed": "126376000000000",
+        "storageFeeUsed": "72000000000",
+        "messageFeesConsumed": "125000000000000",
+        "messageFeesBudgetTotal": "150000000000000",
+        "leaderTimeunitsUsed": "1",
+        "validatorTimeunitsUsed": "4",
+        "perRound": [
+          {
+            "round": 0,
+            "consensusRound": "Accepted",
+            "leaderTimeunits": "1",
+            "validatorTimeunits": "4",
+            "maxValidatorTimeunits": "2"
+          }
+        ]
+      }
+    }
+  },
+  "note": "The finalized participant claim and exact native contract-balance debit were both observed."
+}
