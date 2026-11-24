@@ -144,7 +144,7 @@ export async function createCoordinator() {
   }
 
   async function settle() {
-    if (!room || state.phase !== 'verdict_ready' || state.receipt?.settlement_allowed !== true) {
+    if (state.phase !== 'verdict_ready' || state.receipt?.settlement_allowed !== true) {
       throw new Error('Only the finalized resolved ruling can release its exact escrow awards');
     }
     const input = {receipt: state.receipt, txHash: state.adjudication.transactionHash,

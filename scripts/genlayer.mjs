@@ -2,7 +2,9 @@ import {readFile, writeFile, mkdir, cp, access} from 'node:fs/promises';
 import {fileURLToPath, pathToFileURL} from 'node:url';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
-import {createAccount, generatePrivateKey, createClient, isSuccessful} from 'genlayer-js';
+import {createAccount, generatePrivateKey, createClient, isSuccessful,
+  MESSAGE_ALLOCATION_ROOT_PARENT_INDEX, deriveExternalMessageCallKey,
+  encodeExternalMessageFeeParams} from 'genlayer-js';
 import {studioDevnet} from 'genlayer-js/chains';
 import {parseEther, keccak256} from 'viem';
 import {canonicalJson, hashJson, jsonValue} from './canonical.mjs';
@@ -12,6 +14,7 @@ export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '
 export const RPC = process.env.GENLAYER_RPC || 'https://studio-dev.genlayer.com/api';
 export const EXPLORER = 'https://explorer-studio-dev.genlayer.com';
 export const DEMO_ESCROW_WEI = parseEther('0.001');
+const MAX_CLAIM_MESSAGE_BUDGET_WEI = parseEther('0.01');
 const LOCAL = path.join(ROOT, '.local');
 const PROOF = path.join(ROOT, 'proof');
 const SCHEMA = 'counterclaim-ruling-v2';
@@ -76,6 +79,34 @@ export async function rpc(method, params = []) {
 export async function saveProof(name, value) {
   if (!/^[a-zA-Z0-9][a-zA-Z0-9_-]*$/.test(name)) throw new Error('Invalid proof name');
   await save(path.join(PROOF, name + '.json'), value);
+}
+
+/** Exact external EOA transfer envelope, quoted from the active Studio policy. */
+export function claimFeeSeed(config, recipient) {
+  const positive = (value, field, allowZero = false) => {
+    if (typeof value !== 'bigint' && (typeof value !== 'string' || !/^[0-9]+$/.test(value))) {
+      throw new Error(`Studio fee policy is missing a decimal ${field}; no claim broadcast`);
+    }
+    const result = BigInt(value);
+    if (result < 0n || (!allowZero && result === 0n) || result >= (1n << 256n)) throw new Error(`Studio fee policy has an invalid ${field}; no claim broadcast`);
+    return result;
+  };
+  if (config?.enabled !== true || config?.capabilities?.messageFees?.externalFinalization?.genvmExecution !== true) {
+    throw new Error('Studio has not advertised funded external finalization; no claim broadcast');
+  }
+  if (typeof recipient !== 'string' || !/^0x[0-9a-fA-F]{40}$/.test(recipient)) throw new Error('Exact claim recipient is required');
+  const minimumGas = positive(config.policy?.minExternalGasLimit, 'minExternalGasLimit', true);
+  const defaultGas = positive(config.policy?.defaultExternalGasLimit, 'defaultExternalGasLimit');
+  const receiptPrice = positive(config.policy?.receiptGasPrice, 'receiptGasPrice');
+  const maxGasPrice = positive(config.defaultFees?.distribution?.receiptFeeMaxGasPrice, 'receiptFeeMaxGasPrice');
+  if (maxGasPrice < receiptPrice) throw new Error('Studio external price cap is below its current quote; no claim broadcast');
+  const gasLimit = defaultGas > minimumGas ? defaultGas : minimumGas;
+  const budget = gasLimit * maxGasPrice;
+  if (budget > MAX_CLAIM_MESSAGE_BUDGET_WEI) throw new Error('Quoted claim message fee exceeds the 0.01 test-GEN demo cap; no claim broadcast');
+  const allocation = {messageType: 0, onAcceptance: false, parentIndex: MESSAGE_ALLOCATION_ROOT_PARENT_INDEX,
+    recipient, callKey: deriveExternalMessageCallKey('0x'), budget,
+    feeParams: encodeExternalMessageFeeParams({gasLimit, maxGasPrice})};
+  return {gasLimit, maxGasPrice, budget, allocation};
 }
 
 export async function archiveV1Proofs() {
@@ -223,10 +254,35 @@ export async function createGenLayerRuntime() {
     return trackedSubmit({kind: 'write', chainId, contractAddress: deployment.address,
       account: acting.account.address, functionName, args, value: value.toString()}, name, async () => {
       await ensureFaucet(acting.account.address);
+      let claimSeed = null;
+      if (functionName === 'claim') {
+        if (value !== 0n) throw new Error('A participant claim must not send additional value');
+        const config = await rpc('sim_getFeeConfig');
+        claimSeed = claimFeeSeed(config, acting.account.address);
+        await saveProof(role + '-claim-fee-policy', {observedAt: new Date().toISOString(),
+          policy: config.policy, defaultFees: config.defaultFees,
+          exactExternalAllocation: claimSeed.allocation, messageBudgetWei: claimSeed.budget});
+      }
       const fees = ['claim', 'open_case'].includes(functionName)
         ? await acting.client.estimateTransactionFeesForWrite({address: deployment.address, functionName, args,
-          value, leaderOnly: false, appealRounds: 0})
+          value, leaderOnly: false, appealRounds: 0,
+          ...(claimSeed ? {totalMessageFees: claimSeed.budget, messageAllocations: [claimSeed.allocation]} : {})})
         : await acting.client.estimateTransactionFees({appealRounds: 0});
+      if (functionName === 'claim') {
+        await saveProof(role + '-claim-fee-estimate', {observedAt: new Date().toISOString(),
+          concreteMessageBudgetSeedWei: claimSeed.budget.toString(),
+          distribution: fees.distribution, messageAllocations: fees.messageAllocations || [],
+          feeValue: fees.feeValue, observed: fees.observed || null});
+        const allocation = fees.messageAllocations?.[0];
+        if (fees.messageAllocations?.length !== 1 || allocation.messageType !== 0 || allocation.onAcceptance !== false ||
+            allocation.recipient?.toLowerCase() !== acting.account.address.toLowerCase() ||
+            allocation.callKey !== claimSeed.allocation.callKey || allocation.feeParams !== claimSeed.allocation.feeParams ||
+            BigInt(allocation.budget) < claimSeed.budget || BigInt(allocation.budget) % claimSeed.budget !== 0n ||
+            BigInt(fees.distribution.totalMessageFees) < BigInt(allocation.budget) ||
+            BigInt(fees.distribution.totalMessageFees) > MAX_CLAIM_MESSAGE_BUDGET_WEI) {
+          throw new Error('Authoritative claim estimate did not preserve the exact funded recipient, call key and finalization envelope; no transaction broadcast');
+        }
+      }
       return acting.client.writeContract({address: deployment.address, functionName, args, value, leaderOnly: false, fees});
     });
   }

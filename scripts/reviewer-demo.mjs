@@ -103,4 +103,18 @@ try {
   console.log(JSON.stringify(jsonValue({status: result.status, contract: result.contractUrl, caseId: result.caseId,
     ruling: result.ruling.url, sellerClaim: result.sellerClaim.url, sellerTransferWei: sellerClaim.amountWei,
     contractRemainingWei: remainingBalanceWei, yellowUnchangedAndOpen: true}), null, 2));
+} catch (error) {
+  const lines = [(error.shortMessage || error.message || 'Reviewer demo failed').split('\n')[0].slice(0, 500)];
+  let current = error;
+  for (let depth = 0; current && depth < 6; depth++, current = current.cause) {
+    const candidates = [current.data?.receipt?.genvm_result?.result,
+      current.data?.receipt?.result, current.data?.data?.receipt?.genvm_result?.result];
+    for (const candidate of candidates) {
+      if (typeof candidate !== 'string' || candidate.length > 1024 || !/^[A-Za-z0-9+/=]+$/.test(candidate)) continue;
+      const decoded = Buffer.from(candidate, 'base64').toString('utf8').replace(/[^\x20-\x7e\n]/g, '').trim();
+      if (decoded && !lines.includes(decoded)) lines.push('Execution detail: ' + decoded.slice(0, 500));
+    }
+  }
+  console.error(lines.join('\n'));
+  process.exitCode = 1;
 } finally {if (room && !disconnected) await room.disconnect();}
