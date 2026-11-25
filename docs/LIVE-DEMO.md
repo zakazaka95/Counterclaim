@@ -2,6 +2,18 @@
 
 **Live URL:** https://counterclaim.goodlygnat16.chatgpt.site
 
+Verified through the public browser app on **25 November 2026**: fresh case **1**
+created a genuine Yellow session, finalized the 75/25 ruling and delivered the
+seller's **0.00075 test GEN** without another buyer signature or Yellow update.
+The buyer's **0.00025 test GEN** remains reserved. The complete, key-free
+[browser proof](../proof/browser-live-2026-11-25.json) contains the actual calls,
+finalized receipt and delivered transfer effect. The
+[ruling](https://explorer-studio-dev.genlayer.com/tx/0x1ac74fd7bf68d4379a294d5a9b5adc6c2105242884572be1d848f3698a810e4a)
+and [seller claim](https://explorer-studio-dev.genlayer.com/tx/0x6061a2c79d3a27a12d7b53d46ee74439fe82450b084876332bd77efb6254ef53)
+are independently inspectable. All 97 local checks and the
+[published CI run](https://github.com/zakazaka95/Counterclaim/actions/runs/45592481528)
+passed for the hosted implementation.
+
 Open the site in a modern browser. There is no installation, wallet connection
 or personal funding step. This is a Studio development-network demonstration
 with disposable accounts and faucet GEN.
