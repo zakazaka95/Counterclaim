@@ -16,3 +16,5 @@ media/out/
 __pycache__/
 *.pyc
 *.log
+/dist/
+/.wrangler/

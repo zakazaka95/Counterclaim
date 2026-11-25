@@ -10,6 +10,42 @@
 
 **Agree on the work. Authenticate the delivery. Claim without another signature.**
 
+## Open the browser demo
+
+**Live demo:** https://counterclaim.goodlygnat16.chatgpt.site · [Browser walkthrough](docs/LIVE-DEMO.md)
+
+No installation or personal wallet is required. The page first shows the
+**read-only November 24 case**: a real 0.001 faucet-GEN escrow, a finalized 75/25
+ruling, a 0.00075 test-GEN seller transfer and a 0.00025 buyer award still reserved.
+Those historical accounts cannot sign through the page.
+
+Select **Start live demo** to create two disposable accounts in your browser tab.
+Then select **Fund & request a ruling**: the buyer funds 0.001 test GEN, the seller
+accepts the exact terms and registers the complete delivery, and GenLayer judges
+the stored artifacts. **Claim seller award** makes only the seller sign its own
+native withdrawal. **Claim buyer award (optional)** separately withdraws the
+buyer's remaining entitlement. Fresh results come from the actual consensus
+receipt; the recorded 75/25 split is not imposed on a new case.
+
+Keys stay in this tab's `sessionStorage`; reloads resume the saved transaction
+journals, but closing or clearing the tab can lose account access. Use faucet
+tokens only. The browser's **Download proof** export includes public context,
+transaction records and verified outcomes, never private keys. Delivery text and
+onchain calls are public.
+
+The app attempts a genuine zero-allocation Yellow session. If its sandbox is
+unavailable, it explicitly labels the random reference **not a Yellow session**
+and continues with authenticated GenLayer escrow. Yellow co-signing is not needed
+for either native claim. The fixed court is
+[`0xC68b67797C630cBBf2bb80D290d68A787c855E14`](https://explorer-studio-dev.genlayer.com/address/0xC68b67797C630cBBf2bb80D290d68A787c855E14)
+on Studio chain **61997**. Before a fresh write, the browser checks the complete
+deployed source against this repository's v2 court.
+
+The hosted Worker serves the interface and a restricted, globally paced Studio
+RPC gateway; it holds no participant signing keys. See
+[hosting and gateway boundaries](hosting/README.md). The downloadable November 24
+proof is historical evidence; a new visitor generates a separate live proof.
+
 ## Version 2 correction — November 24, 2026
 
 The reviewer identified two real limitations in version 1: the relay selected
@@ -122,6 +158,8 @@ npm test
 npm --prefix server test
 npm --prefix app test
 npm --prefix app run build
+npm run test:hosting
+npm run build:hosted
 ```
 
 Controlled-output tests, live network observations and general jury accuracy are

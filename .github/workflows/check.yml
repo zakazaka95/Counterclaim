@@ -31,5 +31,9 @@ jobs:
       - run: npm --prefix server test
       - run: npm --prefix app test
       - run: npm --prefix app run build
+      - name: Verify bounded hosted RPC gateway and global pacing
+        run: npm run test:hosting
+      - name: Build browser-signing hosted Worker
+        run: npm run build:hosted
       - run: npm --prefix media ci
       - run: npm --prefix media run typecheck

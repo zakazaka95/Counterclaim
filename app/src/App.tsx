@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
-import { actionFor, emptyDemo, emptyStatus, hasRuling, normalizeDemo, normalizeStatus, safeLink } from './model';
+import { actionForDemo, claimHeadline, emptyDemo, emptyStatus, formatWei, hasRuling, isRecordedDemo, normalizeDemo, normalizeStatus, safeLink } from './model';
 import type { Demo, Milestone, Status } from './model';
+import { isHostedDemo, requestLive } from './live/controller';
 
 function Icon({ name, size = 18, ...props }: { name: string; size?: number; className?: string }) {
   const paths: Record<string, ReactNode> = {
@@ -29,6 +30,7 @@ function External({ href, children, className = '' }: { href?: string; children:
 }
 
 async function request(path: string, method = 'GET') {
+  if (isHostedDemo) return requestLive(path, method);
   const response = await fetch(path, { method, headers: { Accept: 'application/json', ...(method === 'POST' ? { 'Content-Type': 'application/json' } : {}) }, ...(method === 'POST' ? { body: '{}' } : {}) });
   const text = await response.text();
   let body: unknown;
@@ -53,7 +55,7 @@ function EvidenceDialog({ milestone, onClose }: { milestone: Milestone | null; o
   useEffect(() => { if (milestone && !dialog.current?.open) dialog.current?.showModal(); if (!milestone && dialog.current?.open) dialog.current.close(); }, [milestone]);
   return <dialog ref={dialog} className="evidence-dialog" onCancel={onClose} onClick={(event) => { if (event.target === dialog.current) onClose(); }} aria-labelledby="evidence-title">
     {milestone && <div className="dialog-inner">
-      <div className="dialog-top"><span className="eyebrow">Frozen evidence · {milestone.weight} credits</span><button type="button" className="icon-button" aria-label="Close evidence" onClick={onClose}><Icon name="close" /></button></div>
+      <div className="dialog-top"><span className="eyebrow">Complete text artifact · weight {milestone.weight}</span><button type="button" className="icon-button" aria-label="Close evidence" onClick={onClose}><Icon name="close" /></button></div>
       <h2 id="evidence-title">{milestone.title}</h2>
       <p className="dialog-description">{milestone.description}</p>
       <div className="evidence-document"><div><Icon name="file" /><span>{milestone.artifactName ?? 'Submitted record'}</span></div><p>{milestone.evidence ?? 'No evidence has been supplied for this milestone. The jury must judge the recorded material against the agreement, rather than assume delivery.'}</p></div>
@@ -73,33 +75,40 @@ export default function App() {
   const [dismissedRemoteError, setDismissedRemoteError] = useState<string | undefined>();
   const [evidence, setEvidence] = useState<Milestone | null>(null);
   const [helpOpen, setHelpOpen] = useState(false);
+  const [downloading, setDownloading] = useState(false);
   const refresh = useCallback(async (showError = true) => {
     const [statusResult, demoResult] = await Promise.allSettled([request('/api/status'), request('/api/demo')]);
     if (statusResult.status === 'fulfilled') setStatus(normalizeStatus(statusResult.value));
     if (demoResult.status === 'fulfilled') setDemo(normalizeDemo(demoResult.value));
     const connected = statusResult.status === 'fulfilled' && demoResult.status === 'fulfilled';
     setConnection(connected ? 'online' : 'offline');
-    if (!connected && showError) setError('The coordinator is not reachable. Start the demo service, then reconnect. No room or ruling has been created.');
+    if (!connected && showError) setError(isHostedDemo ? 'The live service could not be reached. Reconnect to resume your saved demo.' : 'The coordinator is not reachable. Start the demo service, then reconnect. No room or ruling has been created.');
   }, []);
   useEffect(() => { void refresh(false); }, [refresh]);
   useEffect(() => { const timer = window.setInterval(() => void refresh(false), demo.phase === 'judging' || busy ? 3000 : 9000); return () => window.clearInterval(timer); }, [busy, demo.phase, refresh]);
 
   const ruling = hasRuling(demo);
   const proposalAllowed = ruling && (demo.settlementAllowed ?? Boolean(demo.allocation));
-  const action = demo.phase === 'verdict_ready' && !proposalAllowed ? { path: '', label: 'Review inconclusive', detail: 'No guessed award is made. The accepted refund deadline governs recovery.' } : actionFor(demo.phase);
+  const recorded = isRecordedDemo(demo);
+  const action = actionForDemo(demo);
   const phaseIndex = { idle: 0, session_open: 1, judging: 1, verdict_ready: 2, settled: 3 }[demo.phase];
-  const yellowNeeded = action.path === 'session';
   const working = Boolean(busy) || status.busy === true;
-  const canAct = connection === 'online' && !working && Boolean(action.path) && (yellowNeeded ? status.yellow.ready : status.genlayer.ready);
+  const canAct = connection === 'online' && !working && Boolean(action.path) && (recorded || isHostedDemo && action.path === 'session' || status.genlayer.ready);
   const visibleError = error ?? (status.error !== dismissedRemoteError ? status.error : undefined);
   const accepted = demo.adjudication?.acceptedDeliverables;
   const split = proposalAllowed ? demo.allocation : undefined;
   const sellerPercent = split ? split.seller / split.total * 100 : 0;
   const signatures = demo.authorization ?? demo.signatures;
   const activity = [...demo.activity].reverse();
+  const sessionReferenceOnly = demo.session?.referenceOnly === true || demo.mode === 'live' && demo.optionalYellowConnected === false;
+  const isFunded = demo.caseId !== undefined && demo.authorization?.buyer === true;
+  const sellerPaid = demo.escrow?.claims?.seller === true && Boolean(demo.escrow.sellerWei && BigInt(demo.escrow.sellerWei) > 0n);
+  const latestActivity = activity[0];
+  const claimUrl = (hash?: string) => hash && /^0x[0-9a-fA-F]{64}$/.test(hash) ? `https://explorer-studio-dev.genlayer.com/tx/${hash}` : undefined;
+  const canStartAnother = !isHostedDemo || recorded || demo.phase === 'settled';
 
   async function perform(path: string) {
-    if (working) return;
+    if (working || !path) return;
     setBusy(path); setError(null);
     try {
       const body = await request(`/api/demo/${path}`, 'POST');
@@ -107,6 +116,19 @@ export default function App() {
       await refresh(false);
     } catch (cause) { setError(cause instanceof Error ? cause.message : 'The action failed. Your previous state is preserved.'); }
     finally { setBusy(null); }
+  }
+
+  async function downloadProof() {
+    setDownloading(true);
+    try {
+      const proof = await request('/api/proof');
+      const blob = new Blob([JSON.stringify(proof, (_, value) => typeof value === 'bigint' ? value.toString() : value, 2)], {type: 'application/json'});
+      const url = URL.createObjectURL(blob);
+      const anchor = document.createElement('a');
+      anchor.href = url; anchor.download = `counterclaim-${recorded ? 'recorded' : 'live'}-${demo.caseId ?? 'prepared'}-proof.json`;
+      anchor.click(); URL.revokeObjectURL(url);
+    } catch (cause) { setError(cause instanceof Error ? cause.message : 'The proof could not be downloaded.'); }
+    finally { setDownloading(false); }
   }
 
   return <div className="app-shell">
@@ -117,6 +139,10 @@ export default function App() {
     </header>
 
     <main>
+      {isHostedDemo && <section className={`mode-strip ${recorded ? 'mode-recorded' : 'mode-live'}`} aria-label="Demo mode">
+        <div><span className="mode-label"><i />{recorded ? 'Recorded result · 24 Nov 2026' : 'Your live browser demo'}</span><p>{recorded ? 'Read-only proof: seller paid, buyer award reserved. Start a fresh case to try the real protocol.' : 'Two disposable accounts stay in this tab. Reloads resume; closing the tab can lose access. Faucet test GEN only.'}</p></div>
+        {recorded ? <button className="button mode-cta" type="button" onClick={() => void perform('session')} disabled={!canAct}>Start live demo<Icon name="arrow" size={17} /></button> : <button className="subtle-button mode-proof" type="button" onClick={() => void downloadProof()} disabled={downloading}><Icon name="file" size={16} />{downloading ? 'Preparing proof…' : 'Download your proof'}</button>}
+      </section>}
       <section className="hero" aria-labelledby="hero-title">
         <div className="hero-copy"><div className="eyebrow hero-eyebrow"><span className="small-cross">+</span> Agreements for an agentic world</div><h1 id="hero-title">A fair way<br /><em>forward.</em></h1><p>Agents can disagree.<br className="mobile-break" /> Their deals shouldn’t get stuck.</p></div>
         <div className="hero-diagram" aria-label="Authenticated delivery, independent judgment, unilateral claim">
@@ -133,18 +159,19 @@ export default function App() {
       {helpOpen && <section className="how-panel" id="how-it-works"><div><span className="eyebrow">01 · Agree</span><h3>Freeze the deal.</h3><p>The buyer funds the contract. The seller accepts the exact terms and submits the complete work from its own account.</p></div><div><span className="eyebrow">02 · Review</span><h3>Let the evidence speak.</h3><p>Independent validators assess the exact seller-registered artifacts against both parties’ accepted criteria.</p></div><div><span className="eyebrow">03 · Claim</span><h3>Find a way forward.</h3><p>Each participant claims its own test GEN award without a new signature from the other party. Yellow closure is optional.</p></div></section>}
 
       <section className="case-section" id="case" aria-labelledby="case-title">
-        <div className="section-header"><div><div className="eyebrow">THE DEMO ROOM <span className="label-separator">/</span> {demo.caseId !== undefined ? `GENLAYER CASE ${demo.caseId}` : 'CASE PENDING'}</div><h2 id="case-title">{proposalAllowed && accepted !== undefined ? `${demo.deliverables.length} promised. ${accepted} accepted.` : 'Three milestones. One disagreement.'}</h2></div><div className={`case-status ${demo.phase === 'settled' ? 'status-success' : ''}`}><span />{demo.phase === 'settled' ? 'Awards claimed' : demo.phase === 'judging' ? 'Jury reviewing' : ruling ? proposalAllowed ? 'Award ready' : 'Needs clarity' : demo.session?.id ? 'Room open' : 'Ready to begin'}</div></div>
+        <div className="section-header"><div><div className="eyebrow">{recorded ? 'RECORDED CASE · READ ONLY' : 'THE LIVE DEMO'} <span className="label-separator">/</span> {demo.caseId !== undefined ? `GENLAYER CASE ${demo.caseId}` : 'CASE NOT YET CREATED'}</div><h2 id="case-title">{proposalAllowed && accepted !== undefined ? `${demo.deliverables.length} promised. ${accepted} accepted.` : 'Three milestones. One disagreement.'}</h2></div><div className={`case-status ${sellerPaid ? 'status-success' : ''}`}><span />{claimHeadline(demo)}</div></div>
 
         <div className="journey" aria-label="Case progress"><Step number={1} title="The agreement" detail="Terms & evidence frozen" active={phaseIndex === 0} complete={phaseIndex > 0} /><div className="step-connector" /><Step number={2} title="The ruling" detail="GenLayer reviews the case" active={phaseIndex === 1} complete={phaseIndex > 1} /><div className="step-connector" /><Step number={3} title="The way forward" detail="Each party claims independently" active={phaseIndex === 2} complete={phaseIndex === 3} /></div>
 
         {visibleError && <div className="error-message" role="alert"><Icon name="info" size={20} /><div><strong>That step didn’t complete.</strong><p>{visibleError}</p></div><button type="button" className="icon-button" onClick={() => { setError(null); setDismissedRemoteError(status.error); }} aria-label="Dismiss error"><Icon name="close" size={18} /></button></div>}
+        {working && <div className="live-progress" role="status"><span className="spinner" /><div><strong>{latestActivity?.title ?? 'Preparing the next onchain step…'}</strong><p>{latestActivity?.detail ?? 'Waiting for the actual network result. Your submitted transactions are retained.'}</p></div></div>}
 
         <div className="case-grid" data-testid="case-workspace">
           <div className="case-main">
             <section className="agreement-panel" data-testid="agreement-panel" aria-label="Frozen agreement">
-              <div className="panel-heading"><span className="eyebrow">THE AGREEMENT</span><span className="quiet-badge"><Icon name={demo.session?.id ? 'lock' : 'file'} size={13} />{demo.session?.id ? 'Authenticated delivery' : 'Synthetic case fixture'}</span></div>
-              <div className="agreement-summary"><h3>Release<br />handoff.</h3><div className="credit-amount"><span>{demo.agreement.budget}</span><p>demo credits<small>Milestone weights</small></p></div></div>
-              <p className="agreement-description">Three milestones, agreed in advance. Delivered work earns its weight. Undelivered work stays with the buyer.</p>
+              <div className="panel-heading"><span className="eyebrow">THE AGREEMENT</span><span className="quiet-badge"><Icon name={demo.authorization?.deliveredBy ? 'lock' : 'file'} size={13} />{demo.authorization?.deliveredBy ? 'Seller-registered delivery' : 'Synthetic case fixture'}</span></div>
+              <div className="agreement-summary"><h3>Release<br />handoff.</h3><div className="credit-amount native-amount"><span>{formatWei(demo.escrow?.totalWei ?? '1000000000000000')}</span><p>test GEN<small>{isFunded ? 'Native escrow funded' : 'Demo escrow amount'}</small></p></div></div>
+              <p className="agreement-description">Three agreed milestones. Exact text delivered by the seller. GenLayer fixes each party’s native award; either party can claim independently.</p>
               <div className="parties"><div><span className="party-avatar buyer-avatar">B</span><div><strong>Buyer agent</strong><span>{demo.agreement.buyer ? truncate(demo.agreement.buyer) : 'Commissioned the release'}</span></div></div><span className="party-connection"><Icon name="link" size={16} /></span><div><span className="party-avatar seller-avatar">S</span><div><strong>Seller agent</strong><span>{demo.agreement.seller ? truncate(demo.agreement.seller) : 'Responsible for delivery'}</span></div></div></div>
             </section>
 
@@ -153,7 +180,7 @@ export default function App() {
                 const missing = ['missing', 'not_delivered', 'absent', 'rejected', 'not_satisfied', 'not-satisfied', 'failed'].includes(milestone.status.toLowerCase());
                 const verified = ruling && ['accepted', 'delivered', 'pass', 'satisfied'].includes(milestone.status.toLowerCase());
                 const supplied = Boolean(milestone.evidence) || ['submitted', 'provided', 'accepted', 'delivered', 'pass', 'satisfied'].includes(milestone.status.toLowerCase());
-                return <button type="button" className={`milestone ${missing ? 'milestone-missing' : ''}`} onClick={() => setEvidence(milestone)} key={milestone.id}><span className={`milestone-icon ${verified ? 'verified-icon' : ''}`}>{verified ? <Icon name="check" size={17} /> : missing ? <span className="missing-dash" /> : <Icon name="file" size={18} />}</span><span className="milestone-text"><strong>{milestone.title}</strong><span>{milestone.description || `Milestone ${index + 1} acceptance criteria`}</span></span><span className={`milestone-status ${missing ? 'missing-status' : verified ? 'verified-status' : ''}`}>{missing ? 'Not delivered' : verified ? 'Accepted' : supplied ? 'Submitted' : 'Review criteria'}</span><span className="milestone-weight">{milestone.weight}<small>credits</small></span><Icon name="diagonal" size={14} /></button>;
+                return <button type="button" className={`milestone ${missing ? 'milestone-missing' : ''}`} onClick={() => setEvidence(milestone)} key={milestone.id}><span className={`milestone-icon ${verified ? 'verified-icon' : ''}`}>{verified ? <Icon name="check" size={17} /> : missing ? <span className="missing-dash" /> : <Icon name="file" size={18} />}</span><span className="milestone-text"><strong>{milestone.title}</strong><span>{milestone.description || `Milestone ${index + 1} acceptance criteria`}</span></span><span className={`milestone-status ${missing ? 'missing-status' : verified ? 'verified-status' : ''}`}>{missing ? 'Not satisfied' : verified ? 'Accepted' : supplied ? 'Submitted' : 'Review criteria'}</span><span className="milestone-weight">{milestone.weight}<small>weight</small></span><Icon name="diagonal" size={14} /></button>;
               })}</div>
               <div className="evidence-footnote"><Icon name="fingerprint" size={17} /><span>Complete evidence is bound to the agreement before the ruling.</span>{demo.agreement.hash && <code title={demo.agreement.hash}>{truncate(demo.agreement.hash, 8)}</code>}</div>
             </section>
@@ -163,27 +190,37 @@ export default function App() {
             <div className="outcome-top"><span className="eyebrow">THE WAY FORWARD</span><div className="small-court-symbol"><Icon name="scales" size={18} /></div></div>
             {ruling ? <><div className="ruling-tag"><span />{demo.phase === 'settled' ? 'Independent escrow awards' : 'GenLayer ruling received'}</div>{proposalAllowed ? <h3>Credit where<br /><em>it’s due.</em></h3> : <h3>Room for<br /><em>more clarity.</em></h3>}<p className="outcome-description">{demo.adjudication?.summary ?? 'The exact registered delivery has been assessed. Each participant can claim its own award.'}</p></> : <><div className="ruling-tag muted-ruling"><span />{demo.phase === 'judging' ? 'Actual consensus in progress' : 'Independent review'}</div><h3>A resolution,<br /><em>not a stalemate.</em></h3><p className="outcome-description">The seller’s authenticated delivery goes to GenLayer. A resolved ruling fixes each party’s claim on the escrow.</p></>}
 
-            <div className={`split-graphic ${split ? 'split-ready' : ''}`} aria-label={split ? `Milestone weights: seller ${split.seller}, buyer ${split.buyer} demo credits` : 'Split awaits a real GenLayer ruling'}>
-              <div className="split-heading"><span>Milestone outcome</span><span>{split ? `${split.total} credits` : 'Awaiting ruling'}</span></div>
+            <div className="native-awards" aria-label="Native test GEN escrow awards">
+              <div className="native-awards-heading"><span className="eyebrow">NATIVE GEN AWARDS</span><span>{recorded ? 'Recorded transfers' : ruling ? 'Onchain entitlements' : 'Awaiting consensus'}</span></div>
+              {(['seller', 'buyer'] as const).map(role => {
+                const value = demo.escrow?.[role === 'seller' ? 'sellerWei' : 'buyerWei'];
+                const noAward = ruling && value === '0';
+                const paid = !noAward && demo.escrow?.claims?.[role] === true;
+                const label = noAward ? 'No award' : paid ? 'Paid' : ruling && value ? role === 'buyer' && demo.escrow?.claims?.seller ? 'Reserved · optional claim' : 'Ready to claim' : 'Not determined';
+                return <div className={`native-award-row ${paid ? 'award-paid' : ''}`} key={role}><div><span>{role === 'seller' ? 'Seller' : 'Buyer'}</span><strong title={value ? `${value} wei` : undefined}>{ruling ? formatWei(value) : '—'}<small>test GEN</small></strong></div><span className={`award-state ${paid ? 'award-state-paid' : ''}`}>{paid && <Icon name="check" size={12} />}{label}</span>{paid && claimUrl(demo.escrow?.claimTxs?.[role]) && <External className="award-tx" href={claimUrl(demo.escrow?.claimTxs?.[role])}>Transfer</External>}</div>;
+              })}
+              <p>Each participant claims its own award. No new counterparty signature or Yellow closure is required.</p>
+            </div>
+
+            <div className={`split-graphic ${split ? 'split-ready' : ''}`} aria-label={split ? `Milestone weights: seller ${split.seller}, buyer ${split.buyer}, total ${split.total}` : 'Milestone split awaits a real GenLayer ruling'}>
+              <div className="split-heading"><span>Milestone-weight split</span><span>{split ? `${split.total} total weight` : 'Awaiting ruling'}</span></div>
               <div className="allocation-bar"><div className="seller-allocation" style={{ flexBasis: `${split ? sellerPercent : 50}%`, ...(split?.seller === 0 ? { padding: 0 } : {}) }}>{split ? split.seller : '—'}</div><div className="buyer-allocation" style={split ? { flexBasis: `${100 - sellerPercent}%`, flexGrow: 0, ...(split.buyer === 0 ? { padding: 0 } : {}) } : undefined}>{split ? split.buyer : '—'}</div></div>
               <div className="allocation-labels"><span><i />Seller agent{split ? ` · ${split.seller}` : ''}</span><span><i />Buyer agent{split ? ` · ${split.buyer}` : ''}</span></div>
             </div>
 
-            {demo.escrow && <div className="escrow-record" style={{marginBottom: 20, padding: 16, border: '1px solid var(--border, #deded7)', borderRadius: 12}}><span className="eyebrow">ONCHAIN TEST ESCROW</span><p style={{fontSize: 13}}>Deposit: {demo.escrow.totalWei} wei</p>{demo.escrow.sellerWei && <p style={{fontSize: 13}}>Seller: {demo.escrow.sellerWei} wei · Buyer: {demo.escrow.buyerWei} wei</p>}<p style={{fontSize: 12}}>Each party claims independently. No new counterparty signature.</p>{demo.authorization?.deliveredBy && <code style={{fontSize: 11}}>Delivered by {truncate(demo.authorization.deliveredBy, 9)}</code>}</div>}
+            <div className="signatures"><div><span className={`signature-mark ${signatures?.buyer ? 'signed' : ''}`}>{signatures?.buyer ? <Icon name="check" size={12} /> : <Icon name="fingerprint" size={12} />}</span><span>Buyer authorization</span><small>{signatures?.buyer ? demo.authorization ? 'Funded' : 'Signed' : 'Required'}</small></div><div><span className={`signature-mark ${signatures?.seller ? 'signed' : ''}`}>{signatures?.seller ? <Icon name="check" size={12} /> : <Icon name="fingerprint" size={12} />}</span><span>Seller authorization</span><small>{signatures?.seller ? demo.authorization ? 'Accepted' : 'Signed' : 'Required'}</small></div></div>
 
-            <div className="signatures"><div><span className={`signature-mark ${signatures?.buyer ? 'signed' : ''}`}>{signatures?.buyer ? <Icon name="check" size={12} /> : <Icon name="fingerprint" size={12} />}</span><span>Buyer authorization</span><small>{signatures?.buyer ? 'Signed' : 'Required'}</small></div><div><span className={`signature-mark ${signatures?.seller ? 'signed' : ''}`}>{signatures?.seller ? <Icon name="check" size={12} /> : <Icon name="fingerprint" size={12} />}</span><span>Seller authorization</span><small>{signatures?.seller ? 'Signed' : 'Required'}</small></div></div>
-
-            <button type="button" data-testid="primary-action" className={`button button-primary ${demo.phase === 'settled' ? 'button-finished' : ''}`} disabled={!canAct} aria-busy={working} onClick={() => void perform(action.path)}>{working ? <><span className="spinner" />{busy === 'session' ? 'Opening signed room…' : busy === 'adjudicate' ? 'Submitting for review…' : busy === 'settle' ? 'Claiming test GEN awards…' : 'Network request running…'}</> : <>{action.label}<Icon name={demo.phase === 'settled' ? 'check' : demo.phase === 'judging' ? 'clock' : 'arrow'} size={19} /></>}</button>
-            <p className="action-detail">{connection !== 'online' ? connection === 'connecting' ? 'Connecting to the demonstration service…' : 'Start the coordinator to run the real sandbox demo.' : working ? 'Waiting for the actual protocol response. Consensus can take a few minutes.' : !canAct && action.path ? (yellowNeeded ? status.yellow.reason : status.genlayer.reason) ?? 'This service needs configuration before the next step.' : action.detail}</p>
+            <button type="button" data-testid="primary-action" className={`button button-primary ${demo.phase === 'settled' ? 'button-finished' : ''}`} disabled={!canAct} aria-busy={working} onClick={() => void perform(action.path)}>{working ? <><span className="spinner" />{busy === 'session' ? 'Preparing your demo…' : busy === 'adjudicate' ? 'Funding, delivering & reviewing…' : busy === 'settle' ? 'Confirming native claim…' : 'Network request running…'}</> : <>{action.label}<Icon name={demo.phase === 'settled' ? 'check' : demo.phase === 'judging' ? 'clock' : 'arrow'} size={19} /></>}</button>
+            <p className="action-detail">{connection !== 'online' ? connection === 'connecting' ? 'Loading the demonstration…' : isHostedDemo ? 'Reconnect to resume the saved browser demo.' : 'Start the coordinator to run the sandbox demo.' : working ? 'Waiting for the actual protocol response. Consensus can take a few minutes.' : !canAct && action.path ? status.genlayer.reason ?? 'The GenLayer connection is not ready. Refresh the record to retry.' : action.detail}</p>
             <div className="outcome-boundary"><Icon name="info" size={13} /><span>The contract holds faucet test GEN. Yellow allocations stay at zero; its closure cannot block these awards.</span></div>
           </aside>
         </div>
 
-        <section className="proof-panel" data-testid="proof-panel" aria-labelledby="proof-heading"><div className="proof-title"><div><span className="eyebrow">A SHARED RECORD</span><h3 id="proof-heading">Every step leaves a trace.</h3></div><button type="button" className="subtle-button" onClick={() => void refresh()} disabled={Boolean(busy)}><Icon name="refresh" size={14} />Refresh record</button></div><div className="proof-items"><div><span className="proof-icon"><Icon name="link" size={17} /></span><div><span>Yellow room</span><External href={demo.session?.proofUrl}>{truncate(demo.session?.id, 10)}</External></div>{demo.session?.status && <span className="record-status">{demo.session.status}</span>}</div><div><span className="proof-icon"><Icon name="scales" size={17} /></span><div><span>GenLayer decision</span><External href={demo.adjudication?.explorerUrl}>{demo.adjudication?.transactionHash ? truncate(demo.adjudication.transactionHash, 10) : 'Not requested'}</External></div>{demo.adjudication?.status && <span className="record-status">{demo.adjudication.status}</span>}</div><div><span className="proof-icon"><Icon name="fingerprint" size={17} /></span><div><span>Receipt fingerprint</span><code title={demo.adjudication?.receiptHash}>{truncate(demo.adjudication?.receiptHash, 10)}</code></div></div></div>
-          {activity.length > 0 && <details className="activity"><summary>View the complete case timeline<span>{activity.length} events<Icon name="arrow" size={13} /></span></summary><ol>{activity.map((event) => <li key={event.id}><span className={`activity-dot ${event.status === 'failed' ? 'failed-dot' : ''}`} /><div><strong><External href={event.url}>{event.title}</External></strong>{event.detail && <p>{event.detail}</p>}</div>{event.at && <time dateTime={event.at}>{new Date(event.at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</time>}</li>)}</ol></details>}
+        <section className="proof-panel" data-testid="proof-panel" aria-labelledby="proof-heading"><div className="proof-title"><div><span className="eyebrow">A SHARED RECORD</span><h3 id="proof-heading">Every step leaves a trace.</h3></div><div className="proof-actions"><button type="button" className="subtle-button" onClick={() => void downloadProof()} disabled={downloading}><Icon name="file" size={14} />{downloading ? 'Preparing…' : 'Download proof'}</button><button type="button" className="subtle-button" onClick={() => void refresh()} disabled={working}><Icon name="refresh" size={14} />Refresh record</button></div></div><div className="proof-items"><div><span className="proof-icon"><Icon name="link" size={17} /></span><div><span>{sessionReferenceOnly ? 'Demo reference' : 'Yellow room'}</span><External href={sessionReferenceOnly ? undefined : demo.session?.proofUrl}>{truncate(demo.session?.id, 10)}</External></div>{demo.session?.status && <span className="record-status">{sessionReferenceOnly ? 'Reference only · no Yellow session' : demo.session.status}</span>}</div><div><span className="proof-icon"><Icon name="scales" size={17} /></span><div><span>GenLayer decision</span><External href={demo.adjudication?.explorerUrl}>{demo.adjudication?.transactionHash ? truncate(demo.adjudication.transactionHash, 10) : 'Not requested'}</External></div>{demo.adjudication?.status && <span className="record-status">{demo.adjudication.status === 'complete' ? 'Finalized' : demo.adjudication.status}</span>}</div><div><span className="proof-icon"><Icon name="fingerprint" size={17} /></span><div><span>Receipt fingerprint</span><code title={demo.adjudication?.receiptHash}>{truncate(demo.adjudication?.receiptHash, 10)}</code></div></div><div><span className="proof-icon"><Icon name="lock" size={17} /></span><div><span>Native escrow court</span><External href={demo.contractUrl}>{demo.contractUrl ? truncate(status.genlayer.contractAddress ?? demo.contractUrl.split('/').at(-1), 10) : 'Not registered'}</External></div><span className="record-status">{sellerPaid ? 'Seller paid' : isFunded ? 'Funded' : 'Test GEN only'}</span></div></div>
+          {activity.length > 0 && <details className="activity" open={working || undefined}><summary>View the complete case timeline<span>{activity.length} events<Icon name="arrow" size={13} /></span></summary><ol>{activity.map((event) => <li key={event.id}><span className={`activity-dot ${['failed', 'error'].includes(event.status ?? '') ? 'failed-dot' : event.status === 'pending' ? 'pending-dot' : ''}`} /><div><strong><External href={event.url}>{event.title}</External></strong>{event.detail && <p>{event.detail}</p>}</div>{event.at && <time dateTime={event.at}>{new Date(event.at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</time>}</li>)}</ol></details>}
         </section>
 
-        <div className="service-strip"><div className="services"><span className={`service ${status.yellow.ready ? 'service-ready' : ''}`}><i />Yellow <small>{status.yellow.network ?? 'Sandbox'}</small></span><span className={`service ${status.genlayer.ready ? 'service-ready' : ''}`}><i />GenLayer <small>{status.genlayer.network ?? 'Test network'}</small></span></div><button type="button" className="subtle-button" onClick={() => connection === 'offline' ? void refresh() : void perform('reset')} disabled={working || demo.phase === 'judging'}><Icon name="refresh" size={13} />{connection === 'offline' ? 'Reconnect services' : 'Start another case'}</button></div>
+        <div className="service-strip"><div className="services"><span className={`service ${!sessionReferenceOnly && (recorded || demo.optionalYellowConnected === true || !isHostedDemo && status.yellow.ready) ? 'service-ready' : ''}`}><i />Yellow <small>{recorded ? 'Recorded v2 session' : sessionReferenceOnly ? 'Optional · unavailable' : demo.optionalYellowConnected ? 'Sandbox connected' : 'Optional auxiliary record'}</small></span><span className={`service ${status.genlayer.ready ? 'service-ready' : ''}`}><i />GenLayer <small>{status.genlayer.network ?? 'Test network'}</small></span></div><button type="button" className="subtle-button" onClick={() => connection === 'offline' ? void refresh() : void perform(isHostedDemo ? 'session' : 'reset')} disabled={working || demo.phase === 'judging' || connection !== 'offline' && !canStartAnother}><Icon name="refresh" size={13} />{connection === 'offline' ? 'Reconnect services' : !canStartAnother ? 'Current browser case retained' : recorded ? 'Start a live demo' : 'Start another case'}</button></div>
       </section>
     </main>
 

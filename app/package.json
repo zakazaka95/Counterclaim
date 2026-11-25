@@ -7,11 +7,14 @@
     "dev": "vite --host 127.0.0.1 --port 5178",
     "build": "tsc -b && vite build",
     "preview": "vite preview --host 127.0.0.1 --port 4178",
-    "test": "node --experimental-strip-types --test src/model.test.ts"
+    "test": "node --experimental-strip-types --test src/model.test.ts src/live/verify.test.ts"
   },
   "dependencies": {
+    "@yellow-org/sdk": "1.4.0",
+    "genlayer-js": "2.0.0-rc.2",
     "react": "19.3.1",
-    "react-dom": "19.3.1"
+    "react-dom": "19.3.1",
+    "viem": "2.57.17"
   },
   "devDependencies": {
     "@types/node": "^24.19.2",
